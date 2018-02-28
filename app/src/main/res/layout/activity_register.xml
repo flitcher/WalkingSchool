@@ -64,16 +64,24 @@
         android:id="@+id/register_button"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login"
-        android:layout_alignStart="@+id/login"
         android:layout_below="@+id/email"
-        android:layout_marginTop="49dp"
-        android:background="@drawable/button_border"
+        android:layout_centerHorizontal="true"
 
+        android:layout_marginTop="35dp"
+        android:background="@drawable/button_border"
         android:elevation="0dp"
         android:text="Register"
         android:textColor="#FFF" />
 
+    <TextView
+        android:id="@+id/already_registered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Already registered? Login Me."
+        android:textColor="#a6a6a6" />
 
 
 </android.widget.RelativeLayout>

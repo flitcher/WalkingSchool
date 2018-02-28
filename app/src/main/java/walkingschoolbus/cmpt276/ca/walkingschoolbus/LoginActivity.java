@@ -1,10 +1,13 @@
 package walkingschoolbus.cmpt276.ca.walkingschoolbus;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginAnimation() {
         circularProgressButton = (CircularProgressButton)findViewById(R.id.login_button);
+
 
         circularProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,5 +59,9 @@ public class LoginActivity extends AppCompatActivity {
                 login.execute();
             }
         });
+    }
+
+    public static Intent makeIntent(Context context){
+        return new Intent(context, LoginActivity.class);
     }
 }

@@ -44,19 +44,23 @@
 
     <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/login_button"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login"
-        android:layout_alignStart="@+id/login"
         android:layout_below="@+id/login"
-        android:layout_marginTop="44dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
         android:background="@drawable/button_border"
         android:elevation="0dp"
         android:text="Login"
         android:textColor="#FFF"
+        android:width="350dp"
         app:spinning_bar_color="#FFF"
         app:spinning_bar_padding="6dp"
         app:spinning_bar_width="4dp" />
+
+
+
+
 
 
 </android.widget.RelativeLayout>
