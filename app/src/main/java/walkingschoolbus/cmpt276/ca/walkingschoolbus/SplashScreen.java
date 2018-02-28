@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class SplashScreen extends AppCompatActivity {
-    private static int SPLASH_SCREEN_TIME = 6000;
+    private static int SPLASH_SCREEN_TIME = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +16,7 @@ public class SplashScreen extends AppCompatActivity {
                 try{
 
                     sleep(SPLASH_SCREEN_TIME);
-                    Intent intent = new Intent(SplashScreen.this,MainActivity.class);
+                    Intent intent = new Intent(SplashScreen.this, RegisterActivity.class);
                     startActivity(intent);
                     finish();
                 }
