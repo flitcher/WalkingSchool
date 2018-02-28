@@ -4,50 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="#404040"
     tools:context="walkingschoolbus.cmpt276.ca.walkingschoolbus.LoginActivity">
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="186dp"
+        android:background="#595959"
+        android:drawableLeft="@drawable/ic_action_username"
         android:ems="10"
-
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:drawableLeft="@drawable/ic_action_username"
         android:textColor="#fff"
+        android:textColorHint="#a6a6a6"
+        android:textColorLink="#FFF"
         android:textSize="16sp" />
 
     <EditText
         android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="35dp"
         android:layout_alignLeft="@+id/username"
         android:layout_alignStart="@+id/username"
         android:layout_below="@+id/username"
-        android:layout_marginTop="19dp"
-        android:ems="10"
+        android:layout_marginTop="20dp"
+        android:background="#595959"
         android:drawableLeft="@drawable/ic_action_pass"
+        android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textColor="#fff"
+        android:textColorHint="#a6a6a6"
+        android:textColorLink="#FFF"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        android:id="@+id/login_button"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login"
+        android:layout_alignStart="@+id/login"
         android:layout_below="@+id/login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
-        android:textStyle="bold"
-        android:background="@color/colorAccent"
-        android:text="Login" />
+        android:layout_marginTop="44dp"
+        android:background="@drawable/button_border"
+        android:elevation="0dp"
+        android:text="Login"
+        android:textColor="#FFF"
+        app:spinning_bar_color="#FFF"
+        app:spinning_bar_padding="6dp"
+        app:spinning_bar_width="4dp" />
 
 
 </android.widget.RelativeLayout>
