@@ -7,6 +7,15 @@
     tools:context="walkingschoolbus.cmpt276.ca.walkingschoolbus.MainActivity">
 
 
-
-
+    <TextView
+        android:id="@+id/pref"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="310dp"
+        android:layout_marginLeft="155dp"
+        android:layout_marginStart="155dp"
+        android:text="hello" />
 </android.widget.RelativeLayout>

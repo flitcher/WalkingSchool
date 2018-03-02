@@ -5,4 +5,8 @@
     <string name="login">Login</string>
     <string name="enter_username">Enter Username</string>
     <string name="enter_password">Enter Password</string>
+    <string name="register">Register</string>
+    <string name="already_registered_login_me">Already registered? Login Me.</string>
+    <string name="enter_email">Enter Email</string>
+
 </resources>
