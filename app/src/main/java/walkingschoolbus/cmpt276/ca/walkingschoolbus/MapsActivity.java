@@ -15,8 +15,11 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
             mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
@@ -104,19 +108,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
+        ImageView gpsImage = (ImageView) findViewById(R.id.MapsActivity_gpsIcon);
+        gpsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCurrentDeviceLocation();
+            }
+        });
+
+        hideSoftKeyboard();
     }
 
     private void searchAddress(){
-        String address = searchAdressText.getText().toString();
+        String addressString = searchAdressText.getText().toString();
         Geocoder geocoder = new Geocoder(MapsActivity.this);
         List<Address> listAddress = new ArrayList<>();
         try{
-            listAddress = geocoder.getFromLocationName(address, 1);
+            listAddress = geocoder.getFromLocationName(addressString, 1);
         } catch(IOException e){
             Log.e(TAG, "searchAddress: IOExcetpoin: "+e.getMessage());
         }
         if (listAddress.size() > 0){
-            Log.d (TAG, "found Location: " + listAddress.get(0).toString());
+            Address addressSearched = listAddress.get(0);
+            Log.d (TAG, "found Location: " + addressSearched.toString());
+            LatLng latLng = new LatLng(addressSearched.getLatitude(),addressSearched.getLongitude());
+            moveCamera(latLng, DEFAULT_ZOOM);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(latLng)
+                    .title(addressSearched.getAddressLine(0));
+            mMap.addMarker(markerOptions);
         }
     }
 
@@ -185,6 +205,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void moveCamera(LatLng latLng, float zoom){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+        hideSoftKeyboard();
+    }
+
+    private void hideSoftKeyboard(){
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     public static Intent makeIntent(Context context){

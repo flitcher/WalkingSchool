@@ -41,7 +41,16 @@
             android:hint="@string/Search_address"
             android:imeOptions="actionSearch"/>
     </RelativeLayout>
-
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/MapsActivity_gpsIcon"
+        android:layout_below="@+id/MapsActivity_searchLayout"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_gps"/>
 
 
 </RelativeLayout>

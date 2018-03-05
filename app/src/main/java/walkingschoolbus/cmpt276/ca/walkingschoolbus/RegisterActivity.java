@@ -16,19 +16,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         alreadyLoggedIn();
-        registerbtnfordemo();
-    }
-
-    private void registerbtnfordemo() {
-        Button registerbtn = (Button) findViewById(R.id.register_button);
-        registerbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
-                startActivity(intent);
-            }
-        });
-
     }
 
     private void alreadyLoggedIn() {
