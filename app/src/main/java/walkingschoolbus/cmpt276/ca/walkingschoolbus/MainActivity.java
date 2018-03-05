@@ -1,5 +1,6 @@
 package walkingschoolbus.cmpt276.ca.walkingschoolbus;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public static Intent makeIntent(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
     }
 }
 

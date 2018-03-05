@@ -16,6 +16,18 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         alreadyLoggedIn();
+        registerBtn();
+    }
+
+    private void registerBtn() {
+        Button btn = (Button) findViewById(R.id.register_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = MainActivity.makeIntent(RegisterActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void alreadyLoggedIn() {
