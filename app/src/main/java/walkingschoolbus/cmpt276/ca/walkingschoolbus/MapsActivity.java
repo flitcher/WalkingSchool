@@ -4,13 +4,20 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.security.KeyChain;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -25,6 +32,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -37,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private boolean myLocationPermission = false;
     private FusedLocationProviderClient FLPC;
+    private EditText searchAdressText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +55,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         getLocationPermission();
+        searchAdressText = (EditText) findViewById(R.id.MapsActivity_searchText);
+        initSearch();
     }
 
     /**
@@ -76,8 +89,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.MapsActivity_map);
         mapFragment.getMapAsync(MapsActivity.this);
+    }
+
+    private void initSearch(){
+        searchAdressText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_DONE ||
+                        keyEvent.getAction() == keyEvent.ACTION_DOWN || keyEvent.getAction() == keyEvent.KEYCODE_ENTER){
+                    searchAddress();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void searchAddress(){
+        String address = searchAdressText.getText().toString();
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        List<Address> listAddress = new ArrayList<>();
+        try{
+            listAddress = geocoder.getFromLocationName(address, 1);
+        } catch(IOException e){
+            Log.e(TAG, "searchAddress: IOExcetpoin: "+e.getMessage());
+        }
+        if (listAddress.size() > 0){
+            Log.d (TAG, "found Location: " + listAddress.get(0).toString());
+        }
     }
 
     private void getLocationPermission() {
