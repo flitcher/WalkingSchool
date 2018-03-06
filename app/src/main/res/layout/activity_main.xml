@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     tools:context="walkingschoolbus.cmpt276.ca.walkingschoolbus.MainActivity">
 
-
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/MainActivity_mapBtn"
+        android:text="@string/title_activity_maps"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        />
 
 </android.widget.RelativeLayout>
