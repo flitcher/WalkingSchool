@@ -1,17 +1,14 @@
-package walkingschoolbus.cmpt276.ca.walkingschoolbus;
+package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class LoginActivity extends AppCompatActivity {
 

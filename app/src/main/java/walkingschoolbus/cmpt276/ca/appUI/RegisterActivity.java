@@ -1,17 +1,18 @@
-package walkingschoolbus.cmpt276.ca.walkingschoolbus;
+package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import walkingschoolbus.cmpt276.ca.walkingschoolbusLogic.User;
+
+import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
+import walkingschoolbus.cmpt276.ca.dataObjects.User;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -26,8 +27,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static final String PREFS_USER_KEY = "userinfo";
     public static final String USERNAME_KEY = "username";
-    private static final String PASSWORD_KEY = "password";
-    private static final String EMAIL_KEY = "email";
+    public static final String PASSWORD_KEY = "password";
+    public static final String EMAIL_KEY = "email";
+    private static final String API_KEY = "E14DEF58-61CB-4425-B6FB-BDBD807E44CF";
+    public static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443";
+
+
 
     //Reference: https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -49,11 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
         newEmail = (EditText) findViewById(R.id.ActivityRegister_email);
     }
 
-//    public final static boolean isValidEmail(CharSequence target) {
-//        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-//    }
-
-
     private void setupRegisterButton() {
 
 
@@ -64,9 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String password;
                 final String email;
 
-                username = newUsername.getText().toString();
-                password = newPassword.getText().toString();
-                email = newEmail.getText().toString().trim();
+
 
                 initialize();
                 if(!validate()){
@@ -74,7 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    User newUser = new User(username, password, email);
+
+                    username = validateUsername;
+                    password = validatePassword;
+                    email = validateEmail;
 
                     //Save data onto user phone (remember me)
                     getSharedPreferences(PREFS_USER_KEY,MODE_PRIVATE)
@@ -85,6 +86,9 @@ public class RegisterActivity extends AppCompatActivity {
                             .apply();
 
                     //POST new user info to db
+                    User user = new User();
+                    user.setEmail(email);
+                    user.setPassword(password);
                     Intent intent = MainActivity.makeIntent(RegisterActivity.this);
                     startActivity(intent);
                     finish();
@@ -93,6 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private void alreadyLoggedIn() {
@@ -105,7 +110,6 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void initialize(){
@@ -115,15 +119,18 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public boolean validate(){
-        boolean valid = false;
+        boolean valid = true;
         if(validateUsername.isEmpty() || validateUsername.length() == 0) {
             newUsername.setError("Please enter a valid username");
+            valid = false;
         }
         if(validatePassword.isEmpty() || validatePassword.length() <= 4) {
             newPassword.setError("Please enter a password with 4 or more characters");
+            valid = false;
         }
         if(!validateEmail.matches(emailPattern)) {
             newEmail.setError("Please enter a valid email");
+            valid = false;
         }
         return valid;
     }

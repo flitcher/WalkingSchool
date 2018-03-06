@@ -1,18 +1,16 @@
-package walkingschoolbus.cmpt276.ca.walkingschoolbus;
+package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import static walkingschoolbus.cmpt276.ca.walkingschoolbus.RegisterActivity.PREFS_USER_KEY;
-import static walkingschoolbus.cmpt276.ca.walkingschoolbus.RegisterActivity.USERNAME_KEY;
+import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
+
+import static walkingschoolbus.cmpt276.ca.appUI.RegisterActivity.PREFS_USER_KEY;
+import static walkingschoolbus.cmpt276.ca.appUI.RegisterActivity.USERNAME_KEY;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        usernameByUser();
+//        usernameByUser();
     }
 
     private void usernameByUser() {

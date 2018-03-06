@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#404040"
-    tools:context="walkingschoolbus.cmpt276.ca.walkingschoolbus.RegisterActivity">
+    tools:context="walkingschoolbus.cmpt276.ca.appUI.RegisterActivity">
 
     <EditText
         android:id="@+id/ActivityRegister_username"
