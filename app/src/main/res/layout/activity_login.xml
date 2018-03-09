@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#404040"
-    tools:context="walkingschoolbus.cmpt276.ca.walkingschoolbus.LoginActivity">
+    tools:context="walkingschoolbus.cmpt276.ca.appUI.LoginActivity">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/ActivityRegister_username"
         android:layout_width="350dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -25,12 +25,12 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/login"
+        android:id="@+id/ActivityRegister_password"
         android:layout_width="350dp"
         android:layout_height="35dp"
-        android:layout_alignLeft="@+id/username"
-        android:layout_alignStart="@+id/username"
-        android:layout_below="@+id/username"
+        android:layout_alignLeft="@+id/ActivityRegister_username"
+        android:layout_alignStart="@+id/ActivityRegister_username"
+        android:layout_below="@+id/ActivityRegister_username"
         android:layout_marginTop="20dp"
         android:background="#595959"
         android:drawableLeft="@drawable/ic_action_pass"
@@ -46,7 +46,7 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
+        android:layout_below="@+id/ActivityRegister_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
         android:background="@drawable/button_border"
