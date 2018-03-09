@@ -1,6 +1,5 @@
 package walkingschoolbus.cmpt276.ca.proxy;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,20 +16,36 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
+
 /**
  * Created by Kawai on 3/5/2018.
  */
 
 public class ProxyBuilder {
-    private static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443";
-
-
+    private static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443/";
     private static SimpleCallback<String> receivedTokenCallback;
     public static void setOnTokenReceiveCallback(SimpleCallback<String> callback) {
         receivedTokenCallback = callback;
     }
 
-    public static ProxyBuilder getProxy(String apiKey, String token){
+    /**
+     * Return the proxy that client code can use to call server.
+     * @param apiKey   Your group's API key to communicate with the server.
+     * @return proxy object to call the server.
+     */
+    public static ApiInterface getProxy(String apiKey) {
+        return getProxy(apiKey);
+    }
+
+    /**
+     * Return the proxy that client code can use to call server.
+     * @param apiKey   Your group's API key to communicate with the server.
+     * @param token    The token you have been issued
+     * @return proxy object to call the server.
+     */
+    public static ApiInterface getProxy(String apiKey, String token) {
+        // Enable Logging
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -38,22 +53,47 @@ public class ProxyBuilder {
                 .addInterceptor(new AddHeaderInterceptor(apiKey, token))
                 .build();
 
+        // Build Retrofit proxy object for server
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
 
-        return retrofit.create(ProxyBuilder.class);
+        return retrofit.create(ApiInterface.class);
     }
 
+    /**
+     * Interface for simplifying the callbacks from the server.
+     */
     public interface SimpleCallback<T> {
         void callback(T ans);
+    };
+
+    /**
+     * Simplify the calling of the "Call"
+     * - Handle error checking in one place and log on failure.
+     * - Callback to simplified interface on success.
+     * @param caller    Call object returned by the proxy
+     * @param callback  Client-code to execute when we have a good answer for them.
+     * @param <T>       The type of data that Call object is expected to fetch
+     */
+    public static <T extends Object> void callProxy(Call<T> caller, final SimpleCallback<T> callback) {
+        callProxy(null, caller, callback);
     }
 
+    /**
+     * Simplify the calling of the "Call"
+     * - Handle error checking in one place and put up toast & log on failure.
+     * - Callback to simplified interface on success.
+     * @param context   Current activity for showing toast if there's an error.
+     * @param caller    Call object returned by the proxy
+     * @param callback  Client-code to execute when we have a good answer for them.
+     * @param <T>       The type of data that Call object is expected to fetch
+     */
     public static <T extends Object> void callProxy(
             final Context context, Call<T> caller, final SimpleCallback<T> callback) {
-            caller.enqueue(new Callback<T>() {
+        caller.enqueue(new Callback<T>() {
             @Override
             public void onResponse(Call<T> call, retrofit2.Response<T> response) {
 
@@ -99,12 +139,11 @@ public class ProxyBuilder {
             }
         });
     }
-
-
-
-
-
-
+    /*
+    --------------------------------
+    PRIVATE
+    --------------------------------
+ */
     private static class AddHeaderInterceptor implements Interceptor {
         private String apiKey;
         private String token;

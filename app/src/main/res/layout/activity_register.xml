@@ -8,7 +8,7 @@
     tools:context="walkingschoolbus.cmpt276.ca.appUI.RegisterActivity">
 
     <EditText
-        android:id="@+id/ActivityRegister_username"
+        android:id="@+id/ActivityLogin_email"
         android:layout_width="350dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -25,12 +25,12 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/ActivityRegister_password"
+        android:id="@+id/ActivityLogin_password"
         android:layout_width="350dp"
         android:layout_height="35dp"
-        android:layout_alignLeft="@+id/ActivityRegister_username"
-        android:layout_alignStart="@+id/ActivityRegister_username"
-        android:layout_below="@+id/ActivityRegister_username"
+        android:layout_alignLeft="@+id/ActivityLogin_email"
+        android:layout_alignStart="@+id/ActivityLogin_email"
+        android:layout_below="@+id/ActivityLogin_email"
         android:layout_marginTop="12dp"
         android:background="#595959"
         android:drawableLeft="@drawable/ic_action_pass"
@@ -46,9 +46,9 @@
         android:id="@+id/ActivityRegister_email"
         android:layout_width="350dp"
         android:layout_height="35dp"
-        android:layout_alignLeft="@+id/ActivityRegister_password"
-        android:layout_alignStart="@+id/ActivityRegister_password"
-        android:layout_below="@+id/ActivityRegister_password"
+        android:layout_alignLeft="@+id/ActivityLogin_password"
+        android:layout_alignStart="@+id/ActivityLogin_password"
+        android:layout_below="@+id/ActivityLogin_password"
         android:layout_marginTop="13dp"
         android:background="#595959"
         android:drawableLeft="@drawable/ic_action_email"

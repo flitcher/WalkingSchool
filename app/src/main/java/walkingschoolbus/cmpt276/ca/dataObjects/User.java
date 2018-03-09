@@ -13,6 +13,8 @@ public class User {
     private String email;
     private String password;
 
+    public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
     private List<User> monitoredByUsers = new ArrayList<>();
     private List<User> monitorsUsers = new ArrayList<>();
     private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
