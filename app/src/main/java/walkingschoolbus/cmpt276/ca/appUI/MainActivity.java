@@ -20,18 +20,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        usernameByUser();
+
     }
 
-    private void usernameByUser() {
-        SharedPreferences info = getSharedPreferences(PREFS_USER_KEY, MODE_PRIVATE);
-
-        TextView tv = (TextView)findViewById(R.id.pref);
-
-        String username = info.getString(USERNAME_KEY,null);
-
-        tv.setText(username);
-    }
 
     public static Intent makeIntent(Context context){
         return new Intent(context, MainActivity.class);

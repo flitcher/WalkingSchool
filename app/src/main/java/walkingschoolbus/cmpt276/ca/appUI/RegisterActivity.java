@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import walkingschoolbus.cmpt276.ca.walkingschoolbus.MapsActivity;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 
@@ -89,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                     User user = new User();
                     user.setEmail(email);
                     user.setPassword(password);
-                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
+                    Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
                     startActivity(intent);
                     finish();
 
