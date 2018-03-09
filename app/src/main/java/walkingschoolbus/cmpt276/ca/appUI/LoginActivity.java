@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    CircularProgressButton circularProgressButton;
+
     private EditText userPassword;
     private EditText userEmail;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
 
         loginAnimation();
         setUpActivityLayout();
@@ -73,49 +75,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginAnimation() {
-        circularProgressButton = (CircularProgressButton)findViewById(R.id.login_button);
-        circularProgressButton.setOnClickListener(new View.OnClickListener() {
+        Button btn = (Button) findViewById(R.id.login_button);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 initialize();
-                @SuppressLint("StaticFieldLeak")
-                AsyncTask<String,String,String> login = new AsyncTask<String, String, String>() {
-                    @Override
-                    protected String doInBackground(String... params) {
-                        try{
-                            Thread.sleep(2000);
-                        }catch(InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        return "done";
-                    }
 
-                    //Execute this when email and password are validated by server
-                    @Override
-                    protected void onPostExecute(String s) {
-                        if(!validate()){
-                            Log.d("app", "login failed");
-                        } else {
-
-                            if(s.equals("done")){
-                                Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                                circularProgressButton.doneLoadingAnimation(Color.parseColor("#333639"),
-                                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
-                                try{
-                                    Thread.sleep(1000);
-                                }catch(InterruptedException e){
-                                    e.printStackTrace();
-                                }
-                                Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                                startActivity(intent);
-                            }
-                        }
-                    }
-                };
-                circularProgressButton.startAnimation();
-                login.execute();
                 User user = new User();
+
                 user.setEmail(validateEmail);
                 user.setPassword(validatePassword);
 
