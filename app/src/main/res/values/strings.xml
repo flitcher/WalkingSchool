@@ -11,4 +11,6 @@
     <string name="apiKey">E14DEF58-61CB-4425-B6FB-BDBD807E44CF</string>
     <string name="server_url">https://cmpt276-1177-bf.cmpt.sfu.ca:8443</string>
 
+    <string name="title_activity_maps">Map</string>
+    <string name="Search_address">Enter Address</string>
 </resources>
