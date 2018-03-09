@@ -1,4 +1,4 @@
- apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -24,19 +28,25 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
     implementation "com.google.android.gms:play-services-location:11.8.0"
+    implementation 'com.android.support:design:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'br.com.simplepass:loading-button-android:1.7.2'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
 
-    compile(
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.4.1'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.4.1'],
-            [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.4.1']
-    )
+    //Added
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+//    compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    // Logging in Retrofit
+    compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+
 }
+
+
 
 
 

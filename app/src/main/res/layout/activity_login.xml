@@ -8,7 +8,7 @@
     tools:context="walkingschoolbus.cmpt276.ca.appUI.LoginActivity">
 
     <EditText
-        android:id="@+id/ActivityRegister_username"
+        android:id="@+id/ActivityLogin_email"
         android:layout_width="350dp"
         android:layout_height="35dp"
         android:layout_alignParentTop="true"
@@ -17,7 +17,7 @@
         android:background="#595959"
         android:drawableLeft="@drawable/ic_action_username"
         android:ems="10"
-        android:hint="@string/username"
+        android:hint="@string/email"
         android:inputType="textPersonName"
         android:textColor="#fff"
         android:textColorHint="#a6a6a6"
@@ -25,12 +25,12 @@
         android:textSize="16sp" />
 
     <EditText
-        android:id="@+id/ActivityRegister_password"
+        android:id="@+id/ActivityLogin_password"
         android:layout_width="350dp"
         android:layout_height="35dp"
-        android:layout_alignLeft="@+id/ActivityRegister_username"
-        android:layout_alignStart="@+id/ActivityRegister_username"
-        android:layout_below="@+id/ActivityRegister_username"
+        android:layout_alignLeft="@+id/ActivityLogin_email"
+        android:layout_alignStart="@+id/ActivityLogin_email"
+        android:layout_below="@+id/ActivityLogin_email"
         android:layout_marginTop="20dp"
         android:background="#595959"
         android:drawableLeft="@drawable/ic_action_pass"
@@ -46,12 +46,12 @@
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ActivityRegister_password"
+        android:layout_below="@+id/ActivityLogin_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
         android:background="@drawable/button_border"
         android:elevation="0dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textColor="#FFF"
         android:width="350dp"
         app:spinning_bar_color="#FFF"
