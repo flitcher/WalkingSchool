@@ -92,7 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                 //make call
                 Call<Void> caller = proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-
+                if(ProxyBuilder.doLogin()) {
+                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                    startActivity(intent);
+                }
             }
         });
     }
