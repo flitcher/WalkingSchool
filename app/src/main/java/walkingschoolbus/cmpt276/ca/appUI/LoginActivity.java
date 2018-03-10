@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginAnimation() {
-        Button btn = (Button) findViewById(R.id.login_button);
+        Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

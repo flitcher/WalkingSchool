@@ -44,17 +44,17 @@
 
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/LoginActivity_loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ActivityLogin_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
+        android:width="350dp"
         android:background="@drawable/button_border"
         android:elevation="0dp"
         android:text="@string/login"
-        android:textColor="#FFF"
-        android:width="350dp" />
+        android:textColor="#FFF" />
 
 
 </android.widget.RelativeLayout>
