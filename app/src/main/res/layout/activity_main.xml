@@ -15,4 +15,15 @@
         android:layout_marginLeft="10dp"
         />
 
+    <Button
+        android:id="@+id/MainActivity_groupBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/MainActivity_mapBtn"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Group" />
+
 </android.widget.RelativeLayout>

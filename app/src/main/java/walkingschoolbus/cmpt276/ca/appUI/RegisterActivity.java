@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // Build the server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
 
         setupLayout();
         alreadyLoggedIn();
@@ -96,8 +96,8 @@ public class RegisterActivity extends AppCompatActivity {
                             returnedUser -> response(returnedUser));
 
 //                    Intent intent = LoginActivity.makeIntent(RegisterActivity.this);
-//                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
-                    Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
+                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
+//                    Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
                     startActivity(intent);
                 }
             }

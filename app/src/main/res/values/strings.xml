@@ -8,6 +8,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="Search_address">Enter Address</string>
     <string name="register">Register</string>
+    <string name="email">Email</string>
     <string name="already_registered_login_me">Already registered? Login Me.</string>
     <string name="enter_email">Enter Email</string>
     <string name="apiKey">E14DEF58-61CB-4425-B6FB-BDBD807E44CF</string>

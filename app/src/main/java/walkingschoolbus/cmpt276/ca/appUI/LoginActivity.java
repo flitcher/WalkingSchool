@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -43,10 +44,24 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginAnimation();
-        setUpActivityLayout();
+
+        setMainBtn();
+        //loginAnimation();
+        //setUpActivityLayout();
         //TODO: save username and password feature
     }
+
+    private void setMainBtn(){
+        Button mapBtn = (Button) findViewById(R.id.login_button);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void setUpActivityLayout(){
         userEmail = (EditText) findViewById(R.id.ActivityLogin_email);
@@ -136,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
     private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
     }
 
     public static Intent makeIntent(Context context){
