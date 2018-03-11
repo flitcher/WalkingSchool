@@ -107,27 +107,30 @@ public class LoginActivity extends AppCompatActivity {
 
                 initialize();
 
-                user = user.getInstance();
+                if(validate()) {
 
-                user.setEmail(validateEmail);
-                user.setPassword(validatePassword);
+                    user = user.getInstance();
 
-                ProxyBuilder.setOnTokenReceiveCallback( token -> onReceiveToken(token));
+                    user.setEmail(validateEmail);
+                    user.setPassword(validatePassword);
 
-                //make call
-                Call<Void> caller = proxy.login(user);
-                ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-                if(ProxyBuilder.doLogin()) {
+                    ProxyBuilder.setOnTokenReceiveCallback( token -> onReceiveToken(token));
 
-                    SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    //make call
+                    Call<Void> caller = proxy.login(user);
+                    ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+                    if(ProxyBuilder.doLogin()) {
 
-                    editor.putString(USER_EMAIL, validateEmail);
-                    editor.putString(USER_PASSWORD, validatePassword);
-                    editor.apply();
+                        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                    startActivity(intent);
+                        editor.putString(USER_EMAIL, validateEmail);
+                        editor.putString(USER_PASSWORD, validatePassword);
+                        editor.apply();
+
+                        Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                        startActivity(intent);
+                    }
                 }
             }
         });
