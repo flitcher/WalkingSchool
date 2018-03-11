@@ -32,7 +32,7 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), userManager.getToken());
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), userManager.getToken());
 
         setContentView(R.layout.activity_add);
         setOKBtn();

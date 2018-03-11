@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
+import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 
 /**
  * Created by Kawai on 3/5/2018.
@@ -60,4 +61,27 @@ public interface ApiInterface {
      * - Monitoring
      * - Groups
      */
+    @GET("/groups")
+    Call<List<WalkingGroups>> getGroups();
+
+    @POST("/groups")
+    Call<Void> createGroups(WalkingGroups walkingGroups);
+
+    @GET("/groups/{id}")
+    Call<WalkingGroups> getOneGroup(@Path("id") Long groupID);
+
+    @POST("/groups/{id}")
+    Call<Void> updateExistingGroup(@Path("id") Long groupID);
+
+    @DELETE("/groups/{id}")
+    Call<Void> deleteGroup(@Path("id") Long groupID);
+
+    @GET("/groups/{id}/memberUsers")
+    Call<List<User>> getGroupMembers(@Path("id") Long groupID);
+
+    @POST("/groups/{id}/memberUsers")
+    Call<Void> addNewGroupMember(@Path("id") Long groupID);
+
+    @DELETE("/groups/{idA}/memberUsers/{idB}")
+    Call<Void> deleteGroupMember(@Path("idA") Long groupID, @Path("idB") Long UserID);
 }

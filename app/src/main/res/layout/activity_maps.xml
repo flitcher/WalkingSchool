@@ -10,7 +10,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="walkingschoolbus.cmpt276.ca.walkingschoolbus.walkingschoolbus.cmpt276.ca.appUI.MapsActivity" />
+        tools:context="walkingschoolbus.cmpt276.ca.appUI.MapsActivity" />
 
     <RelativeLayout
         android:layout_width="match_parent"

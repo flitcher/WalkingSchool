@@ -1,5 +1,6 @@
 package walkingschoolbus.cmpt276.ca.appUI;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String validatePassword;
     private String validateEmail;
 
+    User user;
+
     public static final String PREFS_USER_KEY = "userinfo";
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";
@@ -51,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // Build the server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
 
         setupLayout();
         alreadyLoggedIn();
@@ -84,10 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
                     email = validateEmail;
 
                     //POST new user info to db
-                    User user = new User();
+                    user = user.getInstance();
                     user.setName(username);
                     user.setEmail(email);
                     user.setPassword(password);
+                    user.setId(userId);
 
                     Call<User> caller = proxy.createNewUser(user);
 
@@ -144,5 +148,10 @@ public class RegisterActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    public static Intent makeIntent(Context context) {
+        Intent intent = new Intent(context, RegisterActivity.class);
+        return intent;
     }
 }
