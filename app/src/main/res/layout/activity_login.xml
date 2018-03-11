@@ -42,7 +42,8 @@
         android:textColorLink="#FFF"
         android:textSize="16sp" />
 
-    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+
+    <Button
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,14 +54,7 @@
         android:elevation="0dp"
         android:text="@string/login"
         android:textColor="#FFF"
-        android:width="350dp"
-        app:spinning_bar_color="#FFF"
-        app:spinning_bar_padding="6dp"
-        app:spinning_bar_width="4dp" />
-
-
-
-
+        android:width="350dp" />
 
 
 </android.widget.RelativeLayout>

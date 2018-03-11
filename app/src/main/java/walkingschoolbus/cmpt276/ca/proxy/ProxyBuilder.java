@@ -1,6 +1,7 @@
 package walkingschoolbus.cmpt276.ca.proxy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,7 +16,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+import walkingschoolbus.cmpt276.ca.appUI.LoginActivity;
+import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 
 
 /**
@@ -25,6 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProxyBuilder {
     private static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443/";
     private static SimpleCallback<String> receivedTokenCallback;
+    private static boolean login = false;
+
+
     public static void setOnTokenReceiveCallback(SimpleCallback<String> callback) {
         receivedTokenCallback = callback;
     }
@@ -91,9 +96,10 @@ public class ProxyBuilder {
      * @param callback  Client-code to execute when we have a good answer for them.
      * @param <T>       The type of data that Call object is expected to fetch
      */
+
     public static <T extends Object> void callProxy(
             final Context context, Call<T> caller, final SimpleCallback<T> callback) {
-        caller.enqueue(new Callback<T>() {
+            caller.enqueue(new Callback<T>() {
             @Override
             public void onResponse(Call<T> call, retrofit2.Response<T> response) {
 
@@ -104,6 +110,7 @@ public class ProxyBuilder {
                     if (tokenInHeader != null) {
                         if (receivedTokenCallback != null) {
                             receivedTokenCallback.callback(tokenInHeader);
+                            login = true;
                         } else {
                             // We got the token, but nobody wanted it!
                             Log.w("ProxyBuilder", "WARNING: Received token but no callback registered for it!");
@@ -117,7 +124,8 @@ public class ProxyBuilder {
                 } else {
                     String message;
                     try {
-                        message = "CALL TO SERVER FAILED:\n" + response.errorBody().string();
+                        message = "Incorrect email or password.";
+                        Log.e("error", "CALL TO SERVER FAILED:\n" + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
                         message = "Unable to decode response (body or error's body).";
@@ -128,7 +136,7 @@ public class ProxyBuilder {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                String message = "Server Error: " + t.getMessage();
+                String message = "Email or password is incorrect.";
                 showFailure(message);
             }
             private void showFailure(String message) {
@@ -138,6 +146,10 @@ public class ProxyBuilder {
                 }
             }
         });
+    }
+
+    public static boolean doLogin() {
+        return login;
     }
     /*
     --------------------------------
