@@ -17,6 +17,7 @@ import android.widget.Toast;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
+import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -25,7 +26,7 @@ import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    private UserManager userManager = UserManager.getInstance();
     private EditText userPassword;
     private EditText userEmail;
 
@@ -94,8 +95,12 @@ public class LoginActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
                 if(ProxyBuilder.doLogin()) {
                     Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                   Call<User> callerForInitial = proxy.getUserByEmail(validateEmail);
+                    ProxyBuilder.callProxy(LoginActivity.this,callerForInitial,returnedUser->response(returnedUser));
                     startActivity(intent);
+                    finish();
                 }
+
             }
         });
     }
@@ -103,10 +108,14 @@ public class LoginActivity extends AppCompatActivity {
     private void response(Void returnedNothing) {
         Log.w(TAG, "Server replied to login request (no content was expected).");
     }
+    private void response(User user) {
+        userManager.setUser(user);
+    }
 
     private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
+        userManager.setToken(token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
     }
 
