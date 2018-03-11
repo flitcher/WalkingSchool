@@ -25,7 +25,7 @@ import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    CircularProgressButton circularProgressButton;
+
     private EditText userPassword;
     private EditText userEmail;
 
@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
 
 
         setMainBtn();
@@ -88,49 +89,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loginAnimation() {
-        circularProgressButton = (CircularProgressButton)findViewById(R.id.login_button);
-        circularProgressButton.setOnClickListener(new View.OnClickListener() {
+        Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 initialize();
-                @SuppressLint("StaticFieldLeak")
-                AsyncTask<String,String,String> login = new AsyncTask<String, String, String>() {
-                    @Override
-                    protected String doInBackground(String... params) {
-                        try{
-                            Thread.sleep(2000);
-                        }catch(InterruptedException e){
-                            e.printStackTrace();
-                        }
-                        return "done";
-                    }
 
-                    //Execute this when email and password are validated by server
-                    @Override
-                    protected void onPostExecute(String s) {
-                        if(!validate()){
-                            Log.d("app", "login failed");
-                        } else {
-
-                            if(s.equals("done")){
-                                Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                                circularProgressButton.doneLoadingAnimation(Color.parseColor("#333639"),
-                                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
-                                try{
-                                    Thread.sleep(1000);
-                                }catch(InterruptedException e){
-                                    e.printStackTrace();
-                                }
-                                Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                                startActivity(intent);
-                            }
-                        }
-                    }
-                };
-                circularProgressButton.startAnimation();
-                login.execute();
                 User user = new User();
+
                 user.setEmail(validateEmail);
                 user.setPassword(validatePassword);
 
@@ -139,7 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                 //make call
                 Call<Void> caller = proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-
+                if(ProxyBuilder.doLogin()) {
+                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                    startActivity(intent);
+                }
             }
         });
     }

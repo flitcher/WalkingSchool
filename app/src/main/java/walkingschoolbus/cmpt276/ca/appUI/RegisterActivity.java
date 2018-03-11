@@ -95,8 +95,8 @@ public class RegisterActivity extends AppCompatActivity {
                             caller,
                             returnedUser -> response(returnedUser));
 
-//                    Intent intent = LoginActivity.makeIntent(RegisterActivity.this);
-                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
+                    Intent intent = LoginActivity.makeIntent(RegisterActivity.this);
+//                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
 //                    Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
                     startActivity(intent);
                 }
