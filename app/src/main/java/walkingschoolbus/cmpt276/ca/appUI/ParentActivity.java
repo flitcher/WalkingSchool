@@ -2,14 +2,11 @@ package walkingschoolbus.cmpt276.ca.walkingschoolbus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
-import java.util.ArrayList;
 
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.model.User;
 
@@ -30,7 +27,7 @@ public class ParentActivity extends AppCompatActivity {
 
     private void populateParentListView() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.parentlist,user.getParentList());
-        ListView listview = (ListView) findViewById(R.id.parentListview);
+        ListView listview = (ListView) findViewById(R.id.Listview);
         listview.setAdapter(adapter);
     }
     private void setUpAddBtn(){
@@ -42,5 +39,9 @@ public class ParentActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private void setDeleteLongClickView(){
+        ListView listview= (ListView)findViewById(R.id.Listview);
+
     }
 }
