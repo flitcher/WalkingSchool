@@ -42,7 +42,6 @@ public class GroupActivity extends AppCompatActivity {
                 if (!groupDescription.isEmpty()){
                     WalkingGroups walkingGroups = new WalkingGroups();
                     walkingGroups.setGroupDescription(groupDescription);
-                    ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token));
                     Call<Void> caller = proxy.createGroups(walkingGroups);
                     ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing -> response(returnedNothing));
                 }
@@ -76,6 +75,7 @@ public class GroupActivity extends AppCompatActivity {
     private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
+
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
     }
 

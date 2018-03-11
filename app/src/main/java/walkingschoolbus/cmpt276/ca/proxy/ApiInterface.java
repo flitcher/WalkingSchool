@@ -45,9 +45,6 @@ public interface ApiInterface {
     Call<List<WalkingGroups>> getGroups();
 
     @POST("/groups")
-    Call<Void> createGroups(String groupDescription);
-
-    @POST("/groups")
     Call<Void> createGroups(WalkingGroups walkingGroups);
 
     @GET("/groups/{id}")

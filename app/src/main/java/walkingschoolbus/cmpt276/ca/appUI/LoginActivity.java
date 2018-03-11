@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
@@ -37,21 +38,24 @@ public class LoginActivity extends AppCompatActivity {
     private String currPassword;
     private String currEmail;
 
+    private User user;
+    private Token Usertoken;
+
     private static final String TAG = "Proxy";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
 
 
-        setMainBtn();
-        //loginAnimation();
-        //setUpActivityLayout();
+        //setMainBtn();
+        loginAnimation();
+        setUpActivityLayout();
         //TODO: save username and password feature
     }
-
+/*
     private void setMainBtn(){
         Button mapBtn = (Button) findViewById(R.id.login_button);
         mapBtn.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
 
     private void setUpActivityLayout(){
@@ -96,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 initialize();
 
-                User user = new User();
+                user = user.getInstance();
 
                 user.setEmail(validateEmail);
                 user.setPassword(validatePassword);
@@ -121,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
     private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
+        Usertoken = Usertoken.getInstance();
+        Usertoken.setToken(token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
     }
 

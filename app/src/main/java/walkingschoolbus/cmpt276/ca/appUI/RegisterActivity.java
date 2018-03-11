@@ -31,6 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String validatePassword;
     private String validateEmail;
 
+    User user;
+
     public static final String PREFS_USER_KEY = "userinfo";
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";
@@ -84,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                     email = validateEmail;
 
                     //POST new user info to db
-                    User user = new User();
+                    user = user.getInstance();
                     user.setName(username);
                     user.setEmail(email);
                     user.setPassword(password);
