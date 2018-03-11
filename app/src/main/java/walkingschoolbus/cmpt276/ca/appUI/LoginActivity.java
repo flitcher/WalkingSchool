@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
 
-        loginAnimation();
+       loginSetUp();
         setUpActivityLayout();
         //TODO: save username and password feature
     }
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void loginAnimation() {
+    private void loginSetUp() {
         Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

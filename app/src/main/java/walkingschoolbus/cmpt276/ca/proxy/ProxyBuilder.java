@@ -124,7 +124,8 @@ public class ProxyBuilder {
                 } else {
                     String message;
                     try {
-                        message = "Incorrect email or password.";
+//                        message = "Incorrect email or password.";
+                        message = "CALL TO SERVER FAILED:\n" + response.errorBody().string();
                         Log.e("error", "CALL TO SERVER FAILED:\n" + response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -136,7 +137,7 @@ public class ProxyBuilder {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                String message = "Email or password is incorrect.";
+                String message = "Server Error: " + t.getMessage();
                 showFailure(message);
             }
             private void showFailure(String message) {
