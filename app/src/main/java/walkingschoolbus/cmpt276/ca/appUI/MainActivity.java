@@ -2,6 +2,7 @@ package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,16 +21,25 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
+
+
 public class MainActivity extends AppCompatActivity {
-    private User user;
+
+    private static final String TOKEN = "token";
+    public static final String USER_ID = "id";
     private static String TAG = "MainActivity";
+
+    private User user;
     private ApiInterface proxy;
     Token token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         getUser();
         setBtn();
     }
@@ -39,8 +49,11 @@ public class MainActivity extends AppCompatActivity {
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         user = user.getInstance();
         String email = user.getEmail();
+        String pass = user.getPassword();
         Log.i(TAG, ""+email);
-        Call<User> caller = proxy.getUserByEmail("testuser@sfu.ca");
+        Log.i(TAG, ""+pass);
+
+        Call<User> caller = proxy.getUserByEmail(email);
         ProxyBuilder.callProxy(MainActivity.this, caller, returnedUser->response(returnedUser));
     }
 
@@ -49,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Long id = returnedUser.getId();
         String name = returnedUser.getName();
         String password = returnedUser.getPassword();
+        Log.d("app", "email = " + email);
         List<User> MonitoredByUsers = returnedUser.getMonitoredByUsers();
         List<User> MonitorsUsers = returnedUser.getMonitorsUsers();
         List<WalkingGroups> WalkingGroups = returnedUser.getWalkingGroups();
@@ -56,12 +70,20 @@ public class MainActivity extends AppCompatActivity {
         user.setEmail(email);
         user.setId(id);
         user.setName(name);
+
+        //i don't getUserByEmail returns you a password field
+        //check the return Json in the docs
         user.setPassword(password);
         user.setMonitorsUsers(MonitorsUsers);
         user.setMonitoredByUsers(MonitoredByUsers);
         user.setWalkingGroups(WalkingGroups);
         user.setHref(Href);
-        Log.i(TAG, user.toString());
+
+        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(USER_ID, String.valueOf(id));
+        editor.apply();
     }
 
 

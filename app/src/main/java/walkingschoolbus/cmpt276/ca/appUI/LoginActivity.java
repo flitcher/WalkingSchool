@@ -3,9 +3,11 @@ package walkingschoolbus.cmpt276.ca.appUI;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,7 @@ import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 public class LoginActivity extends AppCompatActivity {
 
 
+
     private EditText userPassword;
     private EditText userEmail;
 
@@ -42,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
     private Token Usertoken;
 
     private static final String TAG = "Proxy";
+    public static final String USER_INFO = "userInfo";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_PASSWORD = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +118,14 @@ public class LoginActivity extends AppCompatActivity {
                 Call<Void> caller = proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
                 if(ProxyBuilder.doLogin()) {
+
+                    SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    editor.putString(USER_EMAIL, validateEmail);
+                    editor.putString(USER_PASSWORD, validatePassword);
+                    editor.apply();
+
                     Intent intent = MainActivity.makeIntent(LoginActivity.this);
                     startActivity(intent);
                 }
@@ -129,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         Usertoken = Usertoken.getInstance();
         Usertoken.setToken(token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
+
     }
 
     public static Intent makeIntent(Context context){
