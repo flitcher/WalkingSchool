@@ -24,6 +24,16 @@
         android:layout_alignTop="@+id/MainActivity_mapBtn"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:text="Group" />
+        android:text="@string/group" />
+
+    <Button
+        android:id="@+id/MainActivity_logoutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/MainActivity_groupBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/MainActivity_groupBtn"
+        android:layout_marginBottom="25dp"
+        android:text="@string/logout" />
 
 </android.widget.RelativeLayout>

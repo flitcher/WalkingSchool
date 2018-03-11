@@ -20,8 +20,6 @@ import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_PASSWORD;
 public class SplashScreen extends AppCompatActivity {
 
     private static final String TAG = "splashscreen";
-    private static int SPLASH_SCREEN_TIME = 1000;
-    private long userId;
 
     private ApiInterface proxy;
     private User user;
@@ -42,16 +40,14 @@ public class SplashScreen extends AppCompatActivity {
 
         //might not need
 
-        if(email != null && password != null) {
+        Log.d(TAG, "email = " + email );
+        if(email != "" && password != "") {
             proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
             loginSetUp();
-        } else {
-            Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
-            startActivity(intent);
         }
 
-
-
+        Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
+        startActivity(intent);
     }
 
     private void loginSetUp() {
@@ -65,8 +61,6 @@ public class SplashScreen extends AppCompatActivity {
         //make call
         Call<Void> caller = proxy.login(user);
         ProxyBuilder.callProxy(SplashScreen.this, caller, returnedNothing -> response(returnedNothing));
-
-
     }
 
     private void response(Void returnedNothing) {

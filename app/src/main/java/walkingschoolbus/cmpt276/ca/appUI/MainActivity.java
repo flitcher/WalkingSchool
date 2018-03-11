@@ -96,12 +96,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         Button groupBtn = (Button) findViewById(R.id.MainActivity_groupBtn);
         groupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = GroupActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
+            }
+        });
+
+        Button logoutBtn = (Button) findViewById(R.id.MainActivity_logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+
+                Intent intent = LoginActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+
+                finish();
             }
         });
     }
