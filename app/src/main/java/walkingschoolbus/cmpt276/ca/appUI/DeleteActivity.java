@@ -32,7 +32,7 @@ public class DeleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete);
 
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), userManager.getToken());
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), userManager.getToken());
         setDeleteBtn();
         setCancelBtn();
         setTextView();

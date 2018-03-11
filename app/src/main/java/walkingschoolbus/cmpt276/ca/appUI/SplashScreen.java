@@ -44,13 +44,16 @@ public class SplashScreen extends AppCompatActivity {
         if(email != "" && password != "") {
             proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
             loginSetUp();
+        } else {
+            Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
+            startActivity(intent);
         }
 
-        Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
-        startActivity(intent);
     }
 
     private void loginSetUp() {
+
+
         user = user.getInstance();
 
         user.setEmail(email);

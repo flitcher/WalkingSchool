@@ -29,7 +29,8 @@ import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-private UserManager userManager = UserManager.getInstance();
+
+
     private EditText userPassword;
     private EditText userEmail;
 
@@ -38,8 +39,7 @@ private UserManager userManager = UserManager.getInstance();
 
     private ApiInterface proxy;
 
-    private String currPassword;
-    private String currEmail;
+    private UserManager userManager;
 
     private User user;
     private Token Usertoken;
@@ -61,6 +61,19 @@ private UserManager userManager = UserManager.getInstance();
         setUpActivityLayout();
         //TODO: save username and password feature
     }
+/*
+    private void setMainBtn(){
+        Button mapBtn = (Button) findViewById(R.id.login_button);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                startActivity(intent);
+            }
+        });
+    }
+    */
+
 
     private void setUpActivityLayout(){
         userEmail = (EditText) findViewById(R.id.ActivityLogin_email);
@@ -114,12 +127,8 @@ private UserManager userManager = UserManager.getInstance();
                     editor.apply();
 
                     Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                   Call<User> callerForInitial = proxy.getUserByEmail(validateEmail);
-                    ProxyBuilder.callProxy(LoginActivity.this,callerForInitial,returnedUser->response(returnedUser));
                     startActivity(intent);
-                    finish();
                 }
-
             }
         });
     }
@@ -127,15 +136,14 @@ private UserManager userManager = UserManager.getInstance();
     private void response(Void returnedNothing) {
         Log.w(TAG, "Server replied to login request (no content was expected).");
     }
-    private void response(User user) {
-        userManager.setUser(user);
-    }
 
     private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
-        userManager.setToken(token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        Usertoken = Usertoken.getInstance();
+        Usertoken.setToken(token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
+
     }
 
     public static Intent makeIntent(Context context){

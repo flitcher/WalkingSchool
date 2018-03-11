@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.android.gms.common.api.Api;
 
 import java.util.List;
 
@@ -42,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         getUser();
         setBtn();
-        setMapBtn();
-        setParentListBtn();
-        setChildListBtn();
-
     }
 
     private void getUser(){
@@ -92,41 +87,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setBtn(){
-    private void setParentListBtn() {
-        Button btn = (Button)findViewById(R.id.parentList);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button parentListBtn = (Button)findViewById(R.id.parentList);
+        parentListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = ParentActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
-    }
-    private void setChildListBtn() {
-        Button btn = (Button)findViewById(R.id.Childlist);
-        btn.setOnClickListener(new View.OnClickListener() {
+
+        Button childListBtn = (Button)findViewById(R.id.Childlist);
+        childListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = ChildActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
-    }
-    private void setMapBtn(){
+
         Button mapBtn = (Button) findViewById(R.id.MainActivity_mapBtn);
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = MapsActivity.makeIntent(MainActivity.this);
-                startActivity(intent);
-            }
-        });
-
-        Button groupBtn = (Button) findViewById(R.id.MainActivity_groupBtn);
-        groupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = GroupActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
             }
         });
@@ -146,7 +129,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
+
+
 
     public static Intent makeIntent(Context context){
         Intent intent = new Intent(context, MainActivity.class);
