@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.MainActivity" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.LoginActivity" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.RegisterActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -44,10 +47,8 @@
 
         <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.MainActivity" />
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.LoginActivity" />
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.RegisterActivity" />
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupActivity"></activity>
     </application>
 
 </manifest>
