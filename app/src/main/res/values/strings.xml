@@ -19,7 +19,9 @@
     <string name="email">Email</string>
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
-    <string name="email">Email</string>
-    <string name="email">Email</string>
+    <string name="press_ok_to_delete">press ok to delete</string>
+    <string name="delete">Delete</string>
+    <string name="title_activity_child">ChildActivity</string>
+
 
 </resources>

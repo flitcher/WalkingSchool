@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://D:\Android Project file\walkinggroupapp\WalkinGroup.iml" filepath="D:\Android Project file\walkinggroupapp\WalkinGroup.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Android Project file\walkinggroupapp\app\app.iml" filepath="D:\Android Project file\walkinggroupapp\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/walkinggroupapp.iml" filepath="$PROJECT_DIR$/walkinggroupapp.iml" />
     </modules>
   </component>

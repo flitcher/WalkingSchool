@@ -136,7 +136,7 @@ public class ProxyBuilder {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                String message = "Email or password is incorrect.";
+                String message = "server Error" + t.getMessage();
                 showFailure(message);
             }
             private void showFailure(String message) {
