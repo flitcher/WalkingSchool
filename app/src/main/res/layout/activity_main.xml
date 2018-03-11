@@ -16,6 +16,26 @@
         />
 
     <Button
+        android:id="@+id/parentList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/MainActivity_mapBtn"
+        android:layout_alignStart="@+id/MainActivity_mapBtn"
+        android:layout_below="@+id/MainActivity_mapBtn"
+        android:layout_marginTop="29dp"
+        android:text="ParentList" />
+
+    <Button
+        android:id="@+id/Childlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/parentList"
+        android:layout_alignRight="@+id/parentList"
+        android:layout_below="@+id/parentList"
+        android:layout_marginTop="52dp"
+        android:text="Childlist" />
+
+    <Button
         android:id="@+id/MainActivity_groupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

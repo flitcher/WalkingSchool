@@ -49,6 +49,13 @@
             android:name="walkingschoolbus.cmpt276.ca.appUI.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupActivity"></activity>
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.DeleteActivity" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ParentActivity" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.AddActivity" />
+        <activity
+            android:name="walkingschoolbus.cmpt276.ca.appUI.ChildActivity"
+            android:label="@string/title_activity_child"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -138,6 +138,7 @@ public class ProxyBuilder {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
+//                String message = "server Error" + t.getMessage();
                 String message = "Server Error: " + t.getMessage();
                 showFailure(message);
             }
