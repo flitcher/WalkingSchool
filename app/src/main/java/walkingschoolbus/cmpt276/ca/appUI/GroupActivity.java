@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.lang.reflect.Proxy;
+import java.security.acl.Group;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -23,12 +25,29 @@ public class GroupActivity extends AppCompatActivity {
 
     private ApiInterface proxy;
     private static final String TAG = "GroupActivity";
+    private User user;
+    private Token token;
+    private WalkingGroups walkingGroups;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
+        token = token.getInstance();
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
+        user = user.getInstance();
         createGroup();
+        getlistgroup();
+    }
+
+    private void getlistgroup() {
+        Button getListGroup = (Button) findViewById(R.id.GroupActivity_getGroupListbtn);
+        getListGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<List<WalkingGroups>> caller = proxy.getGroups();
+                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedGroupList->response(returnedGroupList));
+            }
+        });
     }
 
     private void createGroup() {
@@ -40,9 +59,11 @@ public class GroupActivity extends AppCompatActivity {
                 String groupDescription = groupDescriptionText.getText().toString();
                 Log.i(TAG, groupDescription);
                 if (!groupDescription.isEmpty()){
-                    WalkingGroups walkingGroups = new WalkingGroups();
+                    walkingGroups = new WalkingGroups();
                     walkingGroups.setGroupDescription(groupDescription);
-                    Call<Void> caller = proxy.createGroups(walkingGroups);
+                    walkingGroups.setLeader(user);
+                    Log.i(TAG,walkingGroups.toString());
+                    Call<Void> caller = proxy.createNewGroup(walkingGroups);
                     ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing -> response(returnedNothing));
                 }
             }
@@ -51,11 +72,16 @@ public class GroupActivity extends AppCompatActivity {
 
     private void response(Void returnedNothing) {
         Log.w(TAG, "Server replied to login request (no content was expected).");
+        Log.i(TAG, "WalkingGroups to string: "+ walkingGroups.toString());
+        List<WalkingGroups> UserWalkingGroup = user.getWalkingGroups();
+        for (WalkingGroups walkingGroup : UserWalkingGroup) {
+            Log.w(TAG, "    walkingGroup: " + walkingGroup.toString());
+        }
     }
 
-    private void response(List<WalkingGroups> returnedwalkingGroups) {
-        Log.w(TAG, "All Users:");
-        for (WalkingGroups walkingGroup : returnedwalkingGroups) {
+    private void response(List<WalkingGroups> returnedWalkingGroup) {
+        Log.w(TAG, "All walkingGroup:");
+        for (WalkingGroups walkingGroup : returnedWalkingGroup) {
             Log.w(TAG, "    walkingGroup: " + walkingGroup.toString());
         }
     }

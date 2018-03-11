@@ -30,4 +30,39 @@
         android:inputType="textPersonName"
         android:hint="Group Description" />
 
+    <Button
+        android:id="@+id/GroupActivity_getGroupListbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/GroupActivity_groupDescription"
+        android:layout_alignRight="@+id/GroupActivity_groupDescription"
+        android:layout_alignTop="@+id/GroupActivity_createBtn"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="list group" />
+
+    <EditText
+        android:id="@+id/GroupActivity_starting_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/GroupActivity_groupDescription"
+        android:layout_alignStart="@+id/GroupActivity_groupDescription"
+        android:layout_below="@+id/GroupActivity_groupDescription"
+        android:layout_marginTop="12dp"
+        android:hint="starting location gps"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/GroupActivity_destination_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/GroupActivity_starting_location"
+        android:layout_alignStart="@+id/GroupActivity_starting_location"
+        android:layout_below="@+id/GroupActivity_starting_location"
+        android:layout_marginTop="25dp"
+        android:hint="destination location"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
 </RelativeLayout>
