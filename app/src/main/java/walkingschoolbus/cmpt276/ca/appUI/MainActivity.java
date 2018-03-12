@@ -40,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ServerManager.getProxy(MainActivity.this);
+       // ServerManager.getProxy(MainActivity.this);
         getUser();
         refreshSharedPreferences();
+
         setBtn();
     }
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, ""+email);
         Log.i(TAG, ""+pass);
-        ServerManager.getUserByEmail();
+        //ServerManager.getUserByEmail();
     }
 
 
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-
+                ServerManager.setDoLogin(false);
                 Intent intent = LoginActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
 

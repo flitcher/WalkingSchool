@@ -24,8 +24,13 @@ public class ServerManager {
     private static ApiInterface proxy;
     private static UserManager userManager = UserManager.getInstance();
     private static final String APIKEY ="E14DEF58-61CB-4425-B6FB-BDBD807E44CF ";
+    private static boolean Login = false;
     private static Context currentContext;
 
+    //setLogin
+    public static void setDoLogin(boolean login){
+        Login = login;
+    }
     public static void getProxy(Context context){
         currentContext = context;
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
@@ -70,7 +75,7 @@ public class ServerManager {
         userManager.setUser(user);
     }
     public static boolean doLogin(){
-        return ProxyBuilder.doLogin();
+        return Login;
     }
     public static void Login(){
         Call<Void> caller = proxy.login(userManager.getUser());

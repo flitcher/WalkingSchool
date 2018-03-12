@@ -116,6 +116,8 @@ public class LoginActivity extends AppCompatActivity {
                     userManager.setUserPassword(validatePassword);
                     if(ServerManager.doLogin()) {
 
+                        ServerManager.getUserByEmail();
+
                         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -125,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent = MainActivity.makeIntent(LoginActivity.this);
                         startActivity(intent);
+                        finish();
                     }
                 }
             }

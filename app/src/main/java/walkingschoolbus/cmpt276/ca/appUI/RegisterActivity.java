@@ -101,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
 //                    Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
