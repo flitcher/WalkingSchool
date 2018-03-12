@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
-import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 
@@ -21,7 +20,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
  */
 
 public class ParentActivity extends AppCompatActivity {
-    UserManager userManager = UserManager.getInstance();
+    User userManager = User.getInstance();
     private final String PARENTLIST = "parentList";
     private final int DELETE_USER = 1;
     private final int ADD_USER = 2;
@@ -32,7 +31,7 @@ public class ParentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent);
 
-
+        setDeleteLongClickView();
         populateParentListView();
         setUpAddBtn();
     }

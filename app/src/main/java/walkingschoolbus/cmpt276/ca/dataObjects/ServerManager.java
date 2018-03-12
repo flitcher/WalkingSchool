@@ -22,7 +22,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ServerManager {
     private static ApiInterface proxy;
-    private static UserManager userManager = UserManager.getInstance();
+    private static User userManager = User.getInstance();
     private static final String APIKEY ="E14DEF58-61CB-4425-B6FB-BDBD807E44CF ";
     private static boolean Login = false;
     private static Context currentContext;
@@ -31,10 +31,7 @@ public class ServerManager {
     public static void setDoLogin(boolean login){
         Login = login;
     }
-    public static void getProxy(Context context){
-        currentContext = context;
-        proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
-    }
+
     public static void connectToServerWithoutToken(Context context){
         currentContext = context;
         proxy = ProxyBuilder.getProxy(APIKEY,null);
@@ -68,7 +65,7 @@ public class ServerManager {
     //login
     public static void getUserByEmail(){
 
-        Call<User> caller = proxy.getUserByEmail(userManager.getUserEmail());
+        Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,returedUser->responseAutoLogin(returedUser));
     }
     private static void responseAutoLogin(User user){
@@ -98,7 +95,7 @@ public class ServerManager {
             ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetChildList(returnedList));
     }
     private static void resetChildList(List<User> list) {
-        userManager.setMonitorUser(list);
+        userManager.setMonitorsUsers(list);
     }
 
 
@@ -114,28 +111,28 @@ public class ServerManager {
         Log.i("test",body);
         ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetParentList(returnedList));
     }
-    private static void resetParentList(List<User> list) {userManager.setMonitoredByUser(list);}
+    private static void resetParentList(List<User> list) {userManager.setMonitoredByUsers(list);}
 
 
     //for delete child
 
     public static void deleteMoniterUser(Long userId){
-        Call<Void> callerForDelete = proxy.deleteMonitorUser(userManager.getUserId(),userId);
+        Call<Void> callerForDelete = proxy.deleteMonitorUser(userManager.getId(),userId);
         ProxyBuilder.callProxy(currentContext, callerForDelete,returnedNothing -> deleteChild(returnedNothing));
     }
     private static void deleteChild(Void Nothing){
-        Call<List<User>> callerForReset =proxy.getMonitorUser(userManager.getUserId());
+        Call<List<User>> callerForReset =proxy.getMonitorUser(userManager.getId());
         ProxyBuilder.callProxy(currentContext, callerForReset,returnedList->resetChildList(returnedList));
     }
 
     // for delete parent
     public static void deleteMonitoredByUser(Long userId){
-        Call<Void> callerForDelete = proxy.deleteMonitoredByUser(userId,userManager.getUserId());
+        Call<Void> callerForDelete = proxy.deleteMonitoredByUser(userId,userManager.getId());
         ProxyBuilder.callProxy(currentContext,callerForDelete,returnedNothing ->deleteParent(returnedNothing));
 
     }
     private static void  deleteParent(Void Nothing){
-        Call<List<User>> callerForReset =proxy.getMonitoredByUser(userManager.getUserId());
+        Call<List<User>> callerForReset =proxy.getMonitoredByUser(userManager.getId());
         ProxyBuilder.callProxy(currentContext,callerForReset,returnedList->resetParentList(returnedList));
     }
 

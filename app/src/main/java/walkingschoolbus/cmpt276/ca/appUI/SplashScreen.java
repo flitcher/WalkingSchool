@@ -10,7 +10,6 @@ import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
-import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -23,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private static final String TAG = "splashscreen";
 
-    UserManager userManager = UserManager.getInstance();
+    User userManager = User.getInstance();
 
     private String email;
     private String password;
@@ -53,15 +52,15 @@ public class SplashScreen extends AppCompatActivity {
             finish();
         }
 
-    } 
+    }
 
     private void loginSetUp() {
 
 
 
 
-        userManager.setUserEmail(email);
-        userManager.setUserPassword(password);
+        userManager.setEmail(email);
+        userManager.setPassword(password);
 
         ServerManager.refreshToken();
         //make call

@@ -21,7 +21,6 @@ import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
-import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -39,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private String validateEmail;
 
 
-    private UserManager userManager = UserManager.getInstance();
+    private User userManager = User.getInstance();
 
 
     private static final String TAG = "Proxy";
@@ -112,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
                     ServerManager.Login();
 
 
-                    userManager.setUserEmail(validateEmail);
-                    userManager.setUserPassword(validatePassword);
+                    userManager.setEmail(validateEmail);
+                    userManager.setPassword(validatePassword);
                     if(ServerManager.doLogin()) {
 
                         ServerManager.getUserByEmail();

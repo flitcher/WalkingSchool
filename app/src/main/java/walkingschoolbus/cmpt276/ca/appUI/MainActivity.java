@@ -16,7 +16,6 @@ import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
-import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String USER_ID = "id";
     private static String TAG = "MainActivity";
 
-    private UserManager userManager = UserManager.getInstance();
+    private User userManager = User.getInstance();
 
 
 
@@ -48,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUser(){
-        String email = userManager.getUserEmail();
-        String pass = userManager.getUserPassword();
+        String email = userManager.getEmail();
+        String pass = userManager.getPassword();
 
         Log.i(TAG, ""+email);
         Log.i(TAG, ""+pass);
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(USER_ID, String.valueOf(userManager.getUserId()));
+        editor.putString(USER_ID, String.valueOf(userManager.getId()));
         editor.apply();
     }
 

@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
-import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -34,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String validatePassword;
     private String validateEmail;
 
-    UserManager userManager = UserManager.getInstance();
+    User userManager = User.getInstance();
 
 
     public static final String PREFS_USER_KEY = "userinfo";
@@ -90,10 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                     //POST new user info to db
 
-                    userManager.setUserName(username);
-                    userManager.setUserEmail(email);
-                    userManager.setUserPassword(password);
-                    userManager.setUserId(userId);
+                    userManager.setName(username);
+                    userManager.setEmail(email);
+                    userManager.setPassword(password);
+                    userManager.setId(userId);
 
                     ServerManager.createNewUser(userManager.getUser());
 
