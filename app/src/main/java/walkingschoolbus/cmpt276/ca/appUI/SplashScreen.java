@@ -53,7 +53,7 @@ public class SplashScreen extends AppCompatActivity {
             finish();
         }
 
-    }
+    } 
 
     private void loginSetUp() {
 
