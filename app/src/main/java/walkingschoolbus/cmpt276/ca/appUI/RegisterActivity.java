@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
+import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -32,7 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String validatePassword;
     private String validateEmail;
 
-    User user;
+    UserManager userManager = UserManager.getInstance();
+
 
     public static final String PREFS_USER_KEY = "userinfo";
     public static final String USERNAME_KEY = "username";
@@ -41,8 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
 //    private static final String API_KEY = "E14DEF58-61CB-4425-B6FB-BDBD807E44CF";
 //    public static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443";
 
-    private ApiInterface proxy;
-    private static final String TAG = "SERVER";
+
 
     private long userId = 0;
     //Reference: https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
@@ -54,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         // Build the server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
+        ServerManager.connectToServerWithoutToken(RegisterActivity.this);
 
         setupLayout();
         alreadyLoggedIn();
@@ -87,17 +89,13 @@ public class RegisterActivity extends AppCompatActivity {
                     email = validateEmail;
 
                     //POST new user info to db
-                    user = user.getInstance();
-                    user.setName(username);
-                    user.setEmail(email);
-                    user.setPassword(password);
-                    user.setId(userId);
 
-                    Call<User> caller = proxy.createNewUser(user);
+                    userManager.setUserName(username);
+                    userManager.setUserEmail(email);
+                    userManager.setUserPassword(password);
+                    userManager.setUserId(userId);
 
-                    ProxyBuilder.callProxy(RegisterActivity.this,
-                            caller,
-                            returnedUser -> response(returnedUser));
+                    ServerManager.createNewUser(userManager.getUser());
 
                     Intent intent = LoginActivity.makeIntent(RegisterActivity.this);
 //                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
@@ -108,10 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void response(User user) {
-        Log.w(TAG, "Server replied with user: " + user.toString());
-        userId = user.getId();
-    }
 
 
 

@@ -45,10 +45,10 @@ public interface ApiInterface {
     Call<List<User>> getMonitoredByUser(@Path("id") Long userId);
 
     @POST ("/users/{id}/monitorsUsers")
-    Call<List<User>> addMonitorUsers(@Body Long id, @Path("id") Long userId);
+    Call<List<User>> addMonitorUsers(@Path("id") Long userId,@Body String body);
 
     @POST ("/users/{id}/monitoredByUsers")
-    Call<List<User>> addMonitoredByUsers(@Body Long id, @Path("id") Long userId);
+    Call<List<User>> addMonitoredByUsers(@Path("id") Long userId,@Body String body);
 
 
     @DELETE("/users/{idA}/monitorsUsers/{idB}")

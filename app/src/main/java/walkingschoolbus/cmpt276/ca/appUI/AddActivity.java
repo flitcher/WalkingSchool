@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -21,18 +22,15 @@ import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class AddActivity extends AppCompatActivity {
-    private ApiInterface proxy;
     private static String listType;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
-    private long userId = -1;
-    private UserManager userManager = UserManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), userManager.getToken());
+        ServerManager.connectToServerWithToken(AddActivity.this);
 
         setContentView(R.layout.activity_add);
         setOKBtn();
@@ -50,10 +48,7 @@ public class AddActivity extends AppCompatActivity {
                     if(listType.equals(CHILDLIST)) {
                         String email = editText.getText().toString();
 
-                        Call<User> callerForEmail = proxy.getUserByEmail(email);
-                        ProxyBuilder.callProxy(AddActivity.this, callerForEmail, returnedUser -> response(returnedUser));
-                        //Call<List<User>> callerForAdd = proxy.addMonitorUsers(userId);
-                        //ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseChild(returnedList));
+                        ServerManager.addMonitorUser(email);
 
                         setResult(Activity.RESULT_OK);
                         finish();
@@ -61,11 +56,7 @@ public class AddActivity extends AppCompatActivity {
                     else if(listType.equals(PARENTLIST)) {
                         String email = editText.getText().toString();
 
-                        Call<User> callerForEmail = proxy.getUserByEmail(email);
-                        ProxyBuilder.callProxy(AddActivity.this, callerForEmail, returnedUser -> response(returnedUser));
-
-                        //Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userId);
-                        //ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseParent(returnedList));
+                        ServerManager.addMonitedByUser(email);
 
                         setResult(Activity.RESULT_OK);
                         finish();
@@ -92,22 +83,6 @@ public class AddActivity extends AppCompatActivity {
         return new Intent(context, AddActivity.class);
 
     }
-    private void response(User user) {
-        userId = user.getId();
-        if(listType.equals(CHILDLIST)) {
-            Call<List<User>> callerForAdd = proxy.addMonitorUsers(userId,userId);
-            ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseChild(returnedList));
-        }
-        else if(listType.equals(PARENTLIST)){
 
-            Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userId,userId);
-            ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseParent(returnedList));
-        }
-    }
-    private void responseChild(List<User> list) {
-        userManager.setMonitorUser(list);
-    }
-    private void responseParent(List<User> list) {
-        userManager.setMonitoredByUser(list);
-    }
+
 }

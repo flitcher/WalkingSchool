@@ -11,12 +11,13 @@ import java.util.ArrayList;
 
 public class UserManager {
     private  User user;
-    private String token;
+    private Token token ;
 
     //singleton
     private static UserManager instance;
     private UserManager(){
          user = user.getInstance();
+         token = Token.getInstance();
     }
     public  static UserManager getInstance(){
         if (instance == null) {
@@ -26,12 +27,33 @@ public class UserManager {
     }
 
     public void setUser(User newUser){
-        user = newUser;
+        user.setName(newUser.getName());
+        user.setEmail(newUser.getEmail());
+        user.setId(newUser.getId());
+        user.setHref(newUser.getHref());
+        user.setPassword(newUser.getPassword());
+        user.setMonitoredByUsers(newUser.getMonitoredByUsers());
+        user.setMonitorsUsers(newUser.getMonitorsUsers());
+        user.setWalkingGroups(newUser.getWalkingGroups());
     }
 
-    public long getUserId(){
+    public Long getUserId(){
         return user.getId();
     }
+
+    public User getUser(){return user;}
+
+    public String getUserEmail(){return user.getEmail();}
+
+    public String getUserPassword(){return user.getPassword();}
+
+    public void setUserId(Long id ){user.setId(id);}
+
+    public void setUserName(String name ){user.setName(name);}
+    
+    public void setUserPassword(String password){user.setPassword(password);}
+
+    public void setUserEmail(String email){user.setEmail(email);}
 
     public void logInWithCurrentUser(User newUser){
         this.user = newUser;
@@ -82,16 +104,17 @@ public class UserManager {
     }
 
     public void setToken(String token){
-        this.token = token;
+        this.token.setToken(token);
     }
 
     public String getToken(){
-        return this.token;
+        return token.getToken();
     }
 
     public void setMonitorUser(List<User> list){
         user.setMonitorsUsers(list);
     }
+
     public void setMonitoredByUser(List<User> list){
         user.setMonitoredByUsers(list);
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -20,10 +21,8 @@ import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class DeleteActivity extends AppCompatActivity {
-    private  UserManager userManager = UserManager.getInstance();
     private static User user;
     private static String listType;
-    private ApiInterface proxy;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
 
@@ -32,7 +31,7 @@ public class DeleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete);
 
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), userManager.getToken());
+        ServerManager.connectToServerWithToken(DeleteActivity.this);
         setDeleteBtn();
         setCancelBtn();
         setTextView();
@@ -60,23 +59,13 @@ public class DeleteActivity extends AppCompatActivity {
             public void onClick(View view) {
                if(listType.equals(PARENTLIST))
                {
-                   Call<Void> callerForDelete = proxy.deleteMonitoredByUser(user.getId(),userManager.getUserId());
-                   ProxyBuilder.callProxy(DeleteActivity.this, callerForDelete, returnedNothing-> response(returnedNothing));
-
-//                   Call<List<User>> callerForReset =proxy.getMonitoredByUser(userManager.getUserId());
-//                   ProxyBuilder.callProxy(DeleteActivity.this, callerForReset,returnedList->responseParent(returnedList));
-
+                   ServerManager.deleteMonitoredByUser(user.getId());
                    setResult(Activity.RESULT_OK);
                    finish();
                }
                else if(listType.equals(CHILDLIST))
                {
-                    Call<Void> callForDelete = proxy.deleteMonitorUser(userManager.getUserId(),user.getId());
-                    ProxyBuilder.callProxy(DeleteActivity.this,callForDelete,returnedNothing->response(returnedNothing));
-
-//                   Call<List<User>> callerForReset =proxy.getMonitorUser(userManager.getUserId());
-//                   ProxyBuilder.callProxy(DeleteActivity.this, callerForReset,returnedList->responseChild(returnedList));
-
+                   ServerManager.deleteMoniterUser(user.getId());
                    setResult(Activity.RESULT_OK);
                    finish();
                }
@@ -88,22 +77,5 @@ public class DeleteActivity extends AppCompatActivity {
         user = tempUser;
         listType = newListType;
         return new Intent(context, DeleteActivity.class);
-    }
-    private void response(Void Nothing) {
-        Log.w("", "Server replied to login request (no content was expected).");
-        if(listType.equals(PARENTLIST)) {
-            Call<List<User>> callerForReset =proxy.getMonitoredByUser(userManager.getUserId());
-            ProxyBuilder.callProxy(DeleteActivity.this, callerForReset,returnedList->responseParent(returnedList));
-        }
-        else if(listType.equals(CHILDLIST)){
-            Call<List<User>> callerForReset =proxy.getMonitorUser(userManager.getUserId());
-            ProxyBuilder.callProxy(DeleteActivity.this, callerForReset,returnedList->responseChild(returnedList));
-        }
-    }
-    private void responseParent(List<User> list) {
-        userManager.setMonitoredByUser(list);
-    }
-    private void responseChild(List<User> list) {
-        userManager.setMonitorUser(list);
     }
 }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
@@ -37,24 +38,22 @@ public class LoginActivity extends AppCompatActivity {
     private String validatePassword;
     private String validateEmail;
 
-    private ApiInterface proxy;
 
-    private UserManager userManager;
+    private UserManager userManager = UserManager.getInstance();
 
-    private User user;
-    private Token Usertoken;
 
     private static final String TAG = "Proxy";
     public static final String USER_INFO = "userInfo";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
+    public static final String USER_TOKEN ="token";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
 
+        ServerManager.connectToServerWithoutToken(LoginActivity.this);
 
         //setMainBtn();
         loginSetUp();
@@ -109,17 +108,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(validate()) {
 
-                    user = user.getInstance();
+                    ServerManager.refreshToken();
+                    ServerManager.Login();
 
-                    user.setEmail(validateEmail);
-                    user.setPassword(validatePassword);
 
-                    ProxyBuilder.setOnTokenReceiveCallback( token -> onReceiveToken(token));
-
-                    //make call
-                    Call<Void> caller = proxy.login(user);
-                    ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-                    if(ProxyBuilder.doLogin()) {
+                    userManager.setUserEmail(validateEmail);
+                    userManager.setUserPassword(validatePassword);
+                    if(ServerManager.doLogin()) {
 
                         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -136,18 +131,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void response(Void returnedNothing) {
-        Log.w(TAG, "Server replied to login request (no content was expected).");
-    }
-
-    private void onReceiveToken(String token) {
-        // Replace the current proxy with one that uses the token!
-        Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
-        Usertoken = Usertoken.getInstance();
-        Usertoken.setToken(token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
-
-    }
 
     public static Intent makeIntent(Context context){
         return new Intent(context, LoginActivity.class);
