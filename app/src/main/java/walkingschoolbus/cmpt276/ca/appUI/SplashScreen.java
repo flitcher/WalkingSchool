@@ -47,6 +47,7 @@ public class SplashScreen extends AppCompatActivity {
         } else {
             Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
             startActivity(intent);
+            finish();
         }
 
     }
@@ -70,6 +71,7 @@ public class SplashScreen extends AppCompatActivity {
         Log.w(TAG, "Server replied to login request (no content was expected).");
         Intent intent = MainActivity.makeIntent(SplashScreen.this);
         startActivity(intent);
+        finish();
     }
 
     private void onReceiveToken(String token) {

@@ -13,6 +13,7 @@ import java.lang.reflect.Proxy;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -23,11 +24,12 @@ public class GroupActivity extends AppCompatActivity {
 
     private ApiInterface proxy;
     private static final String TAG = "GroupActivity";
+    Token token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         createGroup();
     }
 
@@ -72,12 +74,6 @@ public class GroupActivity extends AppCompatActivity {
         Log.w(TAG, "server replied with user: " + returnedwalkingGroups.toString());
     }
 
-    private void onReceiveToken(String token) {
-        // Replace the current proxy with one that uses the token!
-        Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
-
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
-    }
 
     public static Intent makeIntent(Context context){
         Intent intent = new Intent(context, GroupActivity.class);

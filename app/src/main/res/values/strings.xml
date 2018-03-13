@@ -15,6 +15,7 @@
     <string name="server_url">https://cmpt276-1177-bf.cmpt.sfu.ca:8443</string>
     <string name="group">Group</string>
     <string name="logout">Logout</string>
+    <string name="googleMapKey">AIzaSyBZxUhMFPP_iuPlMcpbgPmm1nEeS4NOSKI</string>
 
 
     <string name="title_activity_parent">ParentActivity</string>

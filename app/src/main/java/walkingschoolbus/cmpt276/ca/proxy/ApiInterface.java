@@ -1,6 +1,7 @@
 package walkingschoolbus.cmpt276.ca.proxy;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -45,7 +46,8 @@ public interface ApiInterface {
     Call<List<User>> getMonitoredByUser(@Path("id") Long userId);
 
     @POST ("/users/{id}/monitorsUsers")
-    Call<List<User>> addMonitorUsers(@Body Long id, @Path("id") Long userId);
+    // Call<List<User>> addMonitorUsers(@Body Long id, @Path("id") Long userId);
+    Call<List<User>> addMonitorUsers(@Body Map<String, Long> id, @Path("id") Long userId);
 
     @POST ("/users/{id}/monitoredByUsers")
     Call<List<User>> addMonitoredByUsers(@Body Long id, @Path("id") Long userId);

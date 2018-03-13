@@ -11,9 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -27,12 +30,16 @@ public class AddActivity extends AppCompatActivity {
     private final String PARENTLIST = "parentList";
     private long userId = -1;
     private UserManager userManager = UserManager.getInstance();
+    private Token token;
+    private User curUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), userManager.getToken());
+        curUser = curUser.getInstance();
+        token = token.getInstance();
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
 
         setContentView(R.layout.activity_add);
         setOKBtn();
@@ -55,14 +62,15 @@ public class AddActivity extends AppCompatActivity {
                         //Call<List<User>> callerForAdd = proxy.addMonitorUsers(userId);
                         //ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseChild(returnedList));
 
-                        setResult(Activity.RESULT_OK);
-                        finish();
+                        //setResult(Activity.RESULT_OK);
+                        //finish();
                     }
                     else if(listType.equals(PARENTLIST)) {
                         String email = editText.getText().toString();
 
                         Call<User> callerForEmail = proxy.getUserByEmail(email);
                         ProxyBuilder.callProxy(AddActivity.this, callerForEmail, returnedUser -> response(returnedUser));
+
 
                         //Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userId);
                         //ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseParent(returnedList));
@@ -95,19 +103,29 @@ public class AddActivity extends AppCompatActivity {
     private void response(User user) {
         userId = user.getId();
         if(listType.equals(CHILDLIST)) {
-            Call<List<User>> callerForAdd = proxy.addMonitorUsers(userId,userId);
-            ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseChild(returnedList));
+            // Call<List<User>> callerForAdd = proxy.addMonitorUsers(userId,userId);
+            // ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseChild(returnedList));
         }
         else if(listType.equals(PARENTLIST)){
+            //String userIDString = Long.toString(userId);
+            //Call<List<User>> callerForAdd = proxy.addMonitorUsers(curUser.getId(),userId);
 
-            Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userId,userId);
+            Map<String, Long> payload = new HashMap<>();
+            payload.put("id", curUser.getId());
+
+            Call<List<User>> callerForAdd = proxy.addMonitorUsers(payload,userId);
             ProxyBuilder.callProxy(AddActivity.this, callerForAdd, returnedList -> responseParent(returnedList));
+
         }
     }
     private void responseChild(List<User> list) {
         userManager.setMonitorUser(list);
+        setResult(Activity.RESULT_OK);
+        finish();
     }
     private void responseParent(List<User> list) {
         userManager.setMonitoredByUser(list);
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 }
