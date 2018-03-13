@@ -115,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                     userManager.setPassword(validatePassword);
                     if(ServerManager.doLogin()) {
 
-                        ServerManager.getUserByEmail();
 
                         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();

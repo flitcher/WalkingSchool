@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // ServerManager.getProxy(MainActivity.this);
+        ServerManager.connectToServerWithToken(MainActivity.this);
         getUser();
         refreshSharedPreferences();
 
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, ""+email);
         Log.i(TAG, ""+pass);
-        //ServerManager.getUserByEmail();
     }
 
 

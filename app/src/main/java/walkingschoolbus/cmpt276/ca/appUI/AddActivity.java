@@ -24,6 +24,7 @@ public class AddActivity extends AppCompatActivity {
     private static String listType;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
+    private User userManager = User.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +47,13 @@ public class AddActivity extends AppCompatActivity {
 
                     if(listType.equals(CHILDLIST)) {
                         String email = editText.getText().toString();
+                        if(email != userManager.getEmail())
+                            ServerManager.addMonitorUser(email);
+                        else
+                            Toast.makeText(AddActivity.this, "cannot add themselve", Toast.LENGTH_SHORT).show();
 
-                        ServerManager.addMonitorUser(email);
-
-                        setResult(Activity.RESULT_OK);
+                        Intent intent = new Intent();
+                        setResult(Activity.RESULT_OK,intent);
                         finish();
                     }
                     else if(listType.equals(PARENTLIST)) {
@@ -57,7 +61,8 @@ public class AddActivity extends AppCompatActivity {
 
                         ServerManager.addMonitedByUser(email);
 
-                        setResult(Activity.RESULT_OK);
+                        Intent intent = new Intent();
+                        setResult(Activity.RESULT_OK,intent);
                         finish();
                     }
                 }

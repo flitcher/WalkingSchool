@@ -138,7 +138,7 @@ public class User {
         String[] listOfMoniter = new String[this.getMonitorUserSize()];
         for(int i = 0; i <this.getMonitorUserSize();i++)
         {
-            listOfMoniter[i]= this.getMonitorsUsers().get(i).toString();
+            listOfMoniter[i]= "Name: " + this.getName() + "Email: " +this.getEmail();
         }
         return listOfMoniter;
     }
@@ -147,7 +147,7 @@ public class User {
         String[] listOfMoniter = new String[this.getMonitoredByUserSize()];
         for(int i = 0; i <this.getMonitoredByUserSize();i++)
         {
-            listOfMoniter[i]= this.getMonitoredByUsers().get(i).toString();
+            listOfMoniter[i]= "Name: " + this.getName() + "Email: " +this.getEmail();
         }
         return listOfMoniter;
     }

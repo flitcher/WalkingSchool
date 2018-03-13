@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.AddActivity;
@@ -63,7 +65,7 @@ public class ServerManager {
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
     //login
-    public static void getUserByEmail(){
+   private static void getUserByEmail(){
 
         Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,returedUser->responseAutoLogin(returedUser));
@@ -81,6 +83,7 @@ public class ServerManager {
     private static void reponseLogin(Void Nothing){
         String TAG = "Proxy";
         Log.w(TAG, "Server replied to login request (no content was expected).");
+        ServerManager.getUserByEmail();
     }
     //for add child
     public static void addMonitorUser (String email){
@@ -89,9 +92,11 @@ public class ServerManager {
     }
     private static void addChild(User user) {
             long userId = user.getId();
-            String body = "{ id : "+ userId +"}";
-            Log.i("test", body);
-            Call<List<User>> callerForAdd = proxy.addMonitorUsers(userId, body);
+
+            Map<String,Long> body = new HashMap<String, Long>();
+            body.put("id", userId);
+
+            Call<List<User>> callerForAdd = proxy.addMonitorUsers(userManager.getId(), body);
             ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetChildList(returnedList));
     }
     private static void resetChildList(List<User> list) {
@@ -106,9 +111,11 @@ public class ServerManager {
     }
     private static void addParent(User user) {
         long userId = user.getId();
-        String body = "{\"id\": "+ userId +"}";
-        Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userId, body);
-        Log.i("test",body);
+
+        Map<String,Long> body = new HashMap<String, Long>();
+        body.put("id", userId);
+
+        Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userManager.getId(), body);
         ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetParentList(returnedList));
     }
     private static void resetParentList(List<User> list) {userManager.setMonitoredByUsers(list);}
@@ -127,7 +134,8 @@ public class ServerManager {
 
     // for delete parent
     public static void deleteMonitoredByUser(Long userId){
-        Call<Void> callerForDelete = proxy.deleteMonitoredByUser(userId,userManager.getId());
+        Log.i("test ",""+userManager.getId());
+        Call<Void> callerForDelete = proxy.deleteMonitoredByUser(userManager.getId(),userId);
         ProxyBuilder.callProxy(currentContext,callerForDelete,returnedNothing ->deleteParent(returnedNothing));
 
     }
