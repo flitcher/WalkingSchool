@@ -6,24 +6,35 @@
     android:layout_height="match_parent"
     tools:context="walkingschoolbus.cmpt276.ca.appUI.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/MainActivity_appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/MainActivity_mapBtn"
-        android:text="@string/title_activity_maps"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        />
+        android:paddingTop="8dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <Button
-        android:id="@+id/MainActivity_groupBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/MainActivity_mapBtn"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Group" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/MainActivity_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.AppBarOverlay">
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/MainActivity_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.design.widget.TabLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/MainActivity_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"></android.support.v4.view.ViewPager>
 
 </android.widget.RelativeLayout>

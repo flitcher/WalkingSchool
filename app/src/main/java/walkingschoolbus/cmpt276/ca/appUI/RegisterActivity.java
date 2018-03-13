@@ -1,5 +1,6 @@
 package walkingschoolbus.cmpt276.ca.appUI;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setName(username);
                     user.setEmail(email);
                     user.setPassword(password);
+                    user.setId(userId);
 
                     Call<User> caller = proxy.createNewUser(user);
 
@@ -146,5 +148,10 @@ public class RegisterActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    public static Intent makeIntent(Context context) {
+        Intent intent = new Intent(context, RegisterActivity.class);
+        return intent;
     }
 }

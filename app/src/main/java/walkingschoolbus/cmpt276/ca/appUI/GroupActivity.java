@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.lang.reflect.Proxy;
-import java.security.acl.Group;
 import java.util.List;
 
 import retrofit2.Call;
@@ -98,12 +97,6 @@ public class GroupActivity extends AppCompatActivity {
         Log.w(TAG, "server replied with user: " + returnedwalkingGroups.toString());
     }
 
-    private void onReceiveToken(String token) {
-        // Replace the current proxy with one that uses the token!
-        Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
-
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
-    }
 
     public static Intent makeIntent(Context context){
         Intent intent = new Intent(context, GroupActivity.class);

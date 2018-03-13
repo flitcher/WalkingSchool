@@ -37,27 +37,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    //private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    //private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    //private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private static final String TAG = "MapsActivity";
     private static final float DEFAULT_ZOOM = 15f;
 
     private GoogleMap mMap;
-    private boolean myLocationPermission = false;
+    //private boolean myLocationPermission = false;
     private FusedLocationProviderClient FLPC;
     private EditText searchAdressText;
+    Map map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        getLocationPermission();
+        //getLocationPermission();
+        map = map.getInstance();
+        if (map.isLocationPermission()){
+            initMap();
+        }
         searchAdressText = (EditText) findViewById(R.id.MapsActivity_searchText);
         initSearch();
     }
@@ -76,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        if (myLocationPermission) {
+        if (map.isLocationPermission()) {
 
             getCurrentDeviceLocation();
 
@@ -139,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(markerOptions);
         }
     }
-
+/*
     private void getLocationPermission() {
         String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION)
@@ -176,10 +182,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    */
     private void getCurrentDeviceLocation() {
         FLPC = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
         try {
-            if (myLocationPermission){
+            if (map.isLocationPermission()){
                 Task location = FLPC.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override

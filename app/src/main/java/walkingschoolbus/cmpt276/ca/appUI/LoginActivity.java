@@ -3,9 +3,11 @@ package walkingschoolbus.cmpt276.ca.appUI;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
+import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -25,6 +28,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
 public class LoginActivity extends AppCompatActivity {
+
 
 
     private EditText userPassword;
@@ -35,13 +39,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private ApiInterface proxy;
 
-    private String currPassword;
-    private String currEmail;
+    private UserManager userManager;
 
     private User user;
     private Token Usertoken;
 
     private static final String TAG = "Proxy";
+    public static final String USER_INFO = "userInfo";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_PASSWORD = "password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //setMainBtn();
-        loginAnimation();
+        loginSetUp();
         setUpActivityLayout();
         //TODO: save username and password feature
     }
@@ -93,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void loginAnimation() {
+    private void loginSetUp() {
         Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,19 +107,30 @@ public class LoginActivity extends AppCompatActivity {
 
                 initialize();
 
-                user = user.getInstance();
+                if(validate()) {
 
-                user.setEmail(validateEmail);
-                user.setPassword(validatePassword);
+                    user = user.getInstance();
 
-                ProxyBuilder.setOnTokenReceiveCallback( token -> onReceiveToken(token));
+                    user.setEmail(validateEmail);
+                    user.setPassword(validatePassword);
 
-                //make call
-                Call<Void> caller = proxy.login(user);
-                ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-                if(ProxyBuilder.doLogin()) {
-                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                    startActivity(intent);
+                    ProxyBuilder.setOnTokenReceiveCallback( token -> onReceiveToken(token));
+
+                    //make call
+                    Call<Void> caller = proxy.login(user);
+                    ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+                    if(ProxyBuilder.doLogin()) {
+
+                        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString(USER_EMAIL, validateEmail);
+                        editor.putString(USER_PASSWORD, validatePassword);
+                        editor.apply();
+
+                        Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -129,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         Usertoken = Usertoken.getInstance();
         Usertoken.setToken(token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
+
     }
 
     public static Intent makeIntent(Context context){

@@ -1,6 +1,7 @@
 package walkingschoolbus.cmpt276.ca.proxy;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,6 +37,27 @@ public interface ApiInterface {
     @GET("/users/byEmail")
     Call<User> getUserByEmail(@Query("email") String email);
 
+
+
+    @GET("/users/{id}/monitorsUsers")
+    Call<List<User>> getMonitorUser(@Path("id") Long userId);
+
+    @GET ("/users/{id}/monitoredByUsers")
+    Call<List<User>> getMonitoredByUser(@Path("id") Long userId);
+
+    @POST ("/users/{id}/monitorsUsers")
+    // Call<List<User>> addMonitorUsers(@Body Long id, @Path("id") Long userId);
+    Call<List<User>> addMonitorUsers(@Body Map<String, Long> id, @Path("id") Long userId);
+
+    @POST ("/users/{id}/monitoredByUsers")
+    Call<List<User>> addMonitoredByUsers(@Body Long id, @Path("id") Long userId);
+
+
+    @DELETE("/users/{idA}/monitorsUsers/{idB}")
+    Call<Void> deleteMonitorUser(@Path("idA") Long userIdA, @Path("idB") Long userIdB);
+
+    @DELETE("/users/{idA}/monitoredByUsers/{idB}")
+    Call<Void> deleteMonitoredByUser(@Path("idA") Long userIdA, @Path("idB") Long userIdB);
     /**
      * MORE GOES HERE:
      * - Monitoring

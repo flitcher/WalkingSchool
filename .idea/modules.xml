@@ -3,9 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WalkinGroup.iml" filepath="$PROJECT_DIR$/WalkinGroup.iml" />
-      <module fileurl="file://C:\Users\Kawai\Desktop\CMPT276\project\WalkinGroup.iml" filepath="C:\Users\Kawai\Desktop\CMPT276\project\WalkinGroup.iml" />
+      <module fileurl="file://D:\Android Project file\walkinggroupapp\WalkinGroup.iml" filepath="D:\Android Project file\walkinggroupapp\WalkinGroup.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
+      <module fileurl="file://C:\Users\Kawai\Desktop\CMPT276\project\walkinggroupapp.iml" filepath="C:\Users\Kawai\Desktop\CMPT276\project\walkinggroupapp.iml" />
     </modules>
   </component>
 </project>
