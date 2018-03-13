@@ -19,21 +19,20 @@
         android:id="@+id/GroupLayout_startingPosition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/GroupLayout_groupDescription"
-        android:layout_alignStart="@+id/GroupLayout_groupDescription"
-        android:layout_below="@+id/GroupLayout_groupDescription"
-        android:layout_marginTop="11dp"
+        android:layout_alignTop="@+id/GroupLayout_groupDescription"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp"
+        android:layout_toEndOf="@+id/GroupLayout_groupDescription"
+        android:layout_toRightOf="@+id/GroupLayout_groupDescription"
         android:text="@string/StartingPoint" />
 
     <TextView
         android:id="@+id/GroupLayout_Destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/GroupLayout_startingPosition"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/GroupLayout_groupDescription"
-        android:layout_toRightOf="@+id/GroupLayout_groupDescription"
+        android:layout_alignLeft="@+id/GroupLayout_startingPosition"
+        android:layout_alignStart="@+id/GroupLayout_startingPosition"
+        android:layout_below="@+id/GroupLayout_groupDescription"
         android:text="@string/Destination" />
 
 
