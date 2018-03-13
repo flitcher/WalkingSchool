@@ -26,6 +26,8 @@
     <string name="map">map</string>
     <string name="leaderCol">Leader:</string>
     <string name="membersCol">members:</string>
+    <string name="name">Name</string>
+    <string name="monitor">Monitor</string>
 
 
     <string name="title_activity_parent">ParentActivity</string>

@@ -27,8 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.MainActivity"
-            android:label="hello world"/>
+        <activity
+            android:name="walkingschoolbus.cmpt276.ca.appUI.MainActivity"
+            android:label="hello world" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.LoginActivity" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.RegisterActivity" />
         <!--
@@ -48,8 +49,8 @@
 
         <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupActivity"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupActivity" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.DeleteActivity" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ParentActivity" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.AddActivity" />
@@ -57,6 +58,7 @@
             android:name="walkingschoolbus.cmpt276.ca.appUI.ChildActivity"
             android:label="@string/title_activity_child"
             android:theme="@style/AppTheme" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileActivity"></activity>
     </application>
 
 </manifest>

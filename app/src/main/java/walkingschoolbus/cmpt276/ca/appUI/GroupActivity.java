@@ -75,21 +75,21 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void setText() {
-        TextView groupDescription = (TextView) findViewById(R.id.GroupActivity_groupDescription);
-        TextView groupID = (TextView) findViewById(R.id.GroupActivity_groupID);
-        TextView startingPosition = (TextView) findViewById(R.id.GroupActivity_startingPosition);
-        TextView destination =  (TextView) findViewById(R.id.GroupActivity_Destination);
-        groupDescription.setText(walkingGroups.getGroupDescription());
-        groupID.setText(""+walkingGroups.getId());
+        TextView groupDescriptionTxt = (TextView) findViewById(R.id.GroupActivity_groupDescription);
+        TextView groupIDTxt = (TextView) findViewById(R.id.GroupActivity_groupID);
+        TextView startingPositionTxt = (TextView) findViewById(R.id.GroupActivity_startingPosition);
+        TextView destinationTxt =  (TextView) findViewById(R.id.GroupActivity_Destination);
+        groupDescriptionTxt.setText(walkingGroups.getGroupDescription());
+        groupIDTxt.setText(""+walkingGroups.getId());
         if (walkingGroups.getRouteLatArray() == null || walkingGroups.getRouteLngArray() == null
                 || walkingGroups.getRouteLngArray().length < 2 || walkingGroups.getRouteLatArray().length <2){
-            startingPosition.setText("Initial point: "+"Not available");
-            destination.setText("Destination: "+"Not available");
+            startingPositionTxt.setText("Initial point: "+"Not available");
+            destinationTxt.setText("Destination: "+"Not available");
         }
         else{
-            startingPosition.setText("Initial point: "+ Double.toString(walkingGroups.getRouteLatArray()[0]) + ", " +
+            startingPositionTxt.setText("Initial point: "+ Double.toString(walkingGroups.getRouteLatArray()[0]) + ", " +
                     Double.toString(walkingGroups.getRouteLngArray()[0]));
-            destination.setText("Destination: "+Double.toString(walkingGroups.getRouteLatArray()[1]) + ", " +
+            destinationTxt.setText("Destination: "+Double.toString(walkingGroups.getRouteLatArray()[1]) + ", " +
                     Double.toString(walkingGroups.getRouteLngArray()[1]));
         }
         setClick();

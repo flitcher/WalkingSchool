@@ -15,6 +15,7 @@ import java.util.List;
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ParentActivity;
+import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -26,6 +27,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
  */
 
 public class MainActivity_profile_fragment extends Fragment {
+    User myUser;
     private ApiInterface proxy;
     Token token;
     private static final String TAG = "Profile";
@@ -35,6 +37,7 @@ public class MainActivity_profile_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mainactivity_profile_fragment, container, false);
 
+        myUser = myUser.getInstance();
         token = token.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         setupBtn(view);
@@ -58,6 +61,14 @@ public class MainActivity_profile_fragment extends Fragment {
                 Call<List<User>> caller = proxy.getUsers();
                 ProxyBuilder.callProxy(getActivity(), caller, returnedUsers->response(returnedUsers));
                 
+            }
+        });
+        Button userProfileBtn = (Button) view.findViewById(R.id.ProfileFrag_profile);
+        userProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ProfileActivity.makeIntent(getContext(), myUser.getId());
+                startActivity(intent);
             }
         });
     }
