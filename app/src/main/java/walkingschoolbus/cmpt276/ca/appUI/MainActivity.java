@@ -13,6 +13,7 @@ import android.widget.Button;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
@@ -25,13 +26,12 @@ import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TOKEN = "token";
     public static final String USER_ID = "id";
     private static String TAG = "MainActivity";
 
-    private User user;
-    private ApiInterface proxy;
-    Token token;
+    private User userManager = User.getInstance();
+
+
 
 
     @Override
@@ -39,52 +39,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ServerManager.connectToServerWithToken(MainActivity.this);
         getUser();
+        refreshSharedPreferences();
+
         setBtn();
     }
 
     private void getUser(){
-        token = token.getInstance();
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
-        user = user.getInstance();
-        String email = user.getEmail();
-        String pass = user.getPassword();
+        String email = userManager.getEmail();
+        String pass = userManager.getPassword();
+
         Log.i(TAG, ""+email);
         Log.i(TAG, ""+pass);
-
-        Call<User> caller = proxy.getUserByEmail(email);
-        ProxyBuilder.callProxy(MainActivity.this, caller, returnedUser->response(returnedUser));
     }
 
-    private void response(User returnedUser) {
-        String email = returnedUser.getEmail();
-        Long id = returnedUser.getId();
-        String name = returnedUser.getName();
-        String password = returnedUser.getPassword();
-        Log.d("app", "email = " + email);
-        List<User> MonitoredByUsers = returnedUser.getMonitoredByUsers();
-        List<User> MonitorsUsers = returnedUser.getMonitorsUsers();
-        List<WalkingGroups> WalkingGroups = returnedUser.getWalkingGroups();
-        String Href = returnedUser.getHref();
-        user.setEmail(email);
-        user.setId(id);
-        user.setName(name);
 
-        //i don't getUserByEmail returns you a password field
-        //check the return Json in the docs
-        user.setPassword(password);
-        user.setMonitorsUsers(MonitorsUsers);
-        user.setMonitoredByUsers(MonitoredByUsers);
-        user.setWalkingGroups(WalkingGroups);
-        user.setHref(Href);
-
+    private void refreshSharedPreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(USER_ID, String.valueOf(id));
+        editor.putString(USER_ID, String.valueOf(userManager.getId()));
         editor.apply();
     }
-
 
     private void setBtn(){
         Button parentListBtn = (Button)findViewById(R.id.parentList);
@@ -122,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-
+                ServerManager.setDoLogin(false);
                 Intent intent = LoginActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
 

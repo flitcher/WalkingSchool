@@ -18,6 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import walkingschoolbus.cmpt276.ca.appUI.LoginActivity;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 
 
@@ -28,7 +29,6 @@ import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 public class ProxyBuilder {
     private static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443/";
     private static SimpleCallback<String> receivedTokenCallback;
-    private static boolean login = false;
 
 
     public static void setOnTokenReceiveCallback(SimpleCallback<String> callback) {
@@ -111,7 +111,7 @@ public class ProxyBuilder {
                     if (tokenInHeader != null) {
                         if (receivedTokenCallback != null) {
                             receivedTokenCallback.callback(tokenInHeader);
-                            login = true;
+                            ServerManager.setDoLogin(true);
                         } else {
                             // We got the token, but nobody wanted it!
                             Log.w("ProxyBuilder", "WARNING: Received token but no callback registered for it!");
@@ -151,9 +151,6 @@ public class ProxyBuilder {
         });
     }
 
-    public static boolean doLogin() {
-        return login;
-    }
     /*
     --------------------------------
     PRIVATE
