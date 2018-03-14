@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -21,9 +22,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private static final String TAG = "splashscreen";
 
-    private ApiInterface proxy;
-    private User user;
-    private Token Usertoken;
+    User userManager = User.getInstance();
 
     private String email;
     private String password;
@@ -42,8 +41,11 @@ public class SplashScreen extends AppCompatActivity {
 
         Log.d(TAG, "email = " + email );
         if(email != "" && password != "") {
-            proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), null);
+            ServerManager.connectToServerWithoutToken(SplashScreen.this);
             loginSetUp();
+            Intent intent = MainActivity.makeIntent(SplashScreen.this);
+            startActivity(intent);
+            finish();
         } else {
             Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
             startActivity(intent);
@@ -55,32 +57,14 @@ public class SplashScreen extends AppCompatActivity {
     private void loginSetUp() {
 
 
-        user = user.getInstance();
 
-        user.setEmail(email);
-        user.setPassword(password);
 
-        ProxyBuilder.setOnTokenReceiveCallback( token -> onReceiveToken(token));
+        userManager.setEmail(email);
+        userManager.setPassword(password);
 
+        ServerManager.refreshToken();
         //make call
-        Call<Void> caller = proxy.login(user);
-        ProxyBuilder.callProxy(SplashScreen.this, caller, returnedNothing -> response(returnedNothing));
-    }
-
-    private void response(Void returnedNothing) {
-        Log.w(TAG, "Server replied to login request (no content was expected).");
-        Intent intent = MainActivity.makeIntent(SplashScreen.this);
-        startActivity(intent);
-        finish();
-    }
-
-    private void onReceiveToken(String token) {
-        // Replace the current proxy with one that uses the token!
-        Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
-        Usertoken = Usertoken.getInstance();
-        Usertoken.setToken(token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token);
-
+       ServerManager.Login();
     }
 
 }

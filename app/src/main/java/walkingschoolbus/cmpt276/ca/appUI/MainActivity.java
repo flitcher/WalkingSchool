@@ -22,6 +22,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
 
+    private User userManager = User.getInstance();
+
+
     private User user;
     private ApiInterface proxy;
     Token token;
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.MainActivity_tabs);
         tabLayout.setupWithViewPager(viewPager);
+        ServerManager.connectToServerWithToken(MainActivity.this);
         getUser();
         getLocationPermission();
     }
@@ -75,19 +80,17 @@ public class MainActivity extends AppCompatActivity {
          sectionsPageAdapter.addFragment(new MainActivity_group_fragment(), "GROUP");
          sectionsPageAdapter.addFragment(new MainActivity_map_fragment(), "MAP");
          viewPager.setAdapter(sectionsPageAdapter);
+        refreshSharedPreferences();
+
+        setBtn();
     }
 
     private void getUser(){
-        token = token.getInstance();
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
-        user = user.getInstance();
-        String email = user.getEmail();
-        String pass = user.getPassword();
+        String email = userManager.getEmail();
+        String pass = userManager.getPassword();
+
         Log.i(TAG, ""+email);
         Log.i(TAG, ""+pass);
-
-        Call<User> caller = proxy.getUserByEmail(email);
-        ProxyBuilder.callProxy(MainActivity.this, caller, returnedUser->response(returnedUser));
     }
 
     private void response(User returnedUser) {
@@ -114,10 +117,11 @@ public class MainActivity extends AppCompatActivity {
         user.setLeadsGroups(leadsGroups);
         user.setHref(Href);
 
+    private void refreshSharedPreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putString(USER_ID, String.valueOf(id));
+        editor.putString(USER_ID, String.valueOf(userManager.getId()));
         editor.apply();
     }
 
@@ -154,6 +158,51 @@ public class MainActivity extends AppCompatActivity {
                     map.setLocationPermission(true);
                 }
         }
+    private void setBtn(){
+        Button parentListBtn = (Button)findViewById(R.id.parentList);
+        parentListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ParentActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+
+        Button childListBtn = (Button)findViewById(R.id.Childlist);
+        childListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ChildActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+
+        Button mapBtn = (Button) findViewById(R.id.MainActivity_mapBtn);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = MapsActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+            }
+        });
+
+        Button logoutBtn = (Button) findViewById(R.id.MainActivity_logoutBtn);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                ServerManager.setDoLogin(false);
+                Intent intent = LoginActivity.makeIntent(MainActivity.this);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+
+
     }
 
     public static Intent makeIntent(Context context){

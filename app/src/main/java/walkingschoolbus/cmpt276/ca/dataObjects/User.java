@@ -12,6 +12,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private Token token = Token.getInstance();
 
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -31,7 +32,27 @@ public class User {
         return instance;
     }
 
+    public void setToken(String token){
 
+        this.token.setToken(token);
+    }
+    public String getToken()
+    {
+        return token.getToken();
+    }
+    public void setUser(User newUser){
+        this.setName(newUser.getName());
+        this.setEmail(newUser.getEmail());
+        this.setId(newUser.getId());
+        this.setHref(newUser.getHref());
+        this.setPassword(newUser.getPassword());
+        this.setMonitoredByUsers(newUser.getMonitoredByUsers());
+        this.setMonitorsUsers(newUser.getMonitorsUsers());
+        this.setWalkingGroups(newUser.getWalkingGroups());
+    }
+    public User getUser(){
+        return this;
+    }
     public Long getId() {
         return id;
     }
@@ -103,6 +124,43 @@ public class User {
     public void setHref(String href) {
         this.href = href;
     }
+
+    public User getOneMonitorUserByIndex(int index){
+        List<User> newList = this.getMonitorsUsers();
+        return newList.get(index);
+    }
+
+    public User getOneMonitoredByUserByIndex(int index){
+        List<User> newList = this.getMonitoredByUsers();
+        return newList.get(index);
+    }
+    public int getMonitorUserSize(){
+        return this.getMonitorsUsers().size();
+    }
+
+    public int getMonitoredByUserSize(){
+
+        return this.getMonitoredByUsers().size();
+    }
+
+    public String[] displayMonitorUser(){
+        String[] listOfMoniter = new String[this.getMonitorUserSize()];
+        for(int i = 0; i <this.getMonitorUserSize();i++)
+        {
+            listOfMoniter[i]= "Name: " + this.getName() + "Email: " +this.getEmail();
+        }
+        return listOfMoniter;
+    }
+
+    public String[] displayMonitoredByUser(){
+        String[] listOfMoniter = new String[this.getMonitoredByUserSize()];
+        for(int i = 0; i <this.getMonitoredByUserSize();i++)
+        {
+            listOfMoniter[i]= "Name: " + this.getName() + "Email: " +this.getEmail();
+        }
+        return listOfMoniter;
+    }
+
 
 
     @Override

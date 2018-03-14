@@ -12,11 +12,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
-import walkingschoolbus.cmpt276.ca.dataObjects.UserManager;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class ChildActivity extends AppCompatActivity {
-    UserManager userManager = UserManager.getInstance();
+
+    User userManager = User.getInstance();
     private final String CHILDLIST = "childList";;
     private final int DELETE_USER = 5;
     private final int ADD_USER = 4;
