@@ -71,7 +71,6 @@ public class DeleteActivity extends AppCompatActivity {
                {
                    ProxyBuilder.SimpleCallback<Void> callback = returnedNothing -> deleteChild(returnedNothing);
                    ServerManager.deleteMoniterUser(user.getId(),callback);
-                   finish();
                }
             }
         });
