@@ -51,7 +51,7 @@ public class AddActivity extends AppCompatActivity {
                         ServerManager.addMonitorUser(email);
 
 
-                        finish();
+                        //finish();
 
                     }
                     else if(listType.equals(PARENTLIST)) {
@@ -61,7 +61,7 @@ public class AddActivity extends AppCompatActivity {
 
 
 
-                        finish();
+                        //finish();
 
                     }
                 }

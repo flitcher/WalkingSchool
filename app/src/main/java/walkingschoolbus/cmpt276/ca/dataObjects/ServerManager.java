@@ -66,12 +66,13 @@ public class ServerManager {
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
     //login
-   private static void getUserByEmail(){
+   public static void getUserByEmail(){
 
         Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,returedUser->responseAutoLogin(returedUser));
 
     }
+
     private static void responseAutoLogin(User user){
         userManager.setUser(user);
         Call<List<User>> callerForResetParent = proxy.getMonitoredByUser(userManager.getId());

@@ -118,16 +118,150 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_join_group" />
+        app:srcCompat="@drawable/ic_add" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/GroupActivity_EditBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/GroupActivity_joinGroup"
         android:layout_marginBottom="18dp"
         android:layout_marginRight="24dp"
+        android:layout_toLeftOf="@id/GroupActivity_joinGroup"
+        android:layout_weight="1"
         android:clickable="true"
-        android:src="@drawable/ic_edit"/>
+        android:src="@drawable/ic_edit" />
+
+    <LinearLayout
+        android:id="@+id/GroupActivity_joinMeLayout"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/GroupActivity_joinMonitorLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:text="@string/joinMe"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            android:src="@drawable/ic_join_group"
+            android:id="@+id/GroupActivity_joinMeGroup"
+            app:backgroundTint="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/GroupActivity_joinMonitorLayout"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/GroupActivity_joinGroup"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/joinChild"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            android:src="@drawable/ic_join_group"
+            android:id="@+id/GroupActivity_joinMonitorGroup"
+            android:backgroundTint="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/GroupActivity_RemoveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/GroupActivity_EditBtn"
+        android:layout_marginRight="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="18dp"
+        android:src="@drawable/ic_remove"
+        android:clickable="true"/>
+
+    <LinearLayout
+        android:id="@+id/GroupActivity_removeMeLayout"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/GroupActivity_removeMonitorLayout"
+        android:layout_alignRight="@id/GroupActivity_RemoveBtn"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/RemoveMe"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            android:src="@drawable/ic_remove"
+            android:id="@+id/GroupActivity_removeMeGroup"
+            android:backgroundTint="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/GroupActivity_removeMonitorLayout"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/GroupActivity_RemoveBtn"
+        android:layout_alignRight="@id/GroupActivity_RemoveBtn"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/RemoveChild"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            android:src="@drawable/ic_remove"
+            android:id="@+id/GroupActivity_removeMonitorGroup"
+            android:backgroundTint="@color/colorPrimary"/>
+    </LinearLayout>
 </RelativeLayout>

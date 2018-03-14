@@ -13,9 +13,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,9 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Proxy;
+import java.security.acl.Group;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,16 +45,27 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 public class GroupActivity extends AppCompatActivity {
 
     private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-groupID";
-    private static final int REQEUST_CODE = 1000;
+    private static final int REQUEST_CODE_GROUPLIST = 2000;
     private ApiInterface proxy;
     private static final String TAG = "GroupActivity";
     private Long groupID;
+    private Long userID;
     private Token token;
     private WalkingGroups walkingGroups;
     List<User> memberList;
     ListView members;
     private static final float DEFAULT_ZOOM = 15f;
     private User myUser;
+    FloatingActionButton joinMonitorGroup;
+    FloatingActionButton joinMeGroup;
+    FloatingActionButton removeMonitorGroup;
+    FloatingActionButton removeMeGroup;
+    Animation hideButton;
+    Animation showButton;
+    Animation hideLayout;
+    Animation showLayout;
+    Animation showLayoutRemove;
+    Animation hideLayoutRemove;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +75,17 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void initialize(){
+        joinMeGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_joinMeGroup);
+        joinMonitorGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_joinMonitorGroup);
+        removeMeGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_removeMeGroup);
+        removeMonitorGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_removeMonitorGroup);
+        showButton = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_button);
+        hideButton = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_button);
+        showLayout = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_layout);
+        hideLayout = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout);
+        showLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_layout_remove);
+        hideLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout_remove);
+
         token = token.getInstance();
         myUser = myUser.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
@@ -156,7 +176,35 @@ public class GroupActivity extends AppCompatActivity {
         });
 
         FloatingActionButton joinGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_joinGroup);
+        LinearLayout joinMeLayout = (LinearLayout) findViewById(R.id.GroupActivity_joinMeLayout);
+        LinearLayout joinMonitorLayout = (LinearLayout) findViewById(R.id.GroupActivity_joinMonitorLayout);
         joinGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (joinMeLayout.getVisibility() == View.VISIBLE && joinMonitorLayout.getVisibility()
+                        == View.VISIBLE){
+                    joinMeLayout.setVisibility(View.GONE);
+                    joinMonitorLayout.setVisibility(View.GONE);
+                    joinGroup.startAnimation(hideButton);
+                    joinMeLayout.startAnimation(hideLayout);
+                    joinMonitorLayout.startAnimation(hideLayout);
+                } else{
+                    joinMeLayout.setVisibility(View.VISIBLE);
+                    joinMonitorLayout.setVisibility(View.VISIBLE);
+                    joinGroup.startAnimation(showButton);
+                    joinMeLayout.startAnimation(showLayout);
+                    joinMonitorLayout.startAnimation(showLayout);
+                }
+                /*
+                Map<String, Long> payload = new HashMap<>();
+                payload.put("id", myUser.getId());
+                Call<List<User>> caller = proxy.addNewGroupMember(groupID, payload);
+                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
+                */
+            }
+        });
+
+        joinMeGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Map<String, Long> payload = new HashMap<>();
@@ -166,21 +214,85 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
 
+        joinMonitorGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ListMonitoringGroup.makeIntent(GroupActivity.this);
+                startActivityForResult(intent, REQUEST_CODE_GROUPLIST);
+                if (groupID == -1){
+                    Toast.makeText(GroupActivity.this, "Invalid user: please try again", Toast.LENGTH_LONG);
+                }
+                else{
+                    Map<String, Long> payload = new HashMap<>();
+                    payload.put("id", userID);
+                    Call<List<User>> caller = proxy.addNewGroupMember(groupID, payload);
+                    ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
+                }
+            }
+        });
+
         FloatingActionButton editGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_EditBtn);
         editGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = AditGroup.makeIntent(GroupActivity.this, groupID);
-                startActivityForResult(intent, REQEUST_CODE);
+                startActivity(intent);
+            }
+        });
+        FloatingActionButton removeGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_RemoveBtn);
+        LinearLayout removeMeLayout = (LinearLayout) findViewById(R.id.GroupActivity_removeMeLayout);
+        LinearLayout removeMonitorLayout = (LinearLayout) findViewById(R.id.GroupActivity_removeMonitorLayout);
+        removeGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (removeMeLayout.getVisibility() == View.VISIBLE && removeMonitorLayout.getVisibility()
+                        == View.VISIBLE){
+                    removeMeLayout.setVisibility(View.GONE);
+                    removeMonitorLayout.setVisibility(View.GONE);
+                    removeMeLayout.startAnimation(hideLayoutRemove);
+                    removeMonitorLayout.startAnimation(hideLayoutRemove);
+                } else{
+                    removeMeLayout.setVisibility(View.VISIBLE);
+                    removeMonitorLayout.setVisibility(View.VISIBLE);
+                    removeMeLayout.startAnimation(showLayoutRemove);
+                    removeMonitorLayout.startAnimation(showLayoutRemove);
+                }
+                //Call<Void> caller = proxy.deleteGroupMember(groupID, myUser.getId());
+                //ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing-> responseRemove(returnedNothing));
+            }
+        });
+        removeMeGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<Void> caller = proxy.deleteGroupMember(groupID, myUser.getId());
+                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing-> responseRemove(returnedNothing));
+            }
+        });
+        removeMonitorGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ListMonitoringGroup.makeIntent(GroupActivity.this);
+                startActivityForResult(intent, REQUEST_CODE_GROUPLIST);
+                if (groupID == -1){
+                    Toast.makeText(GroupActivity.this, "Invalid user: please try again", Toast.LENGTH_LONG);
+                }
+                else{
+                    Call<Void> caller = proxy.deleteGroupMember(groupID, userID);
+                    ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing-> responseRemove(returnedNothing));
+                }
             }
         });
     }
 
+    private void responseRemove(Void returnedNothing) {
+        Log.i(TAG, "Server remove user from group");
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQEUST_CODE){
+        if (requestCode == REQUEST_CODE_GROUPLIST){
             if (resultCode == RESULT_OK){
-                initialize();
+                userID = ListMonitoringGroup.getUserID(data);
             }
         }
     }
@@ -234,5 +346,11 @@ public class GroupActivity extends AppCompatActivity {
         Intent intent = new Intent(context, GroupActivity.class);
         intent.putExtra(GROUPID, groupId);
         return intent;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initialize();
     }
 }
