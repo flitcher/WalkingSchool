@@ -17,7 +17,7 @@
     <string name="logout">Logout</string>
     <string name="googleMapKey">AIzaSyBZxUhMFPP_iuPlMcpbgPmm1nEeS4NOSKI</string>
     <string name="groupDescription">groupDescription</string>
-    <string name="StartingPoint">Starting Point</string>
+    <string name="StartingPoint">Meeting Point</string>
     <string name="Destination">Destination</string>
     <string name="groupFrag_intro">click to see details</string>
     <string name="members">members</string>
@@ -28,6 +28,9 @@
     <string name="membersCol">members:</string>
     <string name="name">Name</string>
     <string name="monitor">Monitor</string>
+    <string name="Latitude">Latitude</string>
+    <string name="Longitude">Longitude</string>
+    <string name="info">Info</string>
 
 
     <string name="title_activity_parent">ParentActivity</string>

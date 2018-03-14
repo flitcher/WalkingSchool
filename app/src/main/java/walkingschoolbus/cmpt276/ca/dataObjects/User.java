@@ -40,6 +40,7 @@ public class User {
     {
         return token.getToken();
     }
+
     public void setUser(User newUser){
         this.setName(newUser.getName());
         this.setEmail(newUser.getEmail());
@@ -48,7 +49,8 @@ public class User {
         this.setPassword(newUser.getPassword());
         this.setMonitoredByUsers(newUser.getMonitoredByUsers());
         this.setMonitorsUsers(newUser.getMonitorsUsers());
-        this.setWalkingGroups(newUser.getWalkingGroups());
+        this.setMemberOfGroups(newUser.getMemberOfGroups());
+        this.setLeadsGroups(newUser.getLeadsGroups());
     }
     public User getUser(){
         return this;

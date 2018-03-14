@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.lang.reflect.Proxy;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.appUI.AditGroup;
 import walkingschoolbus.cmpt276.ca.appUI.GroupActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileGroupActivity;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
@@ -29,11 +31,14 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by seungdobaek on 2018-03-13.
  */
 
 public class ProfileGroup_leader_fragement extends Fragment {
+    private static final int REQEUST_CODE = 1000;
     Long userID;
     View view;
     Context context;
@@ -72,6 +77,27 @@ public class ProfileGroup_leader_fragement extends Fragment {
         groupList = (ListView) view.findViewById(R.id.LeaderFrag_groupListView);
         groupList.setAdapter(adapter);
         clickGroup();
+        clickBtn();
+    }
+
+    private void clickBtn() {
+        FloatingActionButton createGroup = (FloatingActionButton) view.findViewById(R.id.LeaderFrag_createBtn);
+        createGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = AditGroup.makeIntent(context, (long) -1);
+                startActivityForResult(intent, REQEUST_CODE);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQEUST_CODE){
+            if (resultCode == RESULT_OK){
+                initiate();
+            }
+        }
     }
 
     private void clickGroup() {

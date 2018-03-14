@@ -19,6 +19,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.GroupActivity;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
@@ -57,7 +58,6 @@ public class MainActivity_group_fragment extends Fragment {
     }
 
     private void clickGroup() {
-//        groupList = (ListView) view.findViewById(R.id.GroupFrag_groupListView);
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -107,11 +107,12 @@ public class MainActivity_group_fragment extends Fragment {
     }
 
     private void initiate() {
+        context = getContext();
         token = token.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<List<WalkingGroups>> caller = proxy.getGroups();
-        ProxyBuilder.callProxy(getContext(), caller, returnedGroupList->response(returnedGroupList));
-        context = getContext();
+        ProxyBuilder.callProxy(context, caller, returnedGroupList->response(returnedGroupList));
+
     }
 
     private void response(List<WalkingGroups> returnedWalkingGroup) {

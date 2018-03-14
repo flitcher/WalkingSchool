@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,9 +74,11 @@ public class ServerManager {
     private static void responseAutoLogin(User user){
         userManager.setUser(user);
     }
+
     public static boolean doLogin(){
         return Login;
     }
+
     public static void Login(){
         Call<Void> caller = proxy.login(userManager.getUser());
         ProxyBuilder.callProxy(currentContext,caller,returnedNothing->reponseLogin(returnedNothing));
@@ -143,6 +146,4 @@ public class ServerManager {
         Call<List<User>> callerForReset =proxy.getMonitoredByUser(userManager.getId());
         ProxyBuilder.callProxy(currentContext,callerForReset,returnedList->resetParentList(returnedList));
     }
-
-
 }

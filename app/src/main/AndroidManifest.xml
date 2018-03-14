@@ -61,7 +61,8 @@
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileActivity" />
         <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileGroupActivity"
-            android:label="Walking Groups"/>
+            android:label="Walking Groups" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.AditGroup"></activity>
     </application>
 
 </manifest>

@@ -47,6 +47,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 public class GroupActivity extends AppCompatActivity {
 
     private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-groupID";
+    private static final int REQEUST_CODE = 1000;
     private ApiInterface proxy;
     private static final String TAG = "GroupActivity";
     private Long groupID;
@@ -164,6 +165,24 @@ public class GroupActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
             }
         });
+
+        FloatingActionButton editGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_EditBtn);
+        editGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = AditGroup.makeIntent(GroupActivity.this, groupID);
+                startActivityForResult(intent, REQEUST_CODE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQEUST_CODE){
+            if (resultCode == RESULT_OK){
+                initialize();
+            }
+        }
     }
 
     private void responseAddNewUser(List<User> returnedUser) {
@@ -171,7 +190,6 @@ public class GroupActivity extends AppCompatActivity {
         for (User user : returnedUser){
             Log.w(TAG, "    User: "+user.toString());
         }
-        memberList = returnedUser;
     }
 
     private void responseLeader(User returnedUser, View view){

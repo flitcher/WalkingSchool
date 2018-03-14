@@ -66,13 +66,13 @@ public interface ApiInterface {
     Call<List<WalkingGroups>> getGroups();
 
     @POST("/groups")
-    Call<Void> createNewGroup(@Body WalkingGroups walkingGroups);
+    Call<WalkingGroups> createNewGroup(@Body WalkingGroups walkingGroups);
 
     @GET("/groups/{id}")
     Call<WalkingGroups> getOneGroup(@Path("id") Long groupID);
 
     @POST("/groups/{id}")
-    Call<Void> updateExistingGroup(@Path("id") Long groupID);
+    Call<WalkingGroups> updateExistingGroup(@Path("id") Long groupID, @Body WalkingGroups walkingGroups);
 
     @DELETE("/groups/{id}")
     Call<Void> deleteGroup(@Path("id") Long groupID);
