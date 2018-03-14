@@ -47,23 +47,22 @@ public class AddActivity extends AppCompatActivity {
 
                     if(listType.equals(CHILDLIST)) {
                         String email = editText.getText().toString();
-                        if(email != userManager.getEmail())
-                            ServerManager.addMonitorUser(email);
-                        else
-                            Toast.makeText(AddActivity.this, "cannot add themselve", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent();
-                        setResult(Activity.RESULT_OK,intent);
+                        ServerManager.addMonitorUser(email);
+
+
                         finish();
+
                     }
                     else if(listType.equals(PARENTLIST)) {
                         String email = editText.getText().toString();
 
                         ServerManager.addMonitedByUser(email);
 
-                        Intent intent = new Intent();
-                        setResult(Activity.RESULT_OK,intent);
+
+
                         finish();
+
                     }
                 }
 
