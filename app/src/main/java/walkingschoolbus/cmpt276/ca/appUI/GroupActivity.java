@@ -32,7 +32,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Proxy;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
@@ -44,7 +46,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class GroupActivity extends AppCompatActivity {
 
-    public static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-groupID";
+    private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-groupID";
     private ApiInterface proxy;
     private static final String TAG = "GroupActivity";
     private Long groupID;
@@ -53,6 +55,7 @@ public class GroupActivity extends AppCompatActivity {
     List<User> memberList;
     ListView members;
     private static final float DEFAULT_ZOOM = 15f;
+    private User myUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,7 @@ public class GroupActivity extends AppCompatActivity {
 
     private void initialize(){
         token = token.getInstance();
+        myUser = myUser.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<WalkingGroups> caller = proxy.getOneGroup(groupID);
         ProxyBuilder.callProxy(GroupActivity.this, caller, returnedGroup->response(returnedGroup));
@@ -154,9 +158,20 @@ public class GroupActivity extends AppCompatActivity {
         joinGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Map<String, Long> payload = new HashMap<>();
+                payload.put("id", myUser.getId());
+                Call<List<User>> caller = proxy.addNewGroupMember(groupID, payload);
+                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
             }
         });
+    }
+
+    private void responseAddNewUser(List<User> returnedUser) {
+        Log.w(TAG, "All Users");
+        for (User user : returnedUser){
+            Log.w(TAG, "    User: "+user.toString());
+        }
+        memberList = returnedUser;
     }
 
     private void responseLeader(User returnedUser, View view){
@@ -180,6 +195,7 @@ public class GroupActivity extends AppCompatActivity {
             final View mView = groupView;
             User curUser = memberList.get(position);
             if (curUser != null) {
+                Log.i(TAG, ""+curUser.toString());
                 Call<User> caller = proxy.getUserById(curUser.getId());
                 ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseMember(returnedUser, mView));
             }

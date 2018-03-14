@@ -82,7 +82,7 @@ public interface ApiInterface {
     Call<List<User>> getGroupMembers(@Path("id") Long groupID);
 
     @POST("/groups/{id}/memberUsers")
-    Call<Void> addNewGroupMember(@Path("id") Long groupID, @Body Map<String, Long> userID);
+    Call<List<User>> addNewGroupMember(@Path("id") Long groupID, @Body Map<String, Long> userID);
 
     @DELETE("/groups/{idA}/memberUsers/{idB}")
     Call<Void> deleteGroupMember(@Path("idA") Long groupID, @Path("idB") Long UserID);

@@ -104,9 +104,20 @@ public class User {
         this.href = href;
     }
 
+
     @Override
     public String toString() {
-        return super.toString();
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", monitoredByUsers=" + monitoredByUsers +
+                ", monitorsUsers=" + monitorsUsers +
+                ", memberOfGroups=" + memberOfGroups +
+                ", leadsGroups=" + leadsGroups +
+                ", href='" + href + '\'' +
+                '}';
     }
 }
 
