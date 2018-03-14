@@ -21,6 +21,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class DeleteActivity extends AppCompatActivity {
     private static User user;
+    private static User userManager = User.getInstance();
     private static String listType;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
@@ -62,12 +63,14 @@ public class DeleteActivity extends AppCompatActivity {
             public void onClick(View view) {
                if(listType.equals(PARENTLIST))
                {
-                   ServerManager.deleteMonitoredByUser(user.getId());
-                   finish();
+                   ProxyBuilder.SimpleCallback<Void> callback = returnedNothing -> deleteParent(returnedNothing);
+                   ServerManager.deleteMonitoredByUser(user.getId(),callback);
+
                }
                else if(listType.equals(CHILDLIST))
                {
-                   ServerManager.deleteMoniterUser(user.getId());
+                   ProxyBuilder.SimpleCallback<Void> callback = returnedNothing -> deleteChild(returnedNothing);
+                   ServerManager.deleteMoniterUser(user.getId(),callback);
                    finish();
                }
             }
@@ -78,5 +81,23 @@ public class DeleteActivity extends AppCompatActivity {
         user = tempUser;
         listType = newListType;
         return new Intent(context, DeleteActivity.class);
+    }
+
+    //return things
+    private void deleteChild(Void Nothing){
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList -> resetChildList(returnedList);
+        ServerManager.deleteChild(callback);
+    }
+    private void resetChildList(List<User> list) {
+        userManager.setMonitorsUsers(list);
+        finish();
+    }
+    private void  deleteParent(Void Nothing){
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList -> resetParentList(returnedList);
+        ServerManager.deleteParent(callback);
+    }
+    private void resetParentList(List<User> list) {
+        userManager.setMonitoredByUsers(list);
+        finish();
     }
 }

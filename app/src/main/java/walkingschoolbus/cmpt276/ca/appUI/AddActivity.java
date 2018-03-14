@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
@@ -48,20 +50,15 @@ public class AddActivity extends AppCompatActivity {
                     if(listType.equals(CHILDLIST)) {
                         String email = editText.getText().toString();
 
-                        ServerManager.addMonitorUser(email);
-
-
-                        finish();
+                        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> addChild(returnedUser);
+                        ServerManager.addMonitorUser(email,callback);
 
                     }
                     else if(listType.equals(PARENTLIST)) {
                         String email = editText.getText().toString();
 
-                        ServerManager.addMonitedByUser(email);
-
-
-
-                        finish();
+                        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> addParent(returnedUser);
+                        ServerManager.addMonitedByUser(email,callback);
 
                     }
                 }
@@ -85,6 +82,31 @@ public class AddActivity extends AppCompatActivity {
         Log.i("myapp",listType);
         return new Intent(context, AddActivity.class);
 
+    }
+
+
+    //return things
+
+    //child
+    private void addChild(User user) {
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList -> resetChildList(returnedList);
+        ServerManager.addChild(user,callback);
+    }
+    private void resetChildList(List<User> list) {
+        userManager.setMonitorsUsers(list);
+        finish();
+    }
+
+    //parent
+    private void addParent(User user) {
+
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList -> resetParentList(returnedList);
+        ServerManager.addParent(user,callback);
+
+    }
+    private void resetParentList(List<User> list) {
+        userManager.setMonitoredByUsers(list);
+        finish();
     }
 
 

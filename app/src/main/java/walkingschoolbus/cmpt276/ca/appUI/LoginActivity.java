@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
@@ -108,7 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(validate()) {
 
                     ServerManager.refreshToken();
-                    ServerManager.Login();
+                    ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
+                    ServerManager.Login(callback);
 
 
                     userManager.setEmail(validateEmail);
@@ -137,5 +140,29 @@ public class LoginActivity extends AppCompatActivity {
         return new Intent(context, LoginActivity.class);
     }
 
+
+    //server return things
+    private void responseLogin(Void Nothing){
+        ProxyBuilder.SimpleCallback<User> callback = returedUser->responseAutoLogin(returedUser);
+        Log.w(TAG, "Server replied to login request (no content was expected).");
+        ServerManager.getUserByEmail(callback);
+    }
+    private  void responseAutoLogin(User user){
+        userManager.setUser(user);
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetParentList(returnedList)   ;
+        //in response getParentList it also reset ChildList
+        ServerManager.LoginInitilizePartOne(callback);
+
+    }
+    private  void resetParentList(List<User> list) {
+        userManager.setMonitoredByUsers(list);
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetChildList(returnedList);
+        ServerManager.LoginInitilizePartTwo(callback);
+    }
+
+    private  void resetChildList(List<User> list) {
+        userManager.setMonitorsUsers(list);
+
+    }
 
 }
