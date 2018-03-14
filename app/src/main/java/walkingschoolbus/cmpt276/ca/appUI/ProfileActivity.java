@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Proxy;
@@ -28,6 +30,18 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         extract_intent();
         initiate();
+        setBtn();
+    }
+
+    private void setBtn() {
+        LinearLayout group = (LinearLayout) findViewById(R.id.ProfileActivity_Group);
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ProfileGroupActivity.makeIntent(ProfileActivity.this, userId);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initiate() {
@@ -48,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView userEmailTxt = (TextView) findViewById(R.id.ProfileActivity_email);
         userNameTxt.setText(user.getName());
         userIDTxt.setText(""+user.getId());
-        userEmailTxt.setText(user.getEmail());
+        userEmailTxt.setText("Email: "+user.getEmail());
     }
 
     private void extract_intent() {

@@ -38,7 +38,6 @@ import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TOKEN = "token";
     public static final String USER_ID = "id";
     private static String TAG = "MainActivity";
     private SectionsPageAdapter sectionsPageAdapter;
@@ -72,11 +71,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpViewPager(ViewPager viewPager){
-         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-         adapter.addFragment(new MainActivity_profile_fragment(), "PROFILE");
-         adapter.addFragment(new MainActivity_group_fragment(), "GROUP");
-         adapter.addFragment(new MainActivity_map_fragment(), "MAP");
-         viewPager.setAdapter(adapter);
+         sectionsPageAdapter.addFragment(new MainActivity_profile_fragment(), "PROFILE");
+         sectionsPageAdapter.addFragment(new MainActivity_group_fragment(), "GROUP");
+         sectionsPageAdapter.addFragment(new MainActivity_map_fragment(), "MAP");
+         viewPager.setAdapter(sectionsPageAdapter);
     }
 
     private void getUser(){
@@ -100,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("app", "email = " + email);
         List<User> MonitoredByUsers = returnedUser.getMonitoredByUsers();
         List<User> MonitorsUsers = returnedUser.getMonitorsUsers();
-        List<WalkingGroups> WalkingGroups = returnedUser.getWalkingGroups();
+        List<WalkingGroups> memberOfGroups = returnedUser.getMemberOfGroups();
+        List<WalkingGroups> leadsGroups = returnedUser.getLeadsGroups();
         String Href = returnedUser.getHref();
         user.setEmail(email);
         user.setId(id);
@@ -111,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
         user.setPassword(password);
         user.setMonitorsUsers(MonitorsUsers);
         user.setMonitoredByUsers(MonitoredByUsers);
-        user.setWalkingGroups(WalkingGroups);
+        user.setMemberOfGroups(memberOfGroups);
+        user.setLeadsGroups(leadsGroups);
         user.setHref(Href);
 
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,7 +51,6 @@ public class GroupActivity extends AppCompatActivity {
     private Token token;
     private WalkingGroups walkingGroups;
     List<User> memberList;
-    User user;
     ListView members;
     private static final float DEFAULT_ZOOM = 15f;
     @Override
@@ -149,10 +149,18 @@ public class GroupActivity extends AppCompatActivity {
                 }
             }
         });
+
+        FloatingActionButton joinGroup = (FloatingActionButton) findViewById(R.id.GroupActivity_joinGroup);
+        joinGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void responseLeader(User returnedUser, View view){
-        user = returnedUser;
+        User user = returnedUser;
         TextView leader = (TextView) view.findViewById(R.id.MemberDialog_leader);
         leader.setText(user.getName());
     }

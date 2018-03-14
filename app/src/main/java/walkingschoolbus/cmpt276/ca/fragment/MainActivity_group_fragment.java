@@ -30,7 +30,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
  */
 
 public class MainActivity_group_fragment extends Fragment {
-    List<WalkingGroups> userGroupList;
+    List<WalkingGroups> allGroups;
     ApiInterface proxy;
     Token token;
     private static final String TAG = "GroupFrag";
@@ -57,11 +57,11 @@ public class MainActivity_group_fragment extends Fragment {
     }
 
     private void clickGroup() {
-        groupList = (ListView) view.findViewById(R.id.GroupFrag_groupListView);
+//        groupList = (ListView) view.findViewById(R.id.GroupFrag_groupListView);
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                WalkingGroups itemSelected = userGroupList.get(position);
+                WalkingGroups itemSelected = allGroups.get(position);
                 Long groupId = itemSelected.getId();
                 Intent intent = GroupActivity.makeIntent(getContext(), groupId);
                 startActivity(intent);
@@ -71,7 +71,7 @@ public class MainActivity_group_fragment extends Fragment {
 
     private class MyListadapter extends ArrayAdapter<WalkingGroups> {
         public MyListadapter(){
-            super(context, R.layout.grouplistlayout, userGroupList);
+            super(context, R.layout.grouplistlayout, allGroups);
         }
 
         @NonNull
@@ -81,7 +81,7 @@ public class MainActivity_group_fragment extends Fragment {
             if (groupView == null){
                 groupView = getLayoutInflater().inflate(R.layout.grouplistlayout, parent, false);
             }
-            WalkingGroups curWalkingGroups = userGroupList.get(position);
+            WalkingGroups curWalkingGroups = allGroups.get(position);
             if (curWalkingGroups != null) {
                 TextView groupDescriptoin = (TextView) groupView.findViewById(R.id.GroupLayout_groupDescription);
                 TextView StartingPoint = (TextView) groupView.findViewById(R.id.GroupLayout_startingPosition);
@@ -115,8 +115,8 @@ public class MainActivity_group_fragment extends Fragment {
     }
 
     private void response(List<WalkingGroups> returnedWalkingGroup) {
-        userGroupList = returnedWalkingGroup;
-        for (WalkingGroups walkingGroup : userGroupList) {
+        allGroups = returnedWalkingGroup;
+        for (WalkingGroups walkingGroup : allGroups) {
             Log.w(TAG, "    walkingGroup: " + walkingGroup.toString());
         }
         showGroupList();

@@ -17,7 +17,8 @@ public class User {
 
     private List<User> monitoredByUsers = new ArrayList<>();
     private List<User> monitorsUsers = new ArrayList<>();
-    private List<WalkingGroups> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
+    private List<WalkingGroups> memberOfGroups = new ArrayList<>();
+    private List<WalkingGroups> leadsGroups = new ArrayList<>();
 
     private String href;
 
@@ -79,12 +80,20 @@ public class User {
         this.monitorsUsers = monitorsUsers;
     }
 
-    public List<WalkingGroups> getWalkingGroups() {
-        return walkingGroups;
+    public List<WalkingGroups> getMemberOfGroups() {
+        return memberOfGroups;
     }
 
-    public void setWalkingGroups(List<WalkingGroups> walkingGroups) {
-        this.walkingGroups = walkingGroups;
+    public void setMemberOfGroups(List<WalkingGroups> memberOfGroups) {
+        this.memberOfGroups = memberOfGroups;
+    }
+
+    public List<WalkingGroups> getLeadsGroups() {
+        return leadsGroups;
+    }
+
+    public void setLeadsGroups(List<WalkingGroups> leadsGroups) {
+        this.leadsGroups = leadsGroups;
     }
 
     public String getHref() {
@@ -97,15 +106,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", monitoredByUsers=" + monitoredByUsers +
-                ", monitorsUsers=" + monitorsUsers +
-                ", walkingGroups=" + walkingGroups +
-                '}';
+        return super.toString();
     }
 }
 

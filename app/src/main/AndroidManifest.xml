@@ -58,7 +58,10 @@
             android:name="walkingschoolbus.cmpt276.ca.appUI.ChildActivity"
             android:label="@string/title_activity_child"
             android:theme="@style/AppTheme" />
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileActivity"></activity>
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileActivity" />
+        <activity
+            android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileGroupActivity"
+            android:label="Walking Groups"/>
     </application>
 
 </manifest>
