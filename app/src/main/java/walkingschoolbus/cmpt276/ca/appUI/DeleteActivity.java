@@ -37,8 +37,12 @@ public class DeleteActivity extends AppCompatActivity {
     }
 
     private void setTextView() {
-        TextView textView =(TextView) findViewById(R.id.Delete_UserInformation);
-        textView.setText(user.toString());
+        TextView name =(TextView) findViewById(R.id.Delete_Name);
+        TextView email =(TextView) findViewById(R.id.Delete_Email);
+        TextView id =(TextView) findViewById(R.id.Delete_ID);
+        name.setText("Name: "+user.getName());
+        email.setText("Email: "+user.getEmail());
+        id.setText("ID      : "+user.getId());
     }
 
     private void setCancelBtn() {
@@ -59,13 +63,11 @@ public class DeleteActivity extends AppCompatActivity {
                if(listType.equals(PARENTLIST))
                {
                    ServerManager.deleteMonitoredByUser(user.getId());
-                   setResult(Activity.RESULT_OK);
                    finish();
                }
                else if(listType.equals(CHILDLIST))
                {
                    ServerManager.deleteMoniterUser(user.getId());
-                   setResult(Activity.RESULT_OK);
                    finish();
                }
             }

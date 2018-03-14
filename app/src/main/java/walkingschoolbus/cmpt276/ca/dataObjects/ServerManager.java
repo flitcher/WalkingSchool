@@ -16,7 +16,7 @@ import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static android.content.Context.MODE_PRIVATE;
-
+import static java.security.AccessController.getContext;
 
 
 /**
@@ -70,9 +70,15 @@ public class ServerManager {
 
         Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,returedUser->responseAutoLogin(returedUser));
+
     }
     private static void responseAutoLogin(User user){
         userManager.setUser(user);
+        Call<List<User>> callerForResetParent = proxy.getMonitoredByUser(userManager.getId());
+        ProxyBuilder.callProxy(currentContext,callerForResetParent,returnedList->resetParentList(returnedList));
+        Call<List<User>> callerForResetChild = proxy.getMonitorUser(userManager.getId());
+        ProxyBuilder.callProxy(currentContext,callerForResetChild,returnedList->resetChildList(returnedList));
+
     }
 
     public static boolean doLogin(){
@@ -107,6 +113,7 @@ public class ServerManager {
     }
 
 
+
     //for add parent
     public static void addMonitedByUser(String email){
         Call<User> callerForEmail = proxy.getUserByEmail(email);
@@ -121,7 +128,9 @@ public class ServerManager {
         Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userManager.getId(), body);
         ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetParentList(returnedList));
     }
-    private static void resetParentList(List<User> list) {userManager.setMonitoredByUsers(list);}
+    private static void resetParentList(List<User> list) {
+        userManager.setMonitoredByUsers(list);
+    }
 
 
     //for delete child

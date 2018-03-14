@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
 
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
@@ -31,12 +35,36 @@ public class ChildActivity extends AppCompatActivity {
     }
 
     private void populateParentListView() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                R.layout.item,
-                userManager.displayMonitorUser());
+        ArrayAdapter<User> adapter = new MyListAdapter();
         ListView listview = (ListView) findViewById(R.id.ChildActivity_Listview);
         listview.setAdapter(adapter);
+    }
+    private class MyListAdapter extends ArrayAdapter<User>{
+        public MyListAdapter(){
+            super(ChildActivity.this,R.layout.item,userManager.getMonitorsUsers());
+        }
+
+        @Override
+        public View getView(int position, View convertView,  ViewGroup parent) {
+            View itemView = convertView;
+            List<User> childList = userManager.getMonitorsUsers();
+            if(itemView == null){
+                itemView = getLayoutInflater().inflate(R.layout.item,parent,false);
+            }
+
+            User currentUser = childList.get(position);
+
+            TextView name = (TextView) itemView.findViewById(R.id.Item_Name);
+            name.setText(currentUser.getName());
+
+            TextView email = (TextView) itemView.findViewById(R.id.Item_Email);
+            email.setText(currentUser.getEmail());
+
+            TextView id = (TextView) itemView.findViewById(R.id.Item_ID);
+            id.setText(""+currentUser.getId());
+
+            return itemView;
+        }
     }
     private void setUpAddBtn(){
         Button btn = (Button) findViewById(R.id.ChildActivity_addbtn);
@@ -76,5 +104,10 @@ public class ChildActivity extends AppCompatActivity {
                 populateParentListView();
             }
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        populateParentListView();
     }
 }
