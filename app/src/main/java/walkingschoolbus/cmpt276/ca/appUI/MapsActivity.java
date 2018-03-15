@@ -29,35 +29,44 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.Map;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
+import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
+import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
+import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private static final String TAG = "MapsActivity";
     private static final float DEFAULT_ZOOM = 15f;
 
     private GoogleMap mMap;
-    private boolean myLocationPermission = false;
     private FusedLocationProviderClient FLPC;
     private EditText searchAdressText;
+    Map map;
+    ApiInterface proxy;
+    Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        getLocationPermission();
+        map = map.getInstance();
+        if (map.isLocationPermission()){
+            initMap();
+        }
         searchAdressText = (EditText) findViewById(R.id.MapsActivity_searchText);
         initSearch();
     }
@@ -76,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        if (myLocationPermission) {
+        if (map.isLocationPermission()) {
 
             getCurrentDeviceLocation();
 
@@ -88,7 +97,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            token = token.getInstance();
+            proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
+            Call<List<WalkingGroups>> caller = proxy.getGroups();
+            ProxyBuilder.callProxy(MapsActivity.this, caller, returnedGroups->response(returnedGroups));
         }
+    }
+
+    private void response(List<WalkingGroups> returnedGroups) {
+       if (returnedGroups != null) {
+           for (WalkingGroups groups : returnedGroups) {
+               if (groups.getRouteLatArray() == null || groups.getRouteLngArray() == null
+                       || groups.getRouteLngArray().length < 2 || groups.getRouteLatArray().length <2){
+               }
+               else{
+                   LatLng startLatLng = new LatLng(groups.getRouteLatArray()[0], groups.getRouteLngArray()[0]);
+                   LatLng destLatLng = new LatLng(groups.getRouteLatArray()[1], groups.getRouteLngArray()[1]);
+                   mMap.addMarker(new MarkerOptions()
+                           .position(startLatLng)
+                           .draggable(true)
+                           .title(groups.getGroupDescription()+": start position"));
+                   mMap.addMarker(new MarkerOptions().position(destLatLng).title(groups.getGroupDescription()+": destination"));
+                   mMap.getUiSettings().setZoomControlsEnabled(true);
+                   mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                       @Override
+                       public void onMarkerDragStart(Marker marker) {
+                           Intent intent = GroupActivity.makeIntent(MapsActivity.this, groups.getId());
+                           startActivity(intent);
+                       }
+
+                       @Override
+                       public void onMarkerDrag(Marker marker) {
+
+                       }
+
+                       @Override
+                       public void onMarkerDragEnd(Marker marker) {
+
+                       }
+                   });
+               }
+           }
+       }
     }
 
     private void initMap() {
@@ -140,46 +190,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void getLocationPermission() {
-        String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                myLocationPermission = true;
-                initMap();
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-            }
-        } else {
-            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.i (TAG, "entered for result");
-        myLocationPermission = false;
-        switch (requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0) {
-                    Log.i (TAG, "entered for result if");
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            myLocationPermission = false;
-                            return;
-                        }
-                    }
-                    myLocationPermission = true;
-                    initMap();
-                }
-        }
-    }
-
     private void getCurrentDeviceLocation() {
         FLPC = LocationServices.getFusedLocationProviderClient(MapsActivity.this);
         try {
-            if (myLocationPermission){
+            if (map.isLocationPermission()){
                 Task location = FLPC.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override

@@ -18,12 +18,13 @@ public class User {
 
     private List<User> monitoredByUsers = new ArrayList<>();
     private List<User> monitorsUsers = new ArrayList<>();
-    private List<WalkingGroups> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
+    private List<WalkingGroups> memberOfGroups = new ArrayList<>();
+    private List<WalkingGroups> leadsGroups = new ArrayList<>();
 
     private String href;
 
     private static User instance;
-
+    private User(){};
     public static User getInstance(){
         if (instance == null){
             instance = new User();
@@ -39,6 +40,7 @@ public class User {
     {
         return token.getToken();
     }
+
     public void setUser(User newUser){
         this.setName(newUser.getName());
         this.setEmail(newUser.getEmail());
@@ -47,7 +49,8 @@ public class User {
         this.setPassword(newUser.getPassword());
         this.setMonitoredByUsers(newUser.getMonitoredByUsers());
         this.setMonitorsUsers(newUser.getMonitorsUsers());
-        this.setWalkingGroups(newUser.getWalkingGroups());
+        this.setMemberOfGroups(newUser.getMemberOfGroups());
+        this.setLeadsGroups(newUser.getLeadsGroups());
     }
     public User getUser(){
         return this;
@@ -100,12 +103,20 @@ public class User {
         this.monitorsUsers = monitorsUsers;
     }
 
-    public List<WalkingGroups> getWalkingGroups() {
-        return walkingGroups;
+    public List<WalkingGroups> getMemberOfGroups() {
+        return memberOfGroups;
     }
 
-    public void setWalkingGroups(List<WalkingGroups> walkingGroups) {
-        this.walkingGroups = walkingGroups;
+    public void setMemberOfGroups(List<WalkingGroups> memberOfGroups) {
+        this.memberOfGroups = memberOfGroups;
+    }
+
+    public List<WalkingGroups> getLeadsGroups() {
+        return leadsGroups;
+    }
+
+    public void setLeadsGroups(List<WalkingGroups> leadsGroups) {
+        this.leadsGroups = leadsGroups;
     }
 
     public String getHref() {
@@ -153,6 +164,7 @@ public class User {
     }
 
 
+
     @Override
     public String toString() {
         return "User{" +
@@ -162,7 +174,9 @@ public class User {
                 ", password='" + password + '\'' +
                 ", monitoredByUsers=" + monitoredByUsers +
                 ", monitorsUsers=" + monitorsUsers +
-                ", walkingGroups=" + walkingGroups +
+                ", memberOfGroups=" + memberOfGroups +
+                ", leadsGroups=" + leadsGroups +
+                ", href='" + href + '\'' +
                 '}';
     }
 }

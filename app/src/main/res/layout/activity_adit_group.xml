@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="walkingschoolbus.cmpt276.ca.appUI.AditGroup">
+
+    <TextView
+        android:id="@+id/AditGroup_AditInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:hint = "@string/info"/>
+
+    <EditText
+        android:id="@+id/AditGroup_groupDescription"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:hint="@string/groupDescription"
+        android:drawableLeft="@drawable/ic_group_description"/>
+    <TextView
+        android:id="@+id/AditGroup_StartingPointTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/StartingPoint"
+        android:layout_below="@id/AditGroup_groupDescription"
+        android:layout_alignLeft="@id/AditGroup_groupDescription"
+        android:textSize="15sp" />
+    <EditText
+        android:id="@+id/AditGroup_StartingLat"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AditGroup_StartingPointTxt"
+        android:hint="@string/Latitude"
+        android:layout_alignLeft="@id/AditGroup_groupDescription"
+        android:drawableLeft="@drawable/ic_location"/>
+    <EditText
+        android:id="@+id/AditGroup_StartingLong"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/AditGroup_StartingLat"
+        android:layout_alignRight="@id/AditGroup_groupDescription"
+        android:drawableLeft="@drawable/ic_location"
+        android:hint="@string/Longitude"/>
+    <TextView
+        android:id="@+id/AditGroup_DestinationTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Destination"
+        android:layout_below="@id/AditGroup_StartingLat"
+        android:layout_alignLeft="@id/AditGroup_groupDescription"
+        android:textSize="15sp" />
+    <EditText
+        android:id="@+id/AditGroup_DestinationLat"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AditGroup_DestinationTxt"
+        android:hint="@string/Latitude"
+        android:layout_alignLeft="@id/AditGroup_groupDescription"
+        android:drawableLeft="@drawable/ic_location"/>
+    <EditText
+        android:id="@+id/AditGroup_DestinationLong"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/AditGroup_DestinationLat"
+        android:layout_alignRight="@id/AditGroup_groupDescription"
+        android:drawableLeft="@drawable/ic_location"
+        android:hint="@string/Longitude"/>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AditGroup_OKBtn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/ic_check" />
+</RelativeLayout>

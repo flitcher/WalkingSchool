@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.Api;
+
 import java.util.List;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
@@ -25,6 +28,8 @@ public class DeleteActivity extends AppCompatActivity {
     private static String listType;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
+    ApiInterface proxy;
+    Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,14 @@ public class DeleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete);
 
         ServerManager.connectToServerWithToken(DeleteActivity.this);
+        token = token.getInstance();
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
+        Call<User> caller = proxy.getUserById(user.getId());
+        ProxyBuilder.callProxy(DeleteActivity.this, caller, returnedUser->response(returnedUser));
+    }
+
+    private void response(User returnedUser) {
+        user = returnedUser;
         setDeleteBtn();
         setCancelBtn();
         setTextView();

@@ -96,7 +96,6 @@ public class ParentActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
     public static Intent makeIntent(Context context){
         return new Intent(context,ParentActivity.class);
