@@ -94,4 +94,5 @@
         android:text="@string/email"
         android:textSize="15sp"
         android:drawableLeft="@drawable/ic_black_email"/>
+
 </RelativeLayout>

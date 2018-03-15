@@ -118,8 +118,18 @@ public class MainActivity extends AppCompatActivity {
                     map.setLocationPermission(true);
                 }
         }
+    }
 
+    public void logOut(){
+        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        ServerManager.setDoLogin(false);
+        Intent intent = RegisterActivity.makeIntent(MainActivity.this);
+        startActivity(intent);
 
+        finish();
     }
 
     public static Intent makeIntent(Context context){

@@ -1,6 +1,7 @@
 package walkingschoolbus.cmpt276.ca.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,14 +14,19 @@ import android.widget.Button;
 import java.util.List;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.appUI.LoginActivity;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ParentActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
+
+import static android.content.Context.MODE_PRIVATE;
+import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 
 /**
  * Created by seungdobaek on 2018-03-12.
@@ -54,6 +60,12 @@ public class MainActivity_profile_fragment extends Fragment {
             }
         });
         Button logoutBtn = (Button) view.findViewById(R.id.ProfileFrag_logOut);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).logOut();
+            }
+        });
 
     }
 
