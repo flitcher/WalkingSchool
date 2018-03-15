@@ -45,7 +45,8 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 public class GroupActivity extends AppCompatActivity {
 
     private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-groupID";
-    private static final int REQUEST_CODE_GROUPLIST = 2000;
+    private static final int REQUEST_CODE_GROUPLIST_REMOVE = 2000;
+    private static final int REQUEST_CODE_GROUPLIST_ADD = 1000;
     private ApiInterface proxy;
     private static final String TAG = "GroupActivity";
     private Long groupID;
@@ -54,7 +55,6 @@ public class GroupActivity extends AppCompatActivity {
     private WalkingGroups walkingGroups;
     List<User> memberList;
     ListView members;
-    private static final float DEFAULT_ZOOM = 15f;
     private User myUser;
     FloatingActionButton joinMonitorGroup;
     FloatingActionButton joinMeGroup;
@@ -121,24 +121,12 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void setClick() {
-        memberList = walkingGroups.getMembersUsers();
         LinearLayout member = (LinearLayout) findViewById(R.id.GroupActivity_member);
         member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(GroupActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.dialog_groupmember, null);
-                Long userID = walkingGroups.getLeader().getId();
-                Call<User> caller = proxy.getUserById(userID);
-                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseLeader(returnedUser, mView));
-                ArrayAdapter<User> adapter = new MyListadapter();
-                members = (ListView) mView.findViewById(R.id.MemberDialog_member);
-                if (memberList != null) {
-                    members.setAdapter(adapter);
-                }
-                builder.setView(mView);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Call<List<User>> caller = proxy.getGroupMembers(groupID);
+                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedListUser->responseForMember(returnedListUser));
             }
         });
 
@@ -167,7 +155,6 @@ public class GroupActivity extends AppCompatActivity {
                             googleMap.addMarker(new MarkerOptions().position(startLatLng).title("start position"));
                             googleMap.addMarker(new MarkerOptions().position(destLatLng).title("destination"));
                             googleMap.getUiSettings().setZoomControlsEnabled(true);
-                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, DEFAULT_ZOOM));
                         }
                     });
                     dialog.show();
@@ -195,12 +182,6 @@ public class GroupActivity extends AppCompatActivity {
                     joinMeLayout.startAnimation(showLayout);
                     joinMonitorLayout.startAnimation(showLayout);
                 }
-                /*
-                Map<String, Long> payload = new HashMap<>();
-                payload.put("id", myUser.getId());
-                Call<List<User>> caller = proxy.addNewGroupMember(groupID, payload);
-                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
-                */
             }
         });
 
@@ -218,16 +199,7 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = ListMonitoringGroup.makeIntent(GroupActivity.this);
-                startActivityForResult(intent, REQUEST_CODE_GROUPLIST);
-                if (groupID == -1){
-                    Toast.makeText(GroupActivity.this, "Invalid user: please try again", Toast.LENGTH_LONG);
-                }
-                else{
-                    Map<String, Long> payload = new HashMap<>();
-                    payload.put("id", userID);
-                    Call<List<User>> caller = proxy.addNewGroupMember(groupID, payload);
-                    ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
-                }
+                startActivityForResult(intent, REQUEST_CODE_GROUPLIST_ADD);
             }
         });
 
@@ -257,8 +229,6 @@ public class GroupActivity extends AppCompatActivity {
                     removeMeLayout.startAnimation(showLayoutRemove);
                     removeMonitorLayout.startAnimation(showLayoutRemove);
                 }
-                //Call<Void> caller = proxy.deleteGroupMember(groupID, myUser.getId());
-                //ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing-> responseRemove(returnedNothing));
             }
         });
         removeMeGroup.setOnClickListener(new View.OnClickListener() {
@@ -272,16 +242,24 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = ListMonitoringGroup.makeIntent(GroupActivity.this);
-                startActivityForResult(intent, REQUEST_CODE_GROUPLIST);
-                if (groupID == -1){
-                    Toast.makeText(GroupActivity.this, "Invalid user: please try again", Toast.LENGTH_LONG);
-                }
-                else{
-                    Call<Void> caller = proxy.deleteGroupMember(groupID, userID);
-                    ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing-> responseRemove(returnedNothing));
-                }
+                startActivityForResult(intent, REQUEST_CODE_GROUPLIST_REMOVE);
             }
         });
+    }
+
+    private void responseForMember(List<User> returnedListUser) {
+        memberList = returnedListUser;
+        AlertDialog.Builder builder = new AlertDialog.Builder(GroupActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.dialog_groupmember, null);
+        Long userID = walkingGroups.getLeader().getId();
+        Call<User> caller = proxy.getUserById(userID);
+        ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseLeader(returnedUser, mView));
+        ArrayAdapter<User> adapter = new MyListadapter();
+        members = (ListView) mView.findViewById(R.id.MemberDialog_member);
+        members.setAdapter(adapter);
+        builder.setView(mView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void responseRemove(Void returnedNothing) {
@@ -290,9 +268,31 @@ public class GroupActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_GROUPLIST){
+        if (requestCode == REQUEST_CODE_GROUPLIST_REMOVE){
             if (resultCode == RESULT_OK){
                 userID = ListMonitoringGroup.getUserID(data);
+                if (userID == -1){
+                    Toast.makeText(GroupActivity.this, "Invalid user: please try again", Toast.LENGTH_LONG);
+                }
+                else{
+                    Call<Void> caller = proxy.deleteGroupMember(groupID, userID);
+                    ProxyBuilder.callProxy(GroupActivity.this, caller, returnedNothing-> responseRemove(returnedNothing));
+                }
+
+            }
+        }
+        if (requestCode == REQUEST_CODE_GROUPLIST_ADD){
+            if(resultCode == RESULT_OK){
+                userID = ListMonitoringGroup.getUserID(data);
+                if (groupID == -1){
+                    Toast.makeText(GroupActivity.this, "Invalid user: please try again", Toast.LENGTH_LONG);
+                }
+                else{
+                    Map<String, Long> payload = new HashMap<>();
+                    payload.put("id", userID);
+                    Call<List<User>> caller = proxy.addNewGroupMember(groupID, payload);
+                    ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseAddNewUser(returnedUser));
+                }
             }
         }
     }

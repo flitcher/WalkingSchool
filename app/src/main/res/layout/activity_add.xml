@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,55 +7,34 @@
     tools:context="walkingschoolbus.cmpt276.ca.appUI.AddActivity">
 
 
+    <TextView
+        android:id="@+id/AddActivity_Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/AddActivity_getEmailEditText"
+        android:layout_marginBottom="50dp"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:text="Description"/>
     <EditText
         android:id="@+id/AddActivity_getEmailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:ems="10"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.346" />
+        android:drawableLeft="@drawable/ic_black_email"
+        android:inputType="textEmailAddress" />
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/AddActivity__okbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/ok"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.275"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddActivity_getEmailEditText"
-        app:layout_constraintVertical_bias="0.175" />
+        android:layout_below="@id/AddActivity_getEmailEditText"
+        android:layout_alignRight="@id/AddActivity_getEmailEditText"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_check"/>
 
-    <Button
-        android:id="@+id/AddActivity__cancelbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="232dp"
-        android:layout_marginRight="72dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginLeft="82dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AddActivity_getEmailEditText"
-        app:layout_constraintVertical_bias="1.0" />
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

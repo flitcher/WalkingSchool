@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -35,12 +37,24 @@ public class AddActivity extends AppCompatActivity {
         ServerManager.connectToServerWithToken(AddActivity.this);
 
         setContentView(R.layout.activity_add);
+        setDescription();
         setOKBtn();
-        setCancelBtn();
+    }
+
+    private void setDescription() {
+        TextView groupDescription = (TextView) findViewById(R.id.AddActivity_Description);
+        switch (listType){
+            case PARENTLIST:
+                groupDescription.setText("Add Parent");
+                break;
+            case CHILDLIST:
+                groupDescription.setText("Add Child");
+                break;
+        }
     }
 
     private void setOKBtn() {
-        Button btn = (Button) findViewById(R.id.AddActivity__okbtn);
+        FloatingActionButton btn = (FloatingActionButton) findViewById(R.id.AddActivity__okbtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,15 +81,6 @@ public class AddActivity extends AppCompatActivity {
     }
 
 
-    private void setCancelBtn() {
-        Button btn = (Button) findViewById(R.id.AddActivity__cancelbtn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
 
     public static Intent makeIntent(Context context, String newListType) {
         listType=newListType;

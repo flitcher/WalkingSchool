@@ -18,6 +18,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class ListMonitoringGroup extends AppCompatActivity {
     User user;
+    List<User> userList;
     ListView listView;
     private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-ListMonitoringGroup-GroupID";
 
@@ -32,6 +33,7 @@ public class ListMonitoringGroup extends AppCompatActivity {
 
     private void populateListView() {
         user = user.getInstance();
+        userList = user.getMonitorsUsers();
         ArrayAdapter<User> adapter = new MyListAdapter();
         listView = (ListView) findViewById(R.id.ListMonitoringGroup_ListView);
         listView.setAdapter(adapter);
@@ -42,7 +44,7 @@ public class ListMonitoringGroup extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                User userBack = user.getOneMonitoredByUserByIndex(position);
+                User userBack = userList.get(position);
                 Intent intent = new Intent();
                 intent.putExtra(GROUPID, userBack.getId());
                 setResult(RESULT_OK, intent);

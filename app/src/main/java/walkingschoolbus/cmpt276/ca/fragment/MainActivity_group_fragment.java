@@ -122,4 +122,10 @@ public class MainActivity_group_fragment extends Fragment {
         }
         showGroupList();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initiate();
+    }
 }

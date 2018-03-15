@@ -1,6 +1,7 @@
 package walkingschoolbus.cmpt276.ca.fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,6 +37,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class MainActivity_map_fragment extends Fragment {
 
+    private View view;
     private MapView mapView;
     private GoogleMap mGoogleMap;
     private Map map;
@@ -44,7 +48,7 @@ public class MainActivity_map_fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mainactivity_map_fragment, container, false);
+        view = inflater.inflate(R.layout.mainactivity_map_fragment, container, false);
 
         map = map.getInstance();
         mapView = view.findViewById(R.id.MapFrag_mapView);
@@ -68,8 +72,20 @@ public class MainActivity_map_fragment extends Fragment {
 
         });
 
+        setclick();
 
         return view;
+    }
+
+    private void setclick() {
+        LinearLayout layout = (LinearLayout) view.findViewById(R.id.MapFrag_detail);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = MapsActivity.makeIntent(getContext());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

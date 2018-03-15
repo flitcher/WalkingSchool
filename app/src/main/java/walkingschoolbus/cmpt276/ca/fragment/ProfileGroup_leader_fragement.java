@@ -154,4 +154,10 @@ public class ProfileGroup_leader_fragement extends Fragment {
                     Double.toString(returnedGroup.getRouteLngArray()[1]));
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initiate();
+    }
 }

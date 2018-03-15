@@ -42,6 +42,14 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        LinearLayout monitor = (LinearLayout) findViewById(R.id.ProfileActivity_monitor);
+        monitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = ProfileMonitorAcitivty.makeIntent(ProfileActivity.this, userId);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initiate() {

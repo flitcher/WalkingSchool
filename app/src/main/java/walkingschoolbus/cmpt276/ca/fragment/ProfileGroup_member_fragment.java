@@ -124,4 +124,10 @@ public class ProfileGroup_member_fragment extends Fragment {
                     Double.toString(returnedGroup.getRouteLngArray()[1]));
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initiate();
+    }
 }

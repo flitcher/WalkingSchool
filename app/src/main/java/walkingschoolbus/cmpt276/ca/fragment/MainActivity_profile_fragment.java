@@ -45,24 +45,6 @@ public class MainActivity_profile_fragment extends Fragment {
     }
 
     private void setupBtn(View view) {
-        Button parentListBtn = (Button)view.findViewById(R.id.ProfileFrag_ParentLIst);
-        parentListBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = ParentActivity.makeIntent(getActivity());
-                startActivity(intent);
-            }
-        });
-
-        Button UserListBtn = (Button)view.findViewById(R.id.ProfileFrag_getListUsers);
-        UserListBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<List<User>> caller = proxy.getUsers();
-                ProxyBuilder.callProxy(getActivity(), caller, returnedUsers->response(returnedUsers));
-                
-            }
-        });
         Button userProfileBtn = (Button) view.findViewById(R.id.ProfileFrag_profile);
         userProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +53,8 @@ public class MainActivity_profile_fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        Button logoutBtn = (Button) view.findViewById(R.id.ProfileFrag_logOut);
+
     }
 
     private void response(List<User> returnedUsers) {
