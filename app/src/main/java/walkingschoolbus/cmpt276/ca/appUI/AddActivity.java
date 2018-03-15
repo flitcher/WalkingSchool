@@ -52,8 +52,7 @@ public class AddActivity extends AppCompatActivity {
 
                 userEmail = (EditText) findViewById(R.id.AddActivity_getEmailEditText);
                 initialize();
-                    if(validate())
-                    {
+                    if(validate()) {
                         if(listType.equals(CHILDLIST)) {
                             String email = userEmail.getText().toString();
 

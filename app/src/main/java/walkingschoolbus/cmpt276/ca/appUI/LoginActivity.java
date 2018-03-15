@@ -95,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-
     private void loginSetUp() {
         Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    //server return things
+    //server returns
     private void responseLogin(Void Nothing){
         ProxyBuilder.SimpleCallback<User> callback = returedUser->responseAutoLogin(returedUser);
         Log.w(TAG, "Server replied to login request (no content was expected).");
