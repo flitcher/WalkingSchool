@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -59,25 +60,21 @@ public class LoginActivity extends AppCompatActivity {
         //setMainBtn();
         loginSetUp();
         setUpActivityLayout();
-        //TODO: save username and password feature
     }
-/*
-    private void setMainBtn(){
-        Button mapBtn = (Button) findViewById(R.id.login_button);
-        mapBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                startActivity(intent);
-            }
-        });
-    }
-    */
-
 
     private void setUpActivityLayout(){
         userEmail = (EditText) findViewById(R.id.ActivityLogin_email);
         userPassword = (EditText) findViewById(R.id.ActivityLogin_password);
+
+        final TextView textView = (TextView) findViewById(R.id.LoginActivity_register);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = RegisterActivity.makeIntent(LoginActivity.this);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void initialize(){
@@ -98,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-
     private void loginSetUp() {
         Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 initialize();
-
                 if(validate()) {
 
                     ServerManager.refreshToken();
@@ -141,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    //server return things
+    //server returns
     private void responseLogin(Void Nothing){
         ProxyBuilder.SimpleCallback<User> callback = returedUser->responseAutoLogin(returedUser);
         Log.w(TAG, "Server replied to login request (no content was expected).");

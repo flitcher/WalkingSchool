@@ -56,5 +56,15 @@
         android:text="@string/login"
         android:textColor="#FFF" />
 
+    <TextView
+        android:id="@+id/LoginActivity_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LoginActivity_loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:text="@string/don_t_have_an_account_register_here"
+        android:textColor="#a6a6a6" />
+
 
 </android.widget.RelativeLayout>

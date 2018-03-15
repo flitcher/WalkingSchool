@@ -45,6 +45,7 @@
     <string name="press_ok_to_delete">press ok to delete</string>
     <string name="delete">Delete</string>
     <string name="title_activity_child">ChildActivity</string>
+    <string name="don_t_have_an_account_register_here">Don\'t have an account? Register here.</string>
 
 
 </resources>

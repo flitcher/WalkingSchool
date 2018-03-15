@@ -24,11 +24,16 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
+
 public class AddActivity extends AppCompatActivity {
     private static String listType;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
     private User userManager = User.getInstance();
+
+    EditText userEmail;
+    String validateEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +64,41 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                EditText editText = (EditText) findViewById(R.id.AddActivity_getEmailEditText);
+                userEmail = (EditText) findViewById(R.id.AddActivity_getEmailEditText);
+                initialize();
+                    if(validate()) {
+                        if(listType.equals(CHILDLIST)) {
+                            String email = userEmail.getText().toString();
 
-                    if(listType.equals(CHILDLIST)) {
-                        String email = editText.getText().toString();
+                            ProxyBuilder.SimpleCallback<User> callback = returnedUser -> addChild(returnedUser);
+                            ServerManager.addMonitorUser(email,callback);
 
-                        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> addChild(returnedUser);
-                        ServerManager.addMonitorUser(email,callback);
+                        }
+                        else if(listType.equals(PARENTLIST)) {
+                            String email = userEmail.getText().toString();
 
-                    }
-                    else if(listType.equals(PARENTLIST)) {
-                        String email = editText.getText().toString();
+                            ProxyBuilder.SimpleCallback<User> callback = returnedUser -> addParent(returnedUser);
+                            ServerManager.addMonitedByUser(email,callback);
 
-                        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> addParent(returnedUser);
-                        ServerManager.addMonitedByUser(email,callback);
-
+                        }
                     }
                 }
 
         });
     }
 
+    private boolean validate() {
+        boolean valid = true;
+        if(!validateEmail.matches(emailPattern)) {
+            userEmail.setError("Please enter a valid email");
+            valid = false;
+        }
+        return valid;
+    }
+
+    public void initialize() {
+        validateEmail = userEmail.getText().toString().trim();
+    }
 
 
     public static Intent makeIntent(Context context, String newListType) {

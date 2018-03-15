@@ -35,15 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     User userManager = User.getInstance();
 
-
     public static final String PREFS_USER_KEY = "userinfo";
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";
     public static final String EMAIL_KEY = "email";
-//    private static final String API_KEY = "E14DEF58-61CB-4425-B6FB-BDBD807E44CF";
-//    public static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443";
-
-
 
     private long userId = 0;
     //Reference: https://stackoverflow.com/questions/12947620/email-address-validation-in-android-on-edittext
@@ -97,8 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
                     ServerManager.createNewUser(userManager.getUser());
 
                     Intent intent = LoginActivity.makeIntent(RegisterActivity.this);
-//                    Intent intent = MainActivity.makeIntent(RegisterActivity.this);
-//                    Intent intent = MapsActivity.makeIntent(RegisterActivity.this);
                     startActivity(intent);
                     finish();
                 }

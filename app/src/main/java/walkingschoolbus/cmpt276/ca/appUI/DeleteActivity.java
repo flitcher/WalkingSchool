@@ -74,14 +74,12 @@ public class DeleteActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if(listType.equals(PARENTLIST))
-               {
+               if(listType.equals(PARENTLIST)) {
                    ProxyBuilder.SimpleCallback<Void> callback = returnedNothing -> deleteParent(returnedNothing);
                    ServerManager.deleteMonitoredByUser(user.getId(),callback);
 
                }
-               else if(listType.equals(CHILDLIST))
-               {
+               else if(listType.equals(CHILDLIST)) {
                    ProxyBuilder.SimpleCallback<Void> callback = returnedNothing -> deleteChild(returnedNothing);
                    ServerManager.deleteMoniterUser(user.getId(),callback);
                }
