@@ -54,10 +54,6 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void loginSetUp() {
-
-
-
-
         userManager.setEmail(email);
         userManager.setPassword(password);
 
@@ -68,7 +64,6 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     //return things.
-
     private void responseLogin(Void Nothing){
         ProxyBuilder.SimpleCallback<User> callback = returedUser->responseAutoLogin(returedUser);
         Log.w(TAG, "Server replied to login request (no content was expected).");

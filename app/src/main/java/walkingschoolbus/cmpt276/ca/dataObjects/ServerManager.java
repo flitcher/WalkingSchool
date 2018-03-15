@@ -1,7 +1,6 @@
 package walkingschoolbus.cmpt276.ca.dataObjects;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -9,13 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
-import walkingschoolbus.cmpt276.ca.appUI.AddActivity;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
-
-import static android.content.Context.MODE_PRIVATE;
-import static java.security.AccessController.getContext;
 
 
 /**
@@ -25,23 +20,23 @@ import static java.security.AccessController.getContext;
 public class ServerManager {
     private static ApiInterface proxy;
     private static User userManager = User.getInstance();
-    private static final String APIKEY ="E14DEF58-61CB-4425-B6FB-BDBD807E44CF ";
-    private static boolean Login = false;
+//    private static final String APIKEY ="E14DEF58-61CB-4425-B6FB-BDBD807E44CF ";
+    private static boolean login = false;
     private static Context currentContext;
 
 
     //setLogin
     public static void setDoLogin(boolean login){
-        Login = login;
+        ServerManager.login = login;
     }
 
     public static void connectToServerWithoutToken(Context context){
         currentContext = context;
-        proxy = ProxyBuilder.getProxy(APIKEY,null);
+        proxy = ProxyBuilder.getProxy(String.valueOf(R.string.apiKey),null);
     }
     public static void connectToServerWithToken(Context context){
         currentContext = context;
-        proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
+        proxy = ProxyBuilder.getProxy(String.valueOf(R.string.apiKey),userManager.getToken());
     }
 
     //register
@@ -64,13 +59,13 @@ public class ServerManager {
         String TAG = "Proxy";
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
         userManager.setToken(token);
-        proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
+        proxy = ProxyBuilder.getProxy(String.valueOf(R.string.apiKey),userManager.getToken());
     }
     //login
 
 
     public static boolean doLogin(){
-        return Login;
+        return login;
     }
 
     public static void Login(ProxyBuilder.SimpleCallback<Void> callback){
@@ -101,6 +96,7 @@ public class ServerManager {
         Call<User> callerForEmail = proxy.getUserByEmail(email);
         ProxyBuilder.callProxy(currentContext, callerForEmail,callback);
     }
+
     public static void addChild(User user,ProxyBuilder.SimpleCallback<List<User>> callback) {
         long userId = user.getId();
 

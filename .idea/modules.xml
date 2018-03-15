@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Android Project file\walkinggroupapp\WalkinGroup.iml" filepath="D:\Android Project file\walkinggroupapp\WalkinGroup.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Android Project file\walkinggroupappServerClass\project.iml" filepath="D:\Android Project file\walkinggroupappServerClass\project.iml" />
-      <module fileurl="file://C:\Users\Kawai\Desktop\CMPT276\project\walkinggroupapp.iml" filepath="C:\Users\Kawai\Desktop\CMPT276\project\walkinggroupapp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/walkinggroupappServerClass.iml" filepath="$PROJECT_DIR$/walkinggroupappServerClass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
     </modules>
   </component>
 </project>
