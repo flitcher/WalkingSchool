@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.util.List;
+
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
@@ -43,9 +45,6 @@ public class SplashScreen extends AppCompatActivity {
         if(email != "" && password != "") {
             ServerManager.connectToServerWithoutToken(SplashScreen.this);
             loginSetUp();
-            Intent intent = MainActivity.makeIntent(SplashScreen.this);
-            startActivity(intent);
-            finish();
         } else {
             Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
             startActivity(intent);
@@ -64,7 +63,34 @@ public class SplashScreen extends AppCompatActivity {
 
         ServerManager.refreshToken();
         //make call
-       ServerManager.Login();
+        ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
+        ServerManager.Login(callback);
     }
 
+    //return things.
+
+    private void responseLogin(Void Nothing){
+        ProxyBuilder.SimpleCallback<User> callback = returedUser->responseAutoLogin(returedUser);
+        Log.w(TAG, "Server replied to login request (no content was expected).");
+        ServerManager.getUserByEmail(callback);
+    }
+    private  void responseAutoLogin(User user){
+        userManager.setUser(user);
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetParentList(returnedList)   ;
+        //in response getParentList it also reset ChildList
+        ServerManager.LoginInitilizePartOne(callback);
+
+    }
+    private  void resetParentList(List<User> list) {
+        userManager.setMonitoredByUsers(list);
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetChildList(returnedList);
+        ServerManager.LoginInitilizePartTwo(callback);
+    }
+
+    private  void resetChildList(List<User> list) {
+        userManager.setMonitorsUsers(list);
+        Intent intent = MainActivity.makeIntent(SplashScreen.this);
+        startActivity(intent);
+        finish();
+    }
 }
