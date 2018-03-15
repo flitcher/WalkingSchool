@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,7 @@ public class ServerManager {
     private static boolean Login = false;
     private static Context currentContext;
 
+
     //setLogin
     public static void setDoLogin(boolean login){
         Login = login;
@@ -43,6 +43,7 @@ public class ServerManager {
         currentContext = context;
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
+
     //register
     public static void createNewUser(User user)
     {
@@ -66,94 +67,92 @@ public class ServerManager {
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
     //login
-   public static void getUserByEmail(){
 
-        Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
-        ProxyBuilder.callProxy(currentContext,caller,returedUser->responseAutoLogin(returedUser));
-
-    }
-
-    private static void responseAutoLogin(User user){
-        userManager.setUser(user);
-        Call<List<User>> callerForResetParent = proxy.getMonitoredByUser(userManager.getId());
-        ProxyBuilder.callProxy(currentContext,callerForResetParent,returnedList->resetParentList(returnedList));
-        Call<List<User>> callerForResetChild = proxy.getMonitorUser(userManager.getId());
-        ProxyBuilder.callProxy(currentContext,callerForResetChild,returnedList->resetChildList(returnedList));
-
-    }
 
     public static boolean doLogin(){
         return Login;
     }
 
-    public static void Login(){
+    public static void Login(ProxyBuilder.SimpleCallback<Void> callback){
         Call<Void> caller = proxy.login(userManager.getUser());
-        ProxyBuilder.callProxy(currentContext,caller,returnedNothing->reponseLogin(returnedNothing));
+        ProxyBuilder.callProxy(currentContext,caller,callback);
     }
-    private static void reponseLogin(Void Nothing){
-        String TAG = "Proxy";
-        Log.w(TAG, "Server replied to login request (no content was expected).");
-        ServerManager.getUserByEmail();
+
+    public static void getUserByEmail(ProxyBuilder.SimpleCallback<User> callback){
+
+        Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
+        ProxyBuilder.callProxy(currentContext,caller,callback);
+
     }
+
+    //part one for parentlist
+    public static void LoginInitilizePartOne(ProxyBuilder.SimpleCallback<List<User>> callback){
+        Call<List<User>> callerForResetParent = proxy.getMonitoredByUser(userManager.getId());
+        ProxyBuilder.callProxy(currentContext,callerForResetParent,callback);
+    }
+    //part two for child list
+    public static void LoginInitilizePartTwo(ProxyBuilder.SimpleCallback<List<User>> callback){
+        Call<List<User>> callerForResetChild = proxy.getMonitorUser(userManager.getId());
+        ProxyBuilder.callProxy(currentContext,callerForResetChild,callback);
+    }
+
     //for add child
-    public static void addMonitorUser (String email){
+    public static void addMonitorUser (String email,ProxyBuilder.SimpleCallback<User> callback){
         Call<User> callerForEmail = proxy.getUserByEmail(email);
-        ProxyBuilder.callProxy(currentContext, callerForEmail,returnedUser -> addChild(returnedUser));
+        ProxyBuilder.callProxy(currentContext, callerForEmail,callback);
     }
-    private static void addChild(User user) {
-            long userId = user.getId();
-
-            Map<String,Long> body = new HashMap<String, Long>();
-            body.put("id", userId);
-
-            Call<List<User>> callerForAdd = proxy.addMonitorUsers(userManager.getId(), body);
-            ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetChildList(returnedList));
-    }
-    private static void resetChildList(List<User> list) {
-        userManager.setMonitorsUsers(list);
-    }
-
-
-
-    //for add parent
-    public static void addMonitedByUser(String email){
-        Call<User> callerForEmail = proxy.getUserByEmail(email);
-        ProxyBuilder.callProxy(currentContext, callerForEmail, returnedUser -> addParent(returnedUser));
-    }
-    private static void addParent(User user) {
+    public static void addChild(User user,ProxyBuilder.SimpleCallback<List<User>> callback) {
         long userId = user.getId();
 
         Map<String,Long> body = new HashMap<String, Long>();
         body.put("id", userId);
 
-        Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userManager.getId(), body);
-        ProxyBuilder.callProxy(currentContext, callerForAdd, returnedList -> resetParentList(returnedList));
+        Call<List<User>> callerForAdd = proxy.addMonitorUsers(userManager.getId(), body);
+        ProxyBuilder.callProxy(currentContext, callerForAdd, callback);
     }
-    private static void resetParentList(List<User> list) {
-        userManager.setMonitoredByUsers(list);
+
+
+
+    //for add parent
+    public static void addMonitedByUser(String email,ProxyBuilder.SimpleCallback<User> callback){
+        Call<User> callerForEmail = proxy.getUserByEmail(email);
+        ProxyBuilder.callProxy(currentContext, callerForEmail, callback);
+    }
+    public static void addParent(User user,ProxyBuilder.SimpleCallback<List<User>> callback ){
+        Long userId = user.getId();
+        Map<String,Long> body = new HashMap<String, Long>();
+        body.put("id", userId);
+
+        Call<List<User>> callerForAdd = proxy.addMonitoredByUsers(userManager.getId(), body);
+        ProxyBuilder.callProxy(currentContext, callerForAdd, callback);
     }
 
 
     //for delete child
 
-    public static void deleteMoniterUser(Long userId){
+    public static void deleteMoniterUser(Long userId,ProxyBuilder.SimpleCallback<Void> callback){
         Call<Void> callerForDelete = proxy.deleteMonitorUser(userManager.getId(),userId);
-        ProxyBuilder.callProxy(currentContext, callerForDelete,returnedNothing -> deleteChild(returnedNothing));
+        ProxyBuilder.callProxy(currentContext, callerForDelete,callback);
     }
-    private static void deleteChild(Void Nothing){
+
+    public static void deleteChild(ProxyBuilder.SimpleCallback<List<User>> callback){
         Call<List<User>> callerForReset =proxy.getMonitorUser(userManager.getId());
-        ProxyBuilder.callProxy(currentContext, callerForReset,returnedList->resetChildList(returnedList));
+        ProxyBuilder.callProxy(currentContext, callerForReset,callback);
     }
+
 
     // for delete parent
-    public static void deleteMonitoredByUser(Long userId){
-        Log.i("test ",""+userManager.getId());
+    public static void deleteMonitoredByUser(Long userId,ProxyBuilder.SimpleCallback<Void> callback){
         Call<Void> callerForDelete = proxy.deleteMonitoredByUser(userManager.getId(),userId);
-        ProxyBuilder.callProxy(currentContext,callerForDelete,returnedNothing ->deleteParent(returnedNothing));
+        ProxyBuilder.callProxy(currentContext,callerForDelete,callback);
 
     }
-    private static void  deleteParent(Void Nothing){
+    public static void  deleteParent(ProxyBuilder.SimpleCallback<List<User>> callback){
         Call<List<User>> callerForReset =proxy.getMonitoredByUser(userManager.getId());
-        ProxyBuilder.callProxy(currentContext,callerForReset,returnedList->resetParentList(returnedList));
+        ProxyBuilder.callProxy(currentContext,callerForReset,callback);
     }
+
+
+
+
 }

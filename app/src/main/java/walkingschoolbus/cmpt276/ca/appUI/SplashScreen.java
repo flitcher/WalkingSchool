@@ -28,13 +28,12 @@ public class SplashScreen extends AppCompatActivity {
 
     private String email;
     private String password;
-    ApiInterface proxy;
-    Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
 
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         email  = sharedPreferences.getString(USER_EMAIL, "");
@@ -44,16 +43,8 @@ public class SplashScreen extends AppCompatActivity {
 
         Log.d(TAG, "email = " + email );
         if(email != "" && password != "") {
-            userManager.setEmail(email);
-            userManager.setPassword(password);
-            ServerManager.refreshToken();
-            proxy = ProxyBuilder.getProxy(getString(R.string.apiKey),null);
-            Call<Void> caller = proxy.login(userManager.getUser());
-            ProxyBuilder.callProxy(SplashScreen.this,caller,returnedNothing->reponseLogin(returnedNothing));
-            //loginSetUp();
-            //Intent intent = MainActivity.makeIntent(SplashScreen.this);
-            //startActivity(intent);
-            //finish();
+            ServerManager.connectToServerWithoutToken(SplashScreen.this);
+            loginSetUp();
         } else {
             Intent intent = RegisterActivity.makeIntent(SplashScreen.this);
             startActivity(intent);
@@ -61,35 +52,6 @@ public class SplashScreen extends AppCompatActivity {
         }
 
     }
-
-    private void reponseLogin(Void returnedNothing) {
-        token = token.getInstance();
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
-        Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
-        ProxyBuilder.callProxy(SplashScreen.this,caller,returedUser->responseAutoLogin(returedUser));
-        //ServerManager.connectToServerWithToken(SplashScreen.this);
-        //ServerManager.getUserByEmail();
-    }
-
-    private void responseAutoLogin(User returedUser) {
-        userManager.setUser(returedUser);
-        Call<List<User>> callerForResetParent = proxy.getMonitoredByUser(userManager.getId());
-        ProxyBuilder.callProxy(SplashScreen.this,callerForResetParent,returnedList->resetParentList(returnedList));
-    }
-
-    private void resetParentList(List<User> returnedList) {
-        userManager.setMonitoredByUsers(returnedList);
-        Call<List<User>> callerForResetChild = proxy.getMonitorUser(userManager.getId());
-        ProxyBuilder.callProxy(SplashScreen.this,callerForResetChild,returnedParentList->resetChildList(returnedParentList));
-    }
-
-    private void resetChildList(List<User> returnedParentList) {
-        userManager.setMonitorsUsers(returnedParentList);
-        Intent intent = MainActivity.makeIntent(SplashScreen.this);
-        startActivity(intent);
-        finish();
-    }
-
 
     private void loginSetUp() {
 
@@ -101,7 +63,34 @@ public class SplashScreen extends AppCompatActivity {
 
         ServerManager.refreshToken();
         //make call
-       ServerManager.Login();
+        ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
+        ServerManager.Login(callback);
     }
 
+    //return things.
+
+    private void responseLogin(Void Nothing){
+        ProxyBuilder.SimpleCallback<User> callback = returedUser->responseAutoLogin(returedUser);
+        Log.w(TAG, "Server replied to login request (no content was expected).");
+        ServerManager.getUserByEmail(callback);
+    }
+    private  void responseAutoLogin(User user){
+        userManager.setUser(user);
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetParentList(returnedList)   ;
+        //in response getParentList it also reset ChildList
+        ServerManager.LoginInitilizePartOne(callback);
+
+    }
+    private  void resetParentList(List<User> list) {
+        userManager.setMonitoredByUsers(list);
+        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetChildList(returnedList);
+        ServerManager.LoginInitilizePartTwo(callback);
+    }
+
+    private  void resetChildList(List<User> list) {
+        userManager.setMonitorsUsers(list);
+        Intent intent = MainActivity.makeIntent(SplashScreen.this);
+        startActivity(intent);
+        finish();
+    }
 }
