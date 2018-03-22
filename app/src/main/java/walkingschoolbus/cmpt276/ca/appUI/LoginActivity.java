@@ -142,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.w(TAG, "Server replied to login request (no content was expected).");
         ServerManager.getUserByEmail(callback);
     }
+
     private  void responseAutoLogin(User user){
         userManager.setUser(user);
         ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetParentList(returnedList)   ;
