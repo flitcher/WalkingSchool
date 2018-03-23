@@ -85,4 +85,25 @@ public interface ApiInterface {
 
     @DELETE("/groups/{idA}/memberUsers/{idB}")
     Call<Void> deleteGroupMember(@Path("idA") Long groupID, @Path("idB") Long UserID);
+
+
+    //IN App message
+    //Return all messages:
+    @GET ("/messages")
+    Call<String>
+    //Only return messages with is-emergency flag set:
+    GET /messages?is-emergency=true
+    //Only return messages sent to group 42:
+    GET /messages?togroup=42
+    //Only return messages sent to group 42 and are an emergency:
+    GET /messages?togroup=42&is-emergency=true
+    //Only return messages for user 85:
+    GET /messages?foruser=85
+    //Only return messages for user 85 which are unread:
+    GET /messages?foruser=85&status=unread
+    //Only return messages for user 85 which are read:
+    GET /messages?foruser=85&status=read
+    //Only return messages for user 85 which are unread and emergency:
+    GET /messages?foruser=85&status=unread&is-emergency=true
+
 }
