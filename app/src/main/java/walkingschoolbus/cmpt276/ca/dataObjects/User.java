@@ -21,9 +21,7 @@ public class User {
     private String grade;
     private String teacherName;
     private String emergencyContactInfo;
-
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
     private List<User> monitoredByUsers = new ArrayList<>();
     private List<User> monitorsUsers = new ArrayList<>();
     private List<WalkingGroups> memberOfGroups = new ArrayList<>();
@@ -32,6 +30,7 @@ public class User {
     private List<Message> readMessages = new ArrayList<>();
     private String href;
 
+    //singleton
     private static User instance;
     private User(){};
     public static User getInstance(){
@@ -40,7 +39,6 @@ public class User {
         }
         return instance;
     }
-
 
     //set section
     public void setToken(String token){
@@ -75,7 +73,11 @@ public class User {
     public void setAddress(String newAddress){this.address = newAddress;}
     public void setCellPhone(String newCellphone){this.cellPhone = newCellphone;}
     public void setHomePhone(String newHomePhone){this.homePhone = newHomePhone;}
-    public void setGrade(String newGrad){this.}
+    public void setGrade(String newGrade){this.grade = newGrade;}
+    public void setTeacherName(String newTeacherName){this.teacherName = newTeacherName;}
+    public void setEmergencyContactInfo(String newInfo){this.emergencyContactInfo = newInfo;}
+    public void setReadMessages(List<Message> messages){this.readMessages = messages;}
+    public void setUnreadMessages(List<Message> messages){this.unreadMessages = messages;}
 
     public void setUser(User newUser){
         this.setName(newUser.getName());
@@ -87,15 +89,27 @@ public class User {
         this.setMonitorsUsers(newUser.getMonitorsUsers());
         this.setMemberOfGroups(newUser.getMemberOfGroups());
         this.setLeadsGroups(newUser.getLeadsGroups());
+
+        this.setBirthMonth(newUser.getBirthMonth());
+        this.setBirthYear(newUser.getBirthYear());
+        this.setAddress(newUser.getAddress());
+        this.setCellPhone(newUser.getCellPhone());
+        this.setHomePhone(newUser.getHomePhone());
+        this.setGrade(newUser.getGrade());
+        this.setTeacherName(newUser.getTeacherName());
+        this.setEmergencyContactInfo(newUser.getEmergencyContactInfo());
+        this.setReadMessages(newUser.getReadMessages());
+        this.setUnreadMessages(newUser.getUnreadMessages());
+
+
     }
+    //get section
     public User getUser(){
         return this;
     }
     public Long getId() {
         return id;
     }
-
-
     public String getToken()
     {
         return token.getToken();
@@ -103,48 +117,37 @@ public class User {
     public String getName() {
         return name;
     }
-
-
-
     public String getEmail() {
         return email;
     }
-
-
-
     public String getPassword() {
         return password;
     }
-
-
-
     public List<User> getMonitoredByUsers() {
         return monitoredByUsers;
     }
-
-
-
     public List<User> getMonitorsUsers() {
         return monitorsUsers;
     }
-
-
-
     public List<WalkingGroups> getMemberOfGroups() {
         return memberOfGroups;
     }
-
-
-
     public List<WalkingGroups> getLeadsGroups() {
         return leadsGroups;
     }
-
-
-
     public String getHref() {
         return href;
     }
+    public Long getBirthMonth(){return birthMonth;}
+    public Long getBirthYear(){return birthYear;}
+    public String getAddress(){return address;}
+    public String getCellPhone(){return cellPhone;}
+    public String getHomePhone(){return homePhone;}
+    public String getGrade(){return grade;}
+    public String getTeacherName(){return teacherName;}
+    public String getEmergencyContactInfo(){return emergencyContactInfo;}
+    public List<Message> getUnreadMessages(){return unreadMessages;}
+    public List<Message> getReadMessages(){return readMessages; }
 
 
 
