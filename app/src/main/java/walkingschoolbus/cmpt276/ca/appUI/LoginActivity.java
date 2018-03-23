@@ -131,22 +131,13 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             return "done";
                         }
+
                         @Override
                         protected void onPostExecute(String s) {
                             if(ServerManager.doLogin()) {
-                                try {
-
                                     Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                                    loadingBtn.doneLoadingAnimation(Color.parseColor("#333639"),
-                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                } finally {
-                                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                                    Intent intent = BirthdayActivity.makeIntent(LoginActivity.this);
                                     startActivity(intent);
-                                    finish();
-                                }
                             }
                             else {
                                 Toast.makeText(LoginActivity.this, "Login Unsuccessful. Try again.", Toast.LENGTH_SHORT).show();
@@ -163,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
 //    private void loginSetUp() {

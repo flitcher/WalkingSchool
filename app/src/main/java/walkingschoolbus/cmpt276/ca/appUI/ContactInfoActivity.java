@@ -34,8 +34,10 @@ public class ContactInfoActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = MainActivity.makeIntent(ContactInfoActivity.this);
+                Intent intent = new Intent(ContactInfoActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                ContactInfoActivity.this.finish();
             }
         });
     }
