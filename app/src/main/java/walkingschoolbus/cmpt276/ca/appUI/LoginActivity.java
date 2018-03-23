@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_PASSWORD = "password";
     public static final String USER_TOKEN ="token";
 
+    CircularProgressButton loadingBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         ServerManager.connectToServerWithoutToken(LoginActivity.this);
 
         //setMainBtn();
-        loginSetUp();
+        login();
         setUpActivityLayout();
     }
 
@@ -93,42 +94,112 @@ public class LoginActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+
     }
 
-    private void loginSetUp() {
-        Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
-        btn.setOnClickListener(new View.OnClickListener() {
+    private void login(){
+        loadingBtn = (CircularProgressButton) findViewById(R.id.LoginActivity_loginButton2);
+        loadingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 initialize();
                 if(validate()) {
-
+                    userManager.setEmail(validateEmail);
+                    userManager.setPassword(validatePassword);
                     ServerManager.refreshToken();
                     ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
                     ServerManager.Login(callback);
+                    @SuppressLint("StaticFieldLeak") AsyncTask<String,String,String> login = new AsyncTask<String, String, String>() {
+                        @Override
+                        protected String doInBackground(String... params) {
+                            try{
+                                Thread.sleep(3000);
 
 
-                    userManager.setEmail(validateEmail);
-                    userManager.setPassword(validatePassword);
-                    if(ServerManager.doLogin()) {
+                                if(ServerManager.doLogin()) {
 
+                                    SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(USER_EMAIL, validateEmail);
+                                    editor.putString(USER_PASSWORD, validatePassword);
+                                    editor.apply();
 
-                        editor.putString(USER_EMAIL, validateEmail);
-                        editor.putString(USER_PASSWORD, validatePassword);
-                        editor.apply();
+                                }
+                            }catch(InterruptedException e){
+                                e.printStackTrace();
+                            }
+                            return "done";
+                        }
+                        @Override
+                        protected void onPostExecute(String s) {
+                            if(ServerManager.doLogin()) {
+                                try {
 
-                        Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                        startActivity(intent);
-                        finish();
-                    }
+                                    Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                    loadingBtn.doneLoadingAnimation(Color.parseColor("#333639"),
+                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this, "Login Unsuccessful. Try again.", Toast.LENGTH_SHORT).show();
+                                recreate();
+                            }
+                        }
+                    };
+
+                    loadingBtn.startAnimation();
+                    login.execute();
                 }
+
+
             }
         });
     }
+
+
+
+//    private void loginSetUp() {
+//        Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                initialize();
+//                if(validate()) {
+//
+//                    ServerManager.refreshToken();
+//                    ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
+//                    ServerManager.Login(callback);
+//
+//
+//                    userManager.setEmail(validateEmail);
+//                    userManager.setPassword(validatePassword);
+//                    if(ServerManager.doLogin()) {
+//
+//
+//                        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                        editor.putString(USER_EMAIL, validateEmail);
+//                        editor.putString(USER_PASSWORD, validatePassword);
+//                        editor.apply();
+//
+//                        Intent intent = MainActivity.makeIntent(LoginActivity.this);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }
+//            }
+//        });
+//    }
 
 
     public static Intent makeIntent(Context context){

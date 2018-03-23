@@ -42,9 +42,8 @@
         android:textColorLink="#FFF"
         android:textSize="16sp" />
 
-
-    <Button
-        android:id="@+id/LoginActivity_loginButton"
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        android:id="@+id/LoginActivity_loginButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ActivityLogin_password"
@@ -54,15 +53,20 @@
         android:background="@drawable/button_border"
         android:elevation="0dp"
         android:text="@string/login"
-        android:textColor="#FFF" />
+        android:textColor="#FFF"
+        app:spinning_bar_color="#FFF"
+        app:spinning_bar_width="4dp"
+        app:spinning_bar_padding="6dp"
+        />
+
 
     <TextView
         android:id="@+id/LoginActivity_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/LoginActivity_loginButton"
+        android:layout_below="@+id/LoginActivity_loginButton2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:text="@string/don_t_have_an_account_register_here"
         android:textColor="#a6a6a6" />
 
