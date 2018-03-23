@@ -91,35 +91,35 @@ public interface ApiInterface {
     //IN App message
     //Return all messages:
     @GET ("/messages")
-    Call<Message> getAllMessage();
+    Call<List<Message>> getAllMessage();
 
     //Only return messages with is-emergency flag set:
     @GET ("/messages?is-emergency=true")
-    Call<Message> getAllEmergencyMessage();
+    Call<List<Message>> getAllEmergencyMessage();
 
     //Only return messages sent to group 42:
     @GET ("/messages?togroup={groupID}")
-    Call<Message> getMessageToGroup(@Path("groupID") Long group);
+    Call<List<Message>> getMessageToGroup(@Path("groupID") Long group);
 
     //Only return messages sent to group 42 and are an emergency:
     @GET ("/messages?togroup={groupID}&is-emergency=true")
-    Call<Message> getEmergencyMessageToGroup(@Path("groupID") Long groupID);
+    Call<List<Message>> getEmergencyMessageToGroup(@Path("groupID") Long groupID);
 
     //Only return messages for user 85:
     @GET ("/messages?foruser={id}")
-    Call<Message> getMessageForUser(@Path("id") Long UserID);
+    Call<List<Message>> getMessageForUser(@Path("id") Long UserID);
 
     //Only return messages for user 85 which are unread:
     @GET ("/messages?foruser={id}&status=unread")
-    Call<Message> getUnreadMessage(@Path("id") Long UserID);
+    Call<List<Message>> getUnreadMessage(@Path("id") Long UserID);
 
     //Only return messages for user 85 which are read:
     @GET ("/messages?foruser={id}&status=read")
-    Call<Message> getReadMessage(@Path("id") Long UserID);
+    Call<List<Message>> getReadMessage(@Path("id") Long UserID);
 
     //Only return messages for user 85 which are unread and emergency:
     @GET ("/messages?foruser={id}&status=unread&is-emergency=true")
-    Call<Message> getUnreadEmergencyMessage(@Path("id") Long UserID);
+    Call<List<Message>> getUnreadEmergencyMessage(@Path("id") Long UserID);
 
     //New message to group:
     @POST ("/messages/togroup/{groupId}")

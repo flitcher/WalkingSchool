@@ -76,7 +76,8 @@
         <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.MessageHomeActivity"
             android:label="@string/title_activity_message_home"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ReadingMessageActivity"></activity>
     </application>
 
 </manifest>

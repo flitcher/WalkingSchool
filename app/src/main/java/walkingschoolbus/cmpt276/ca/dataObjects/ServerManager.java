@@ -152,7 +152,11 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForReset,callback);
     }
 
-
+    // for refresh unread messageList
+    public static void refreshUnreadMessage(Long userId,ProxyBuilder.SimpleCallback<List<Message>> callback){
+        Call<List<Message>> callerForUnreadMessage = proxy.getUnreadMessage(userId);
+        ProxyBuilder.callProxy(currentContext,callerForUnreadMessage,callback);
+    }
 
 
 }
