@@ -38,6 +38,9 @@ public interface ApiInterface {
     @GET("/users/byEmail")
     Call<User> getUserByEmail(@Query("email") String email);
 
+    @POST("/users/{id}")
+    Call<Void> editUser(@Path("id") Long userId,@Body User user);
+
 
 
     @GET("/users/{id}/monitorsUsers")
@@ -58,6 +61,9 @@ public interface ApiInterface {
 
     @DELETE("/users/{idA}/monitoredByUsers/{idB}")
     Call<Void> deleteMonitoredByUser(@Path("idA") Long userIdA, @Path("idB") Long userIdB);
+
+
+
     /**
      * MORE GOES HERE:
      * - Monitoring

@@ -54,6 +54,7 @@ public class ServerManager {
         String TAG = "Server";
         Log.w(TAG, "Server replied with user: " + user.toString());
     }
+
     //refresh token
     public static void refreshToken(){
         ProxyBuilder.setOnTokenReceiveCallback(token->onReceiveToken(token));
@@ -83,6 +84,11 @@ public class ServerManager {
         Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,callback);
 
+    }
+    //edit user
+    public static void editUserProfile(User user,ProxyBuilder.SimpleCallback<Void> callback){
+        Call<Void> callerForEdit = proxy.editUser(user.getId(),user);
+        ProxyBuilder.callProxy(currentContext,callerForEdit,callback);
     }
 
     //part one for parentlist
