@@ -121,4 +121,22 @@ public interface ApiInterface {
     @GET ("/messages?foruser={id}&status=unread&is-emergency=true")
     Call<Message> getUnreadEmergencyMessage(@Path("id") Long UserID);
 
+    //New message to group:
+    @POST ("/messages/togroup/{groupId}")
+    Call<Message> sendMessagesToGroup(@Path("groupId") Long groupId);
+
+    //New message to the ‘parents’ of a user:
+    @POST ("/messages/toparentsof/{userId}")
+    Call<Message> sendMessagesToParentOfUser(@Path("userId") Long UserID);
+
+    //Get one message:
+    @GET ("/messages/{id}")
+    Call<Message> getOneMessageById(@Path("id") Long MessageID);
+
+    //Mark message as read/unread by user:
+    @POST ("/messages/{messageId}/readby/{userId}")
+    Call<User> markMessageByUser(@Path("userId") Long UserID,@Path("messageId") Long MessageID,@Body Boolean readState);
+
+
+
 }

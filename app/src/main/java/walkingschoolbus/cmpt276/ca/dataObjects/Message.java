@@ -12,7 +12,6 @@ public class Message  {
     private Long timestamp;
     private User fromUser;
     private WalkingGroups fromGroup;
-    private String state;
 
     public Long getId(){return  this.id;}
     public String getHref(){return  this.href;}
@@ -21,7 +20,13 @@ public class Message  {
     public Long getTimestamp(){return  this.timestamp;}
     public User getFromUser (){return  this.fromUser;}
     public WalkingGroups getFromGroup(){return this.fromGroup;}
-    public String getState(){return this.state;}
+
+    public String getShortMessage(){
+        if(text.length()<10)
+            return text;
+        else
+            return text.substring(0,9)+"...";
+    }
 
 
 
@@ -33,7 +38,7 @@ public class Message  {
     public void setTimestamp(Long newTimeStamp){this.timestamp = newTimeStamp;}
     public void setFromUser(User newFromUser){this.fromUser = newFromUser;}
     public void setFromGroup(WalkingGroups newFromGroup){this.fromGroup = newFromGroup;}
-    public void setState(String newState){this.state = newState;}
+
 
     public void setMessage(Message newMessage){
         this.setId(newMessage.getId());
@@ -43,6 +48,5 @@ public class Message  {
         this.setTimestamp(newMessage.getTimestamp());
         this.setFromUser(newMessage.getFromUser());
         this.setFromGroup(newMessage.getFromGroup());
-        this.setState(newMessage.getState());
     }
 }
