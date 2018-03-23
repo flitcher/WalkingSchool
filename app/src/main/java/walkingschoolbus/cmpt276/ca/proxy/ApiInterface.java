@@ -39,7 +39,7 @@ public interface ApiInterface {
     Call<User> getUserByEmail(@Query("email") String email);
 
     @POST("/users/{id}")
-    Call<Void> editUser(@Path("id") Long userId,@Body User user);
+    Call<User> editUser(@Path("id") Long userId,@Body User user);
 
 
 

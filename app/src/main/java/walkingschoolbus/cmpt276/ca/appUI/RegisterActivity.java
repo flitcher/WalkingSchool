@@ -143,10 +143,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     //for edit User
     private void edit(){
-        ProxyBuilder.SimpleCallback<Void> callback = returnedVoid->repsonseEdit(returnedVoid);
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser->repsonseEdit(returnedUser);
         ServerManager.editUserProfile(userManager,callback);
     }
-    private void repsonseEdit(Void Nothing){
+    private void repsonseEdit(User user){
 
     }
 }

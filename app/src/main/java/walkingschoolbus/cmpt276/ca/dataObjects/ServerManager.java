@@ -86,8 +86,8 @@ public class ServerManager {
 
     }
     //edit user
-    public static void editUserProfile(User user,ProxyBuilder.SimpleCallback<Void> callback){
-        Call<Void> callerForEdit = proxy.editUser(user.getId(),user);
+    public static void editUserProfile(User user,ProxyBuilder.SimpleCallback<User> callback){
+        Call<User> callerForEdit = proxy.editUser(user.getId(),user);
         ProxyBuilder.callProxy(currentContext,callerForEdit,callback);
     }
 
