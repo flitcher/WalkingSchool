@@ -157,6 +157,16 @@ public class ServerManager {
         Call<List<Message>> callerForUnreadMessage = proxy.getUnreadMessage(userId);
         ProxyBuilder.callProxy(currentContext,callerForUnreadMessage,callback);
     }
+    //mark Unread as read
+    public static void markUnreadMessage(Long userID, Long messageID, ProxyBuilder.SimpleCallback<User> callback){
+        Call<User> callerForMarkingMesasge = proxy.markMessageByUser(userID,messageID,true);
+        ProxyBuilder.callProxy(currentContext,callerForMarkingMesasge,callback);
+    }
 
+    //for refresh read messageList
+    public static void refreshReadMessage(Long userId,ProxyBuilder.SimpleCallback<List<Message>> callback){
+        Call<List<Message>> callerForReadMessage = proxy.getReadMessage(userId);
+        ProxyBuilder.callProxy(currentContext,callerForReadMessage,callback);
+    }
 
 }

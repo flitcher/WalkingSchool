@@ -50,6 +50,7 @@
     <string name="title_activity_unread_message">UnreadMessageActivity</string>
     <string name="message">Message</string>
     <string name="title_activity_message_home">MessageHomeActivity</string>
+    <string name="title_activity_read_message">readMessageActivity</string>
 
 
 </resources>
