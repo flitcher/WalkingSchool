@@ -16,6 +16,7 @@ import java.util.List;
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.LoginActivity;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
+import walkingschoolbus.cmpt276.ca.appUI.MessageHomeActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ParentActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
@@ -64,6 +65,15 @@ public class MainActivity_profile_fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).logOut();
+            }
+        });
+
+        Button messageBtn = (Button) view.findViewById(R.id.ProfileFrag_Message);
+        messageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MessageHomeActivity.makeIntent(getContext());
+                startActivity(intent);
             }
         });
 

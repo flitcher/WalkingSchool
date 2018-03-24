@@ -54,6 +54,7 @@ public class ServerManager {
         String TAG = "Server";
         Log.w(TAG, "Server replied with user: " + user.toString());
     }
+
     //refresh token
     public static void refreshToken(){
         ProxyBuilder.setOnTokenReceiveCallback(token->onReceiveToken(token));
@@ -83,6 +84,11 @@ public class ServerManager {
         Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,callback);
 
+    }
+    //edit user
+    public static void editUserProfile(User user,ProxyBuilder.SimpleCallback<User> callback){
+        Call<User> callerForEdit = proxy.editUser(user.getId(),user);
+        ProxyBuilder.callProxy(currentContext,callerForEdit,callback);
     }
 
     //part one for parentlist
@@ -152,7 +158,21 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForReset,callback);
     }
 
+    // for refresh unread messageList
+    public static void refreshUnreadMessage(Long userId,ProxyBuilder.SimpleCallback<List<Message>> callback){
+        Call<List<Message>> callerForUnreadMessage = proxy.getUnreadMessage(userId);
+        ProxyBuilder.callProxy(currentContext,callerForUnreadMessage,callback);
+    }
+    //mark Unread as read
+    public static void markUnreadMessage(Long userID, Long messageID, ProxyBuilder.SimpleCallback<User> callback){
+        Call<User> callerForMarkingMesasge = proxy.markMessageByUser(userID,messageID,true);
+        ProxyBuilder.callProxy(currentContext,callerForMarkingMesasge,callback);
+    }
 
-
+    //for refresh read messageList
+    public static void refreshReadMessage(Long userId,ProxyBuilder.SimpleCallback<List<Message>> callback){
+        Call<List<Message>> callerForReadMessage = proxy.getReadMessage(userId);
+        ProxyBuilder.callProxy(currentContext,callerForReadMessage,callback);
+    }
 
 }

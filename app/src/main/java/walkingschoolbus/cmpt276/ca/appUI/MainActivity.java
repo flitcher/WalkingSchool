@@ -16,13 +16,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
+import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.fragment.MainActivity_group_fragment;
 import walkingschoolbus.cmpt276.ca.fragment.MainActivity_map_fragment;
 import walkingschoolbus.cmpt276.ca.fragment.MainActivity_profile_fragment;
 import walkingschoolbus.cmpt276.ca.fragment.SectionsPageAdapter;
+import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
@@ -59,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.MainActivity_tabs);
         tabLayout.setupWithViewPager(viewPager);
         getLocationPermission();
+
     }
 
     private void setUpViewPager(ViewPager viewPager){
@@ -119,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
-
     public void logOut(){
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -132,10 +142,39 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+
+
+
+    private void refreshMessageList(){
+        ProxyBuilder.SimpleCallback<List<Message>> callback = returnedMessageList->responseUnreadMessage(returnedMessageList);
+        ServerManager.refreshUnreadMessage(myUser.getId(),callback);
+    }
     public static Intent makeIntent(Context context){
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
+    }
+
+    //response
+    private void responseUnreadMessage(List<Message> messageList){
+        myUser.setUnreadMessages(messageList);
+        ProxyBuilder.SimpleCallback<List<Message>> callback = returnedMessageList->responeReadMessage(returnedMessageList);
+        ServerManager.refreshReadMessage(myUser.getId(),callback);
+    }
+    private void responeReadMessage(List<Message> messageList){
+        myUser.setReadMessages(messageList);
+    }
+
+    @Override
+    protected void onResume() {
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                refreshMessageList();
+            }
+        }, 0, 60000);
+        super.onResume();
     }
 }
 
