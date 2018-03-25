@@ -26,6 +26,7 @@ public class User {
     private List<User> monitorsUsers = new ArrayList<>();
     private List<WalkingGroups> memberOfGroups = new ArrayList<>();
     private List<WalkingGroups> leadsGroups = new ArrayList<>();
+    private Location lastGpsLocation;
     private List<Message> unreadMessages = new ArrayList<>();
     private List<Message> readMessages = new ArrayList<>();
     private String href;
@@ -78,6 +79,7 @@ public class User {
     public void setEmergencyContactInfo(String newInfo){this.emergencyContactInfo = newInfo;}
     public void setReadMessages(List<Message> messages){this.readMessages = messages;}
     public void setUnreadMessages(List<Message> messages){this.unreadMessages = messages;}
+    public void setLastGpsLocation(Location location){this.lastGpsLocation = location;}
 
     public void setUser(User newUser){
         this.setName(newUser.getName());
@@ -100,7 +102,7 @@ public class User {
         this.setEmergencyContactInfo(newUser.getEmergencyContactInfo());
         this.setReadMessages(newUser.getReadMessages());
         this.setUnreadMessages(newUser.getUnreadMessages());
-
+        this.setLastGpsLocation(newUser.getLastGpsLocation());
 
     }
     //get section
@@ -148,7 +150,7 @@ public class User {
     public String getEmergencyContactInfo(){return emergencyContactInfo;}
     public List<Message> getUnreadMessages(){return unreadMessages;}
     public List<Message> getReadMessages(){return readMessages; }
-
+    public Location getLastGpsLocation(){return lastGpsLocation;}
 
 
     public User getOneMonitorUserByIndex(int index){

@@ -11,7 +11,7 @@ public class Message  {
     private Boolean emergency;
     private Long timestamp;
     private User fromUser;
-    private WalkingGroups fromGroup;
+    private WalkingGroups toGroup;
 
     public Long getId(){return  this.id;}
     public String getHref(){return  this.href;}
@@ -19,7 +19,7 @@ public class Message  {
     public Boolean getEmergency(){return  this.emergency;}
     public Long getTimestamp(){return  this.timestamp;}
     public User getFromUser (){return  this.fromUser;}
-    public WalkingGroups getFromGroup(){return this.fromGroup;}
+    public WalkingGroups getFromGroup(){return this.toGroup;}
 
     public String getShortMessage(){
         if(text.length()<10)
@@ -37,7 +37,7 @@ public class Message  {
     public void setText(String newText) {this.text = newText;}
     public void setTimestamp(Long newTimeStamp){this.timestamp = newTimeStamp;}
     public void setFromUser(User newFromUser){this.fromUser = newFromUser;}
-    public void setFromGroup(WalkingGroups newFromGroup){this.fromGroup = newFromGroup;}
+    public void setFromGroup(WalkingGroups newFromGroup){this.toGroup = newFromGroup;}
 
 
     public void setMessage(Message newMessage){

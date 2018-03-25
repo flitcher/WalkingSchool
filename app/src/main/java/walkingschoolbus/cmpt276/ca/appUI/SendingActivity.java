@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 public class SendingActivity extends AppCompatActivity {
 
     private Long groupID;
+    private String message;
     private static final String GROUPID = "GROUPID";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,12 @@ public class SendingActivity extends AppCompatActivity {
     private void setUpButton() {
         CheckBox toParent = (CheckBox)findViewById(R.id.SendingActivity_checkToParent);
         Button send = (Button) findViewById(R.id.SendingActivity_send);
+        EditText text = (EditText) findViewById(R.id.SendingActivity_broadcastMessage);
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                message = text.getText().toString();
                 if (toParent.isChecked())
                 {
                     ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->responseMember(returnedList);
@@ -44,7 +50,7 @@ public class SendingActivity extends AppCompatActivity {
                 }
                 else{
                     ProxyBuilder.SimpleCallback<Message> callback = returnedMessage->responseMessageToGroup(returnedMessage);
-                    ServerManager.sendMessageToGroup(groupID,callback);
+                    ServerManager.sendMessageToGroup(groupID,message,callback);
                 }
             }
         });
@@ -66,13 +72,22 @@ public class SendingActivity extends AppCompatActivity {
     //return thing
     private void responseMessageToGroup(Message message){
         Log.i("User","send successful!");
+        finish();
+    }
+
+    private void responseMessageToGroupParent(Message message){
+        Log.i("User","send successful!");
     }
 
     private void responseMember(List<User> memberList){
-        ProxyBuilder.SimpleCallback<Message> callback = returnedMessage->responseMessageToGroupParent(returnedMessage);
-        ServerManager.sendMessageToGroup(groupID,callback);
-    }
-    private void responseMessageToGroupParent(Message message){
+        ProxyBuilder.SimpleCallback<Message> callbackForGroup= returnedMessage->responseMessageToGroupParent(returnedMessage);
+        ServerManager.sendMessageToGroup(groupID,message,callbackForGroup);
 
+        for(int i = 0; i < memberList.size();i++){
+            ProxyBuilder.SimpleCallback<Message> callbackForParent = returnedMessage->responseMessageToGroupParent(returnedMessage);
+            ServerManager.sendMessageToParent(memberList.get(i).getId(),message,callbackForParent);
+        }
+        finish();
     }
+
 }

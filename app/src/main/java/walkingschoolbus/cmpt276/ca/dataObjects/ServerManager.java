@@ -184,30 +184,54 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForReadMessage,callback);
     }
 
-    //broadcast to group only
+    //send to group only
     public static void sendMessageToGroup(Long groupId,String text,ProxyBuilder.SimpleCallback<Message> callback){
 
-        Map<String,String> body1 = new HashMap<String, String>();
-        body1.put("text",text);
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(false);
 
-        Map<String,Boolean> body2 = new HashMap<String,Boolean>();
-        body2.put("emergency",false);
 
-        Call<Message> callerForSendToGroup = proxy.sendMessagesToGroup(groupId,body1,body2);
+        Call<Message> callerForSendToGroup = proxy.sendMessagesToGroup(groupId,sendMesage);
         ProxyBuilder.callProxy(currentContext,callerForSendToGroup,callback);
     }
 
-    //broadcast to parent
+    //send to parent
     public static void sendMessageToParent(Long userId,String text,ProxyBuilder.SimpleCallback<Message> callback){
 
-        Map<String,String> body1 = new HashMap<String, String>();
-        body1.put("text",text);
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(false);
 
-        Map<String,Boolean> body2 = new HashMap<String,Boolean>();
-        body2.put("emergency",true);
-
-        Call<Message> callerForSendToParent = proxy.sendMessagesToParentOfUser(userId,body1,body2);
+        Call<Message> callerForSendToParent = proxy.sendMessagesToParentOfUser(userId,sendMesage);
         ProxyBuilder.callProxy(currentContext,callerForSendToParent,callback);
+    }
+    //child
+    //Emergency call
+    public static void callToGroup(Long groupId,String text, ProxyBuilder.SimpleCallback<Message> callback){
+
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(true);
+
+        Call<Message> callerForSendToGroup = proxy.sendMessagesToGroup(groupId,sendMesage);
+        ProxyBuilder.callProxy(currentContext,callerForSendToGroup,callback);
+    }
+    public static void callToParent(Long userId,String text,ProxyBuilder.SimpleCallback<Message> callback){
+
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(true);
+
+        Call<Message> callerForSendToParent = proxy.sendMessagesToParentOfUser(userId,sendMesage);
+        ProxyBuilder.callProxy(currentContext,callerForSendToParent,callback);
+    }
+
+    //get groupMessage
+    public static void getGroupMessage(Long GroupID, ProxyBuilder.SimpleCallback<List<Message>> callback){
+        Call<List<Message>> callerForGroupMessage = proxy.getMessageToGroup(GroupID);
+        ProxyBuilder.callProxy(currentContext,callerForGroupMessage,callback);
+
     }
 
     //group section

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,8 +55,6 @@ public class UnreadMessageActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = ReadingMessageActivity.makeIntent(UnreadMessageActivity.this,position,UNREAD);
-                ProxyBuilder.SimpleCallback<User> callback = returnedUser->responseMarking(returnedUser);
-                ServerManager.markUnreadMessage(userManager.getId(),unreadMessage.get(position).getId(),callback);
                 startActivity(intent);
             }
         });
@@ -74,11 +73,16 @@ public class UnreadMessageActivity extends AppCompatActivity {
 
 
             TextView ID = (TextView) messageView .findViewById(R.id.message_layout_ID);
-            ID.setText(""+ unreadMessage.get(position).getId());
+            ID.setText("ID: "+ unreadMessage.get(position).getId());
 
             TextView message = (TextView) messageView .findViewById(R.id.message_layour_Mesage);
-            message.setText(""+unreadMessage.get(position).getShortMessage());
+            message.setText("Content: "+unreadMessage.get(position).getShortMessage());
 
+            ImageView Emergency = (ImageView) messageView .findViewById(R.id.message_layout_Emergency);
+            if(unreadMessage.get(position).getEmergency())
+                Emergency.setImageResource(android.R.drawable.btn_star_big_on);
+            else
+                Emergency.setImageResource(android.R.drawable.btn_star_big_off);
             return messageView;
         }
     }
@@ -90,9 +94,7 @@ public class UnreadMessageActivity extends AppCompatActivity {
     private void responseUnreadMessage(List<Message> messageList){
         userManager.setUnreadMessages(messageList);
     }
-    private void responseMarking(User user){
-        userManager.setUser(user);
-    }
+
 
     @Override
     protected void onResume() {
