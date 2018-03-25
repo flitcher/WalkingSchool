@@ -96,16 +96,17 @@
         android:text="@string/StartingPoint"
         android:textSize="15sp"
         android:drawableLeft="@drawable/ic_location"/>
+
     <TextView
         android:id="@+id/GroupActivity_Destination"
         android:layout_width="300dp"
         android:layout_height="30dp"
-        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/GroupActivity_startingPosition"
+        android:layout_alignStart="@+id/GroupActivity_startingPosition"
         android:layout_below="@+id/GroupActivity_startingPosition"
-        android:textSize="15sp"
+        android:drawableLeft="@drawable/ic_location"
         android:text="@string/Destination"
-        android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/ic_location"/>
+        android:textSize="15sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/GroupActivity_joinGroup"
@@ -282,5 +283,15 @@
         android:layout_alignLeft="@+id/GroupActitvity_BoardcastMessage"
         android:layout_alignStart="@+id/GroupActitvity_BoardcastMessage"
         android:text="Group Mesage" />
+
+    <Button
+        android:id="@+id/GroupActivity_memberReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/GroupActivity_joinGroup"
+        android:layout_alignRight="@+id/GroupActivity_joinGroup"
+        android:layout_below="@+id/GroupActivity_Destination"
+        android:layout_marginTop="14dp"
+        android:text="member report" />
 
 </RelativeLayout>
