@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private User myUser = User.getInstance();
     private Map map;
-
+    private Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +139,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = RegisterActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 
+        timer.cancel();
+        timer.purge();
         finish();
+
     }
 
 
@@ -164,10 +167,13 @@ public class MainActivity extends AppCompatActivity {
         myUser.setReadMessages(messageList);
     }
 
+
+
+
+
     @Override
     protected void onResume() {
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 refreshMessageList();
