@@ -30,7 +30,7 @@ public class ServerManager {
     private static Context currentContext;
 
 
-    //setLogin
+    //Connection section
     public static void setDoLogin(boolean login){
         Login = login;
     }
@@ -44,7 +44,8 @@ public class ServerManager {
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
 
-    //register
+
+    //register section
     public static void createNewUser(User user)
     {
         Call<User> caller = proxy.createNewUser(user);
@@ -67,9 +68,9 @@ public class ServerManager {
         userManager.setToken(token);
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
+
+    //User section
     //login
-
-
     public static boolean doLogin(){
         return Login;
     }
@@ -83,7 +84,10 @@ public class ServerManager {
 
         Call<User> caller = proxy.getUserByEmail(userManager.getEmail());
         ProxyBuilder.callProxy(currentContext,caller,callback);
-
+    }
+    public static void getUserByID(Long userId,ProxyBuilder.SimpleCallback<User> callback){
+        Call<User> caller = proxy.getUserById(userId);
+        ProxyBuilder.callProxy(currentContext,caller,callback);
     }
     //edit user
     public static void editUserProfile(User user,ProxyBuilder.SimpleCallback<User> callback){
@@ -102,6 +106,8 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForResetChild,callback);
     }
 
+
+    //Monitor User section
     //for add child
     public static void addMonitorUser (String email,ProxyBuilder.SimpleCallback<User> callback){
         Call<User> callerForEmail = proxy.getUserByEmail(email);
@@ -158,6 +164,9 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForReset,callback);
     }
 
+
+
+    //inApp message section
     // for refresh unread messageList
     public static void refreshUnreadMessage(Long userId,ProxyBuilder.SimpleCallback<List<Message>> callback){
         Call<List<Message>> callerForUnreadMessage = proxy.getUnreadMessage(userId);
@@ -175,4 +184,59 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForReadMessage,callback);
     }
 
+    //send to group only
+    public static void sendMessageToGroup(Long groupId,String text,ProxyBuilder.SimpleCallback<Message> callback){
+
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(false);
+
+
+        Call<Message> callerForSendToGroup = proxy.sendMessagesToGroup(groupId,sendMesage);
+        ProxyBuilder.callProxy(currentContext,callerForSendToGroup,callback);
+    }
+
+    //send to parent
+    public static void sendMessageToParent(Long userId,String text,ProxyBuilder.SimpleCallback<Message> callback){
+
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(false);
+
+        Call<Message> callerForSendToParent = proxy.sendMessagesToParentOfUser(userId,sendMesage);
+        ProxyBuilder.callProxy(currentContext,callerForSendToParent,callback);
+    }
+    //child
+    //Emergency call
+    public static void callToGroup(Long groupId,String text, ProxyBuilder.SimpleCallback<Message> callback){
+
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(true);
+
+        Call<Message> callerForSendToGroup = proxy.sendMessagesToGroup(groupId,sendMesage);
+        ProxyBuilder.callProxy(currentContext,callerForSendToGroup,callback);
+    }
+    public static void callToParent(Long userId,String text,ProxyBuilder.SimpleCallback<Message> callback){
+
+        Message sendMesage = new Message();
+        sendMesage.setText(text);
+        sendMesage.setEmergency(true);
+
+        Call<Message> callerForSendToParent = proxy.sendMessagesToParentOfUser(userId,sendMesage);
+        ProxyBuilder.callProxy(currentContext,callerForSendToParent,callback);
+    }
+
+    //get groupMessage
+    public static void getGroupMessage(Long GroupID, ProxyBuilder.SimpleCallback<List<Message>> callback){
+        Call<List<Message>> callerForGroupMessage = proxy.getMessageToGroup(GroupID);
+        ProxyBuilder.callProxy(currentContext,callerForGroupMessage,callback);
+
+    }
+
+    //group section
+    public static void getGroupMember(Long groupID, ProxyBuilder.SimpleCallback<List<User>> callback) {
+        Call<List<User>> callerForGroupMember = proxy.getGroupMembers(groupID);
+        ProxyBuilder.callProxy(currentContext,callerForGroupMember,callback);
+    }
 }

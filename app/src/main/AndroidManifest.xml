@@ -70,10 +70,6 @@
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ContactInfoActivity"></activity>
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileMonitorAcitivty" />
         <activity
-            android:name="walkingschoolbus.cmpt276.ca.appUI.Message"
-            android:label="@string/title_activity_message"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity"
             android:label="@string/title_activity_unread_message"
             android:theme="@style/AppTheme" />
@@ -85,7 +81,10 @@
         <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.readMessageActivity"
             android:label="@string/title_activity_read_message"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.SendingActivity" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ChildMessage" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupMessage"></activity>
     </application>
 
 </manifest>

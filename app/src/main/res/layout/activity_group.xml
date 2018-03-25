@@ -264,4 +264,23 @@
             android:id="@+id/GroupActivity_removeMonitorGroup"
             android:backgroundTint="@color/colorPrimary"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/GroupActitvity_BoardcastMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/GroupActivity_RemoveBtn"
+        android:layout_toLeftOf="@+id/GroupActivity_RemoveBtn"
+        android:layout_toStartOf="@+id/GroupActivity_RemoveBtn"
+        android:text="broadcast" />
+
+    <Button
+        android:id="@+id/GroupActitvity_groupMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/GroupActitvity_BoardcastMessage"
+        android:layout_alignLeft="@+id/GroupActitvity_BoardcastMessage"
+        android:layout_alignStart="@+id/GroupActitvity_BoardcastMessage"
+        android:text="Group Mesage" />
+
 </RelativeLayout>

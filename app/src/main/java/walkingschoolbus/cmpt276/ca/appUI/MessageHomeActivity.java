@@ -32,6 +32,14 @@ public class MessageHomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button readbtn = (Button)findViewById(R.id.messageHome_read);
+        readbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = readMessageActivity.makeIntent(MessageHomeActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     public static Intent makeIntent(Context context){

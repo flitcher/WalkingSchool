@@ -129,11 +129,11 @@ public interface ApiInterface {
 
     //New message to group:
     @POST ("/messages/togroup/{groupId}")
-    Call<Message> sendMessagesToGroup(@Path("groupId") Long groupId);
+    Call<Message> sendMessagesToGroup(@Path("groupId") Long groupId,@Body Message body );
 
     //New message to the ‘parents’ of a user:
     @POST ("/messages/toparentsof/{userId}")
-    Call<Message> sendMessagesToParentOfUser(@Path("userId") Long UserID);
+    Call<Message> sendMessagesToParentOfUser(@Path("userId") Long UserID,@Body Message body );
 
     //Get one message:
     @GET ("/messages/{id}")

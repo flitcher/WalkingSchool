@@ -47,4 +47,13 @@
         android:layout_alignStart="@+id/textView"
         android:layout_marginBottom="17dp"
         android:text="@string/message" />
+
+    <Button
+        android:id="@+id/ProfileFrag_Panic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ProfileFrag_Message"
+        android:layout_alignStart="@+id/ProfileFrag_Message"
+        android:layout_below="@+id/ProfileFrag_Message"
+        android:text="Panic" />
 </RelativeLayout>
