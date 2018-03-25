@@ -64,7 +64,23 @@
             android:label="Walking Groups" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.AditGroup" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ListMonitoringGroup" />
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileMonitorAcitivty"></activity>
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileMonitorAcitivty" />
+        <activity
+            android:name="walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity"
+            android:label="@string/title_activity_unread_message"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="walkingschoolbus.cmpt276.ca.appUI.MessageHomeActivity"
+            android:label="@string/title_activity_message_home"
+            android:theme="@style/AppTheme" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ReadingMessageActivity" />
+        <activity
+            android:name="walkingschoolbus.cmpt276.ca.appUI.readMessageActivity"
+            android:label="@string/title_activity_read_message"
+            android:theme="@style/AppTheme" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.SendingActivity" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ChildMessage" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupMessage"></activity>
     </application>
 
 </manifest>

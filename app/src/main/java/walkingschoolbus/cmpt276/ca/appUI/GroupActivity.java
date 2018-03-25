@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import walkingschoolbus.cmpt276.ca.dataObjects.Message;
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
@@ -66,10 +69,14 @@ public class GroupActivity extends AppCompatActivity {
     Animation showLayout;
     Animation showLayoutRemove;
     Animation hideLayoutRemove;
+    //in app message
+    Button broadcast;
+    Button groupMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+
         extract_intent();
         initialize();
     }
@@ -85,6 +92,8 @@ public class GroupActivity extends AppCompatActivity {
         hideLayout = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout);
         showLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_layout_remove);
         hideLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout_remove);
+        broadcast = (Button)findViewById(R.id.GroupActitvity_BoardcastMessage);
+        groupMessage = (Button) findViewById(R.id.GroupActitvity_groupMessage);
 
         token = token.getInstance();
         myUser = myUser.getInstance();
@@ -245,6 +254,20 @@ public class GroupActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_GROUPLIST_REMOVE);
             }
         });
+        broadcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = SendingActivity.makeIntent(GroupActivity.this,groupID);
+                startActivity(intent);
+            }
+        });
+        groupMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProxyBuilder.SimpleCallback<List<Message>> callback = returnMessageList->responseGroupMessage(returnMessageList);
+                ServerManager.getGroupMessage(groupID,callback);
+            }
+        });
     }
 
     private void responseForMember(List<User> returnedListUser) {
@@ -353,4 +376,11 @@ public class GroupActivity extends AppCompatActivity {
         super.onResume();
         initialize();
     }
+
+    //return
+    private void responseGroupMessage(List<Message> messageList){
+        Intent intent = GroupMessage.makeIntent(GroupActivity.this,messageList);
+        startActivity(intent);
+    }
+
 }

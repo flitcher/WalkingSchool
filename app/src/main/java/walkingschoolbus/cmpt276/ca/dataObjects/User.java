@@ -13,16 +13,25 @@ public class User {
     private String email;
     private String password;
     private Token token = Token.getInstance();
-
+    private Long birthYear;
+    private Long birthMonth;
+    private String address;
+    private String cellPhone;
+    private String homePhone;
+    private String grade;
+    private String teacherName;
+    private String emergencyContactInfo;
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
     private List<User> monitoredByUsers = new ArrayList<>();
     private List<User> monitorsUsers = new ArrayList<>();
     private List<WalkingGroups> memberOfGroups = new ArrayList<>();
     private List<WalkingGroups> leadsGroups = new ArrayList<>();
-
+    private Location lastGpsLocation;
+    private List<Message> unreadMessages = new ArrayList<>();
+    private List<Message> readMessages = new ArrayList<>();
     private String href;
 
+    //singleton
     private static User instance;
     private User(){};
     public static User getInstance(){
@@ -32,14 +41,45 @@ public class User {
         return instance;
     }
 
+    //set section
     public void setToken(String token){
 
         this.token.setToken(token);
     }
-    public String getToken()
-    {
-        return token.getToken();
+    public void setId(Long id) {
+        this.id = id;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public void setMonitorsUsers(List<User> monitorsUsers) {
+        this.monitorsUsers = monitorsUsers;
+    }
+    public void setLeadsGroups(List<WalkingGroups> leadsGroups) {
+        this.leadsGroups = leadsGroups;
+    }
+    public void setMonitoredByUsers(List<User> monitoredByUsers) {this.monitoredByUsers = monitoredByUsers;}
+    public void setHref(String href) {
+        this.href = href;
+    }
+    public void setMemberOfGroups(List<WalkingGroups> memberOfGroups) {this.memberOfGroups = memberOfGroups;}
+    public void setBirthYear(Long newBirthYear){ this.birthYear = newBirthYear;}
+    public void setBirthMonth(Long newBirthMonth){this.birthMonth = newBirthMonth;}
+    public void setAddress(String newAddress){this.address = newAddress;}
+    public void setCellPhone(String newCellphone){this.cellPhone = newCellphone;}
+    public void setHomePhone(String newHomePhone){this.homePhone = newHomePhone;}
+    public void setGrade(String newGrade){this.grade = newGrade;}
+    public void setTeacherName(String newTeacherName){this.teacherName = newTeacherName;}
+    public void setEmergencyContactInfo(String newInfo){this.emergencyContactInfo = newInfo;}
+    public void setReadMessages(List<Message> messages){this.readMessages = messages;}
+    public void setUnreadMessages(List<Message> messages){this.unreadMessages = messages;}
+    public void setLastGpsLocation(Location location){this.lastGpsLocation = location;}
 
     public void setUser(User newUser){
         this.setName(newUser.getName());
@@ -51,81 +91,67 @@ public class User {
         this.setMonitorsUsers(newUser.getMonitorsUsers());
         this.setMemberOfGroups(newUser.getMemberOfGroups());
         this.setLeadsGroups(newUser.getLeadsGroups());
+
+        this.setBirthMonth(newUser.getBirthMonth());
+        this.setBirthYear(newUser.getBirthYear());
+        this.setAddress(newUser.getAddress());
+        this.setCellPhone(newUser.getCellPhone());
+        this.setHomePhone(newUser.getHomePhone());
+        this.setGrade(newUser.getGrade());
+        this.setTeacherName(newUser.getTeacherName());
+        this.setEmergencyContactInfo(newUser.getEmergencyContactInfo());
+        this.setReadMessages(newUser.getReadMessages());
+        this.setUnreadMessages(newUser.getUnreadMessages());
+        this.setLastGpsLocation(newUser.getLastGpsLocation());
+
     }
+    //get section
     public User getUser(){
         return this;
     }
     public Long getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public String getToken()
+    {
+        return token.getToken();
     }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public List<User> getMonitoredByUsers() {
         return monitoredByUsers;
     }
-
-    public void setMonitoredByUsers(List<User> monitoredByUsers) {
-        this.monitoredByUsers = monitoredByUsers;
-    }
-
     public List<User> getMonitorsUsers() {
         return monitorsUsers;
     }
-
-    public void setMonitorsUsers(List<User> monitorsUsers) {
-        this.monitorsUsers = monitorsUsers;
-    }
-
     public List<WalkingGroups> getMemberOfGroups() {
         return memberOfGroups;
     }
-
-    public void setMemberOfGroups(List<WalkingGroups> memberOfGroups) {
-        this.memberOfGroups = memberOfGroups;
-    }
-
     public List<WalkingGroups> getLeadsGroups() {
         return leadsGroups;
     }
-
-    public void setLeadsGroups(List<WalkingGroups> leadsGroups) {
-        this.leadsGroups = leadsGroups;
-    }
-
     public String getHref() {
         return href;
     }
+    public Long getBirthMonth(){return birthMonth;}
+    public Long getBirthYear(){return birthYear;}
+    public String getAddress(){return address;}
+    public String getCellPhone(){return cellPhone;}
+    public String getHomePhone(){return homePhone;}
+    public String getGrade(){return grade;}
+    public String getTeacherName(){return teacherName;}
+    public String getEmergencyContactInfo(){return emergencyContactInfo;}
+    public List<Message> getUnreadMessages(){return unreadMessages;}
+    public List<Message> getReadMessages(){return readMessages; }
+    public Location getLastGpsLocation(){return lastGpsLocation;}
 
-    public void setHref(String href) {
-        this.href = href;
-    }
 
     public User getOneMonitorUserByIndex(int index){
         List<User> newList = this.getMonitorsUsers();

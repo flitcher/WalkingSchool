@@ -51,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Build the server proxy
         ServerManager.connectToServerWithoutToken(RegisterActivity.this);
-
         setupLayout();
         alreadyLoggedIn();
         setupRegisterButton();
@@ -140,5 +139,14 @@ public class RegisterActivity extends AppCompatActivity {
     public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, RegisterActivity.class);
         return intent;
+    }
+
+    //for edit User
+    private void edit(){
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser->repsonseEdit(returnedUser);
+        ServerManager.editUserProfile(userManager,callback);
+    }
+    private void repsonseEdit(User user){
+
     }
 }

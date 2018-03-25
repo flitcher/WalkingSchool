@@ -46,6 +46,11 @@
     <string name="delete">Delete</string>
     <string name="title_activity_child">ChildActivity</string>
     <string name="don_t_have_an_account_register_here">Don\'t have an account? Register here.</string>
+    <string name="title_activity_message">Message</string>
+    <string name="title_activity_unread_message">UnreadMessageActivity</string>
+    <string name="message">Message</string>
+    <string name="title_activity_message_home">MessageHomeActivity</string>
+    <string name="title_activity_read_message">readMessageActivity</string>
 
 
 </resources>
