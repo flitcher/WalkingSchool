@@ -39,10 +39,10 @@
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="@string/cellphone"
-        android:inputType="number"
-        android:lineSpacingExtra="12sp"
+        android:inputType="textPersonName|phone"
+        android:lineSpacingExtra="8sp"
         android:textColorLink="#4daf57"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/plusOne"
@@ -66,8 +66,8 @@
         android:ems="10"
         android:hint="@string/home"
         android:inputType="phone"
-        android:lineSpacingExtra="12sp"
-        android:textSize="14sp" />
+        android:lineSpacingExtra="8sp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/PhoneActivity_skip"
@@ -79,5 +79,16 @@
         android:layout_marginBottom="57dp"
         android:text="@string/skip_this_section_for_now"
         android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/sixZeroFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/PhoneActivity_homeNumber"
+        android:layout_alignBottom="@+id/PhoneActivity_homeNumber"
+        android:layout_alignEnd="@+id/plusOne"
+        android:layout_alignRight="@+id/plusOne"
+        android:text="(604)"
+        android:textSize="18sp" />
 
 </RelativeLayout>

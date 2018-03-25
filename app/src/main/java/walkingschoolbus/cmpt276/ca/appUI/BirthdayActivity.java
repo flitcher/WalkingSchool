@@ -16,13 +16,22 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
+import walkingschoolbus.cmpt276.ca.dataObjects.User;
+import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 public class BirthdayActivity extends AppCompatActivity {
 
+    public static final String TAG = "birthdayActivity";
     private EditText displayBirthday;
     private DatePickerDialog.OnDateSetListener dataSetListener;
     private String monthInText;
+    private User userManager = User.getInstance();
+
+    private int userYear;
+    private int userMonth;
+    private String validateBday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +108,8 @@ public class BirthdayActivity extends AppCompatActivity {
                 Log.d("app", "dd/mm/yyyy " + day + "/" + monthInText + "/" + year);
                 String date = day  + " " + monthInText + " " + year;
                 displayBirthday.setText(date);
+                userMonth = month;
+                userYear = year;
             }
         };
     }
@@ -108,8 +119,26 @@ public class BirthdayActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = PhoneActivity.makeIntent(BirthdayActivity.this);
-                startActivity(intent);
+                initialize();
+//                EditText birthday = (EditText) findViewById(R.id.BirthdayActivity_birthdayEditText);
+                if(validate()) {
+                    editUser();
+                    if(userManager.getCellPhone() == null && userManager.getHomePhone() == null) {
+                        Intent intent = PhoneActivity.makeIntent(BirthdayActivity.this);
+                        startActivity(intent);
+                    }
+                    else if(userManager.getAddress() == null &&
+                            userManager.getEmergencyContactInfo() == null &&
+                            userManager.getGrade() == null &&
+                            userManager.getTeacherName() == null){
+                        Intent intent = ContactInfoActivity.makeIntent(BirthdayActivity.this);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = MainActivity.makeIntent(BirthdayActivity.this);
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -127,6 +156,32 @@ public class BirthdayActivity extends AppCompatActivity {
     public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, BirthdayActivity.class);
         return intent;
+    }
+
+    private void initialize() {
+        validateBday = displayBirthday.getText().toString();
+    }
+
+    private boolean validate() {
+        boolean valid = true;
+        if(validateBday.isEmpty()) {
+            displayBirthday.setError("Please enter your birthday");
+            valid = false;
+        }
+        return valid;
+    }
+
+    private void editUser(){
+        userManager.setBirthMonth(userMonth);
+        userManager.setBirthYear(userYear);
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser-> responseEdit(returnedUser);
+        ServerManager.editUserProfile(userManager,callback);
+
+    }
+
+    private void responseEdit(User user){
+        Log.d(TAG, String.valueOf(user));
+        Log.d(TAG, "Birthday entered");
     }
 
 }

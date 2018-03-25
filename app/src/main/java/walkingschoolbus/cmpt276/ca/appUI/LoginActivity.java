@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = RegisterActivity.makeIntent(LoginActivity.this);
                 startActivity(intent);
                 finish();
@@ -135,9 +136,28 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         protected void onPostExecute(String s) {
                             if(ServerManager.doLogin()) {
-                                    Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                if(userManager.getBirthYear() == 0) {
                                     Intent intent = BirthdayActivity.makeIntent(LoginActivity.this);
                                     startActivity(intent);
+                                }
+                                else if(userManager.getCellPhone() == null && userManager.getHomePhone() == null) {
+                                    Intent intent = PhoneActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+
+                                else if(userManager.getAddress() == null &&
+                                        userManager.getEmergencyContactInfo() == null &&
+                                        userManager.getGrade() == null &&
+                                        userManager.getTeacherName() == null){
+                                    Intent intent = ContactInfoActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+
                             }
                             else {
                                 Toast.makeText(LoginActivity.this, "Login Unsuccessful. Try again.", Toast.LENGTH_SHORT).show();
@@ -154,42 +174,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
-//    private void loginSetUp() {
-//        Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                initialize();
-//                if(validate()) {
-//
-//                    ServerManager.refreshToken();
-//                    ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
-//                    ServerManager.Login(callback);
-//
-//
-//                    userManager.setEmail(validateEmail);
-//                    userManager.setPassword(validatePassword);
-//                    if(ServerManager.doLogin()) {
-//
-//
-//                        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//                        editor.putString(USER_EMAIL, validateEmail);
-//                        editor.putString(USER_PASSWORD, validatePassword);
-//                        editor.apply();
-//
-//                        Intent intent = MainActivity.makeIntent(LoginActivity.this);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                }
-//            }
-//        });
-//    }
 
 
     public static Intent makeIntent(Context context){

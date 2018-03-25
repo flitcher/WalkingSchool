@@ -136,14 +136,11 @@ public class MainActivity extends AppCompatActivity {
         editor.clear();
         editor.apply();
         ServerManager.setDoLogin(false);
-        Intent intent = RegisterActivity.makeIntent(MainActivity.this);
+        Intent intent = LoginActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 
-        finish();
+        MainActivity.this.finish();
     }
-
-
-
 
     private void refreshMessageList(){
         ProxyBuilder.SimpleCallback<List<Message>> callback = returnedMessageList->responseUnreadMessage(returnedMessageList);
