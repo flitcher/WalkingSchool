@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,6 +67,8 @@ public class GroupActivity extends AppCompatActivity {
     Animation showLayout;
     Animation showLayoutRemove;
     Animation hideLayoutRemove;
+    //in app message
+    Button broadcast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,7 @@ public class GroupActivity extends AppCompatActivity {
         hideLayout = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout);
         showLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_layout_remove);
         hideLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout_remove);
+        broadcast = (Button)findViewById(R.id.GroupActitvity_BoardcastMessage);
 
         token = token.getInstance();
         myUser = myUser.getInstance();
@@ -243,6 +247,13 @@ public class GroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = ListMonitoringGroup.makeIntent(GroupActivity.this);
                 startActivityForResult(intent, REQUEST_CODE_GROUPLIST_REMOVE);
+            }
+        });
+        broadcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = SendingActivity.makeIntent(GroupActivity.this,groupID);
+                startActivity(intent);
             }
         });
     }
