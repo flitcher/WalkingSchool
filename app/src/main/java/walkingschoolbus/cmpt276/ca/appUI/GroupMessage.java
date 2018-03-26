@@ -20,7 +20,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 public class GroupMessage extends AppCompatActivity {
 
     private static List<Message> groupMessage;
-    private final static String READ = "READ";
+    private final static String GROUPMESSAGE = "GROUPMESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,7 @@ public class GroupMessage extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = ReadingMessageActivity.makeIntent(GroupMessage.this,position,READ);
+                Intent intent = ReadingMessageActivity.makeIntent(GroupMessage.this,position,GROUPMESSAGE,groupMessage);
                 startActivity(intent);
             }
         });

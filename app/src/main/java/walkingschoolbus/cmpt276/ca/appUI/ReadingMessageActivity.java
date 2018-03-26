@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.List;
+
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
@@ -18,8 +20,11 @@ public class ReadingMessageActivity extends AppCompatActivity {
     User userManager = User.getInstance();
     private static final String READ = "READ";
     private static final String UNREAD = "UNREAD";
+    private final static String GROUPMESSAGE = "GROUPMESSAGE";
     private static final String STATES = "STATES";
     private static final String POSITION= "POSITION";
+    private static Message temp = null;
+    private static List<Message> tempList = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,13 +34,12 @@ public class ReadingMessageActivity extends AppCompatActivity {
         initilize();
     }
     private void initilize(){
-        Message temp = null;
         TextView Id = (TextView) findViewById(R.id.ReadingMessage_ID);
         TextView content = (TextView) findViewById(R.id.ReadingMessage_content);
         TextView fromUser = (TextView) findViewById(R.id.ReadingMessage_FromUser);
         TextView fromGroup = (TextView) findViewById(R.id.ReadingMessage_FromGroup);
         if(state.equals(UNREAD)){
-             temp = userManager.getUnreadMessages().get(position);
+             temp = tempList.get(position);
 
              Id.setText("Message ID: "+ temp.getId());
              content.setText(temp.getText());
@@ -46,11 +50,18 @@ public class ReadingMessageActivity extends AppCompatActivity {
              ServerManager.markUnreadMessage(userManager.getId(),temp.getId(),callback);
         }
         else if (state.equals(READ)){
-             temp = userManager.getReadMessages().get(position);
+             temp = tempList.get(position);
              Id.setText("Message ID: "+ temp.getId());
              content.setText(temp.getText());
              fromUser.setText("From User: "+temp.getFromUser().getId());
              fromGroup.setText("From Group: "+temp.getFromGroup().getId());
+        }
+        else if (state.equals(GROUPMESSAGE)){
+            temp = tempList.get(position);
+            Id.setText("Message ID: "+ temp.getId());
+            content.setText(temp.getText());
+            fromUser.setText("From User: "+temp.getFromUser().getId());
+            fromGroup.setText("From Group: "+temp.getFromGroup().getId());
         }
 
     }
@@ -60,15 +71,29 @@ public class ReadingMessageActivity extends AppCompatActivity {
         position = intent.getIntExtra(POSITION,-1);
         state = intent.getStringExtra(STATES);
     }
-    public static Intent makeIntent(Context context,int position,String states){
+    public static Intent makeIntent(Context context,int position,String states,List<Message> messageList){
         Intent intent = new Intent(context, ReadingMessageActivity.class);
         intent.putExtra(STATES,states);
         intent.putExtra(POSITION,position);
+        tempList = messageList;
         return intent;
     }
 
     //return
     private void responseMarking(User user){
-        userManager.setUser(user);
+        ProxyBuilder.SimpleCallback<List<Message>> callback = returnedUnreadList->responseUnread(returnedUnreadList);
+        ServerManager.refreshUnreadMessage(userManager.getId(),callback);
     }
+    private void responseUnread(List<Message> unreadList){
+        userManager.setUnreadMessages(unreadList);
+        ProxyBuilder.SimpleCallback<List<Message>> callback = returnedReadList->responseRead(returnedReadList);
+        ServerManager.refreshReadMessage(userManager.getId(),callback);
+    }
+    private void responseRead(List<Message> readList){
+        userManager.setReadMessages(readList);
+    }
+
+
+
+
 }
