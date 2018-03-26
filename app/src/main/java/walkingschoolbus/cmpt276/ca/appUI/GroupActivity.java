@@ -125,8 +125,8 @@ public class GroupActivity extends AppCompatActivity {
         member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<List<User>> caller = proxy.getGroupMembers(groupID);
-                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedListUser->responseForMember(returnedListUser));
+                Intent intent = GroupMemberActivity.makeIntent(GroupActivity.this, groupID);
+                startActivity(intent);
             }
         });
 
@@ -247,20 +247,6 @@ public class GroupActivity extends AppCompatActivity {
         });
     }
 
-    private void responseForMember(List<User> returnedListUser) {
-        memberList = returnedListUser;
-        AlertDialog.Builder builder = new AlertDialog.Builder(GroupActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.dialog_groupmember, null);
-        Long userID = walkingGroups.getLeader().getId();
-        Call<User> caller = proxy.getUserById(userID);
-        ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseLeader(returnedUser, mView));
-        ArrayAdapter<User> adapter = new MyListadapter();
-        members = (ListView) mView.findViewById(R.id.MemberDialog_member);
-        members.setAdapter(adapter);
-        builder.setView(mView);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     private void responseRemove(Void returnedNothing) {
         Log.i(TAG, "Server remove user from group");

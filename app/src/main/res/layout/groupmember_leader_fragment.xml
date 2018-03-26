@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/GroupMember_Leader_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="108dp"
+        android:text="@string/groupFrag_intro" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/GroupMember_Leader_textView"
+        android:layout_marginTop="5dp"
+        android:id="@+id/GroupMember_Leader_Layout">
+        <ImageView
+            android:id="@+id/GroupMember_Leader_Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/GroupMember_Leader_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/GroupMember_Leader_Email"
+            android:layout_toEndOf="@+id/GroupMember_Leader_Image"
+            android:layout_toRightOf="@+id/GroupMember_Leader_Image"
+            android:hint="Name"
+            android:layout_marginLeft="5dp"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/GroupMember_Leader_Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/GroupMember_Leader_Image"
+            android:layout_toEndOf="@+id/GroupMember_Leader_Image"
+            android:layout_toRightOf="@+id/GroupMember_Leader_Image"
+            android:hint="user email"
+            android:layout_marginLeft="5dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/GroupMember_Leader_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/GroupMember_Leader_Email"
+            android:layout_alignBottom="@+id/GroupMember_Leader_Email"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:hint="user ID"
+            android:textSize="24sp" />
+        </RelativeLayout>
+</RelativeLayout>
