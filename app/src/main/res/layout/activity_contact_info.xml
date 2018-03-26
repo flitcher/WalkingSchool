@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="walkingschoolbus.cmpt276.ca.appUI.ContactInfoActivity">
+
+    <TextView
+        android:id="@+id/ContactActivity_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="136dp"
+        android:text="@string/contract_information"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#4daf57"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/ContactActivity_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ContactActivity_question"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:ems="10"
+        android:hint="@string/address"
+        android:inputType="textPostalAddress"
+        android:lineSpacingExtra="18sp"
+        android:textColorLink="#4daf57"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/ContactActivity_continueBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ContactActivity_address"
+        android:layout_alignLeft="@+id/ContactActivity_address"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/ContactActivity_address"
+        android:layout_alignStart="@+id/ContactActivity_address"
+        android:layout_marginBottom="118dp"
+        android:background="@drawable/button_border"
+        android:elevation="0dp"
+        android:text="@string/next"
+        android:textColor="#595959" />
+
+    <EditText
+        android:id="@+id/ContactActivity_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ContactActivity_address"
+        android:layout_alignLeft="@+id/ContactActivity_address"
+        android:layout_alignRight="@+id/ContactActivity_address"
+        android:layout_alignStart="@+id/ContactActivity_address"
+        android:layout_below="@+id/ContactActivity_address"
+        android:layout_marginTop="23dp"
+        android:ems="10"
+        android:hint="@string/grade"
+        android:inputType="textPersonName"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/ContactActivity_teachername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ContactActivity_grade"
+        android:layout_alignLeft="@+id/ContactActivity_grade"
+        android:layout_alignRight="@+id/ContactActivity_grade"
+        android:layout_alignStart="@+id/ContactActivity_grade"
+        android:layout_below="@+id/ContactActivity_grade"
+        android:layout_marginTop="26dp"
+        android:ems="10"
+        android:hint="@string/teacher_s_name"
+        android:inputType="textPersonName"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/ContactActivity_emergencymessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ContactActivity_teachername"
+        android:layout_alignLeft="@+id/ContactActivity_teachername"
+        android:layout_alignRight="@+id/ContactActivity_teachername"
+        android:layout_alignStart="@+id/ContactActivity_teachername"
+        android:layout_below="@+id/ContactActivity_teachername"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="@string/emergency_contact_message"
+        android:inputType="text|textPersonName"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/ContactActivity_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ContactActivity_continueBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/ContactActivity_continueBtn"
+        android:layout_marginBottom="59dp"
+        android:text="@string/skip_this_section_for_now"
+        android:textSize="12sp" />
+</RelativeLayout>

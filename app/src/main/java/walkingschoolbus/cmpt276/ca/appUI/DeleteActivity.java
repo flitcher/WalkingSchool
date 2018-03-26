@@ -28,8 +28,8 @@ public class DeleteActivity extends AppCompatActivity {
     private static String listType;
     private final String CHILDLIST = "childList";
     private final String PARENTLIST = "parentList";
-    ApiInterface proxy;
-    Token token;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +37,13 @@ public class DeleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete);
 
         ServerManager.connectToServerWithToken(DeleteActivity.this);
-        token = token.getInstance();
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
-        Call<User> caller = proxy.getUserById(user.getId());
-        ProxyBuilder.callProxy(DeleteActivity.this, caller, returnedUser->response(returnedUser));
+
+        ProxyBuilder.SimpleCallback<User> callback  = returnedUser->response(returnedUser);
+        ServerManager.getUserByID(user.getId(),callback);
+
     }
 
-    private void response(User returnedUser) {
-        user = returnedUser;
-        setDeleteBtn();
-        setCancelBtn();
-        setTextView();
-    }
+
 
     private void setTextView() {
         TextView name =(TextView) findViewById(R.id.Delete_Name);
@@ -109,5 +104,12 @@ public class DeleteActivity extends AppCompatActivity {
     private void resetParentList(List<User> list) {
         userManager.setMonitoredByUsers(list);
         finish();
+    }
+
+    private void response(User returnedUser) {
+        user = returnedUser;
+        setDeleteBtn();
+        setCancelBtn();
+        setTextView();
     }
 }

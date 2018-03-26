@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_PASSWORD = "password";
     public static final String USER_TOKEN ="token";
 
+    CircularProgressButton loadingBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         ServerManager.connectToServerWithoutToken(LoginActivity.this);
 
         //setMainBtn();
-        loginSetUp();
+        login();
         setUpActivityLayout();
     }
 
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = RegisterActivity.makeIntent(LoginActivity.this);
                 startActivity(intent);
                 finish();
@@ -93,39 +95,82 @@ public class LoginActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+
     }
 
-    private void loginSetUp() {
-        Button btn = (Button) findViewById(R.id.LoginActivity_loginButton);
-        btn.setOnClickListener(new View.OnClickListener() {
+    private void login(){
+        loadingBtn = (CircularProgressButton) findViewById(R.id.LoginActivity_loginButton2);
+        loadingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 initialize();
                 if(validate()) {
-
+                    userManager.setEmail(validateEmail);
+                    userManager.setPassword(validatePassword);
                     ServerManager.refreshToken();
                     ProxyBuilder.SimpleCallback<Void> callback = returnedNothing->responseLogin(returnedNothing);
                     ServerManager.Login(callback);
+                    @SuppressLint("StaticFieldLeak") AsyncTask<String,String,String> login = new AsyncTask<String, String, String>() {
+                        @Override
+                        protected String doInBackground(String... params) {
+                            try{
+                                Thread.sleep(3000);
 
 
-                    userManager.setEmail(validateEmail);
-                    userManager.setPassword(validatePassword);
-                    if(ServerManager.doLogin()) {
+                                if(ServerManager.doLogin()) {
 
+                                    SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                        SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString(USER_EMAIL, validateEmail);
+                                    editor.putString(USER_PASSWORD, validatePassword);
+                                    editor.apply();
 
-                        editor.putString(USER_EMAIL, validateEmail);
-                        editor.putString(USER_PASSWORD, validatePassword);
-                        editor.apply();
+                                }
+                            }catch(InterruptedException e){
+                                e.printStackTrace();
+                            }
+                            return "done";
+                        }
 
-                        Intent intent = MainActivity.makeIntent(LoginActivity.this);
-                        startActivity(intent);
-                        finish();
-                    }
+                        @Override
+                        protected void onPostExecute(String s) {
+                            if(ServerManager.doLogin()) {
+                                Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                if(userManager.getBirthYear() == 0) {
+                                    Intent intent = BirthdayActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+                                else if(userManager.getCellPhone() == null && userManager.getHomePhone() == null) {
+                                    Intent intent = PhoneActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+
+                                else if(userManager.getAddress() == null &&
+                                        userManager.getEmergencyContactInfo() == null &&
+                                        userManager.getGrade() == null &&
+                                        userManager.getTeacherName() == null){
+                                    Intent intent = ContactInfoActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    Intent intent = MainActivity.makeIntent(LoginActivity.this);
+                                    startActivity(intent);
+                                }
+
+                            }
+                            else {
+                                Toast.makeText(LoginActivity.this, "Login Unsuccessful. Try again.", Toast.LENGTH_SHORT).show();
+                                recreate();
+                            }
+                        }
+                    };
+
+                    loadingBtn.startAnimation();
+                    login.execute();
                 }
+
+
             }
         });
     }
@@ -142,6 +187,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.w(TAG, "Server replied to login request (no content was expected).");
         ServerManager.getUserByEmail(callback);
     }
+
     private  void responseAutoLogin(User user){
         userManager.setUser(user);
         ProxyBuilder.SimpleCallback<List<User>> callback = returnedList->resetParentList(returnedList)   ;
