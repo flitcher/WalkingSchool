@@ -65,10 +65,12 @@
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.AditGroup" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ListMonitoringGroup" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileMonitorAcitivty" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupMemberActivity"
+                android:label="Group Member"
+                android:theme="@style/AppTheme"/>
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.BirthdayActivity" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.PhoneActivity" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ContactInfoActivity"></activity>
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ProfileMonitorAcitivty" />
         <activity
             android:name="walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity"
             android:label="@string/title_activity_unread_message"
