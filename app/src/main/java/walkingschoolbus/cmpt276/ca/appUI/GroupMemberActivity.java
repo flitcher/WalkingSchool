@@ -59,7 +59,7 @@ public class GroupMemberActivity extends AppCompatActivity {
     }
 
     public static Intent makeIntent(Context context, Long userID){
-        Intent intent = new Intent(context, ProfileGroupActivity.class);
+        Intent intent = new Intent(context, GroupMemberActivity.class);
         intent.putExtra(GROUPID, userID);
         return intent;
     }

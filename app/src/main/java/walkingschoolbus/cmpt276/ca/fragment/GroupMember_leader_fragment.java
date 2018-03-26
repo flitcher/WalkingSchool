@@ -29,7 +29,6 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
  */
 
 public class GroupMember_leader_fragment extends Fragment {
-    private static final int REQEUST_CODE = 1000;
     Long groupID;
     View view;
     Context context;
