@@ -72,6 +72,7 @@ public class GroupActivity extends AppCompatActivity {
     //in app message
     Button broadcast;
     Button groupMessage;
+    Button memberReport;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class GroupActivity extends AppCompatActivity {
         hideLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout_remove);
         broadcast = (Button)findViewById(R.id.GroupActitvity_BoardcastMessage);
         groupMessage = (Button) findViewById(R.id.GroupActitvity_groupMessage);
-
+        memberReport = (Button) findViewById(R.id.GroupActivity_memberReport);
         token = token.getInstance();
         myUser = myUser.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
@@ -266,6 +267,13 @@ public class GroupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ProxyBuilder.SimpleCallback<List<Message>> callback = returnMessageList->responseGroupMessage(returnMessageList);
                 ServerManager.getGroupMessage(groupID,callback);
+            }
+        });
+        memberReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MemberReportActivity.makeIntent(GroupActivity.this,groupID);
+                startActivity(intent);
             }
         });
     }
