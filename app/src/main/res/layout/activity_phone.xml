@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="walkingschoolbus.cmpt276.ca.appUI.PhoneActivity">
+
+    <TextView
+        android:id="@+id/ContactActivity_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="136dp"
+        android:text="@string/add_your_number"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#4daf57"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/PhoneActivity_continueBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="118dp"
+        android:background="@drawable/button_border"
+        android:elevation="0dp"
+        android:text="@string/next"
+        android:textColor="#595959" />
+
+    <EditText
+        android:id="@+id/PhoneActivity_cellNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ContactActivity_question"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="@string/cellphone"
+        android:inputType="textPersonName|phone"
+        android:lineSpacingExtra="8sp"
+        android:textColorLink="#4daf57"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/plusOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/PhoneActivity_cellNumber"
+        android:layout_alignBottom="@+id/PhoneActivity_cellNumber"
+        android:layout_toLeftOf="@+id/PhoneActivity_cellNumber"
+        android:layout_toStartOf="@+id/PhoneActivity_cellNumber"
+        android:text="@string/plusOne"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/PhoneActivity_homeNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/PhoneActivity_cellNumber"
+        android:layout_alignStart="@+id/PhoneActivity_cellNumber"
+        android:layout_below="@+id/PhoneActivity_cellNumber"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="@string/home"
+        android:inputType="phone"
+        android:lineSpacingExtra="8sp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/PhoneActivity_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/PhoneActivity_continueBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/PhoneActivity_continueBtn"
+        android:layout_marginBottom="57dp"
+        android:text="@string/skip_this_section_for_now"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/sixZeroFour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/PhoneActivity_homeNumber"
+        android:layout_alignBottom="@+id/PhoneActivity_homeNumber"
+        android:layout_alignEnd="@+id/plusOne"
+        android:layout_alignRight="@+id/plusOne"
+        android:text="(604)"
+        android:textSize="18sp" />
+
+</RelativeLayout>

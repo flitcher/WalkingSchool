@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         editor.clear();
         editor.apply();
         ServerManager.setDoLogin(false);
-        Intent intent = RegisterActivity.makeIntent(MainActivity.this);
+        Intent intent = LoginActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 
         timer.cancel();
@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public static Intent makeIntent(Context context){
         Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
 

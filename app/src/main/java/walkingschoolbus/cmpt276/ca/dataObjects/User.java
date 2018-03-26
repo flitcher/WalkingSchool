@@ -13,8 +13,8 @@ public class User {
     private String email;
     private String password;
     private Token token = Token.getInstance();
-    private Long birthYear;
-    private Long birthMonth;
+    private int birthYear;
+    private int birthMonth;
     private String address;
     private String cellPhone;
     private String homePhone;
@@ -69,8 +69,8 @@ public class User {
         this.href = href;
     }
     public void setMemberOfGroups(List<WalkingGroups> memberOfGroups) {this.memberOfGroups = memberOfGroups;}
-    public void setBirthYear(Long newBirthYear){ this.birthYear = newBirthYear;}
-    public void setBirthMonth(Long newBirthMonth){this.birthMonth = newBirthMonth;}
+    public void setBirthYear(int newBirthYear){ this.birthYear = newBirthYear;}
+    public void setBirthMonth(int newBirthMonth){this.birthMonth = newBirthMonth;}
     public void setAddress(String newAddress){this.address = newAddress;}
     public void setCellPhone(String newCellphone){this.cellPhone = newCellphone;}
     public void setHomePhone(String newHomePhone){this.homePhone = newHomePhone;}
@@ -140,8 +140,9 @@ public class User {
     public String getHref() {
         return href;
     }
-    public Long getBirthMonth(){return birthMonth;}
-    public Long getBirthYear(){return birthYear;}
+    public int
+    getBirthMonth(){return birthMonth;}
+    public int getBirthYear(){return birthYear;}
     public String getAddress(){return address;}
     public String getCellPhone(){return cellPhone;}
     public String getHomePhone(){return homePhone;}

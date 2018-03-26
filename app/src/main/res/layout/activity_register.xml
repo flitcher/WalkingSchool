@@ -74,6 +74,17 @@
         android:textColor="#FFF" />
 
     <TextView
+        android:id="@+id/startNewAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="89dp"
+        android:text="Start a new account"
+        android:textColor="#a6a6a6"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/already_registered"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
