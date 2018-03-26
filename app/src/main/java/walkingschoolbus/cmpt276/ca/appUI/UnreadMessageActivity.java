@@ -54,7 +54,7 @@ public class UnreadMessageActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = ReadingMessageActivity.makeIntent(UnreadMessageActivity.this,position,UNREAD);
+                Intent intent = ReadingMessageActivity.makeIntent(UnreadMessageActivity.this,position,UNREAD,unreadMessage);
                 startActivity(intent);
             }
         });
