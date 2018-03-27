@@ -43,6 +43,7 @@ public class ProfileMonitor_children_fragment extends Fragment {
     ApiInterface proxy;
     Token token;
     Long userID;
+    User myUser;
 
     @Nullable
     @Override
@@ -61,6 +62,15 @@ public class ProfileMonitor_children_fragment extends Fragment {
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<User> caller = proxy.getUserById(userID);
         ProxyBuilder.callProxy(context, caller, returnedUser->response(returnedUser));
+        setBtnVisibility();
+    }
+
+    private void setBtnVisibility() {
+        myUser = myUser.getInstance();
+        if (!userID.equals(myUser.getId())){
+            FloatingActionButton createBtn = (FloatingActionButton) view.findViewById(R.id.ChildFrag_createBtn);
+            createBtn.setVisibility(View.GONE);
+        }
     }
 
     private void response(User returnedUser) {

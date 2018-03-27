@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="walkingschoolbus.cmpt276.ca.appUI.EditUserProfile">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Edit User Profile"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:id="@+id/EditUserProfile_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EditUserProfile_title"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/EditUserProfile_info"
+        android:layout_marginTop="5dp"
+        android:text="Type information wanted to be changed:
+(Leave Blank for the information don't want to change)"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/EditUserProfile_info">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_black_username"
+                android:hint="User Name"
+                android:id="@+id/EditUserProfile_userName"/>
+
+            <EditText
+                android:id="@+id/EditUserProfile_email"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/EditUserProfile_userName"
+                android:layout_alignLeft="@id/EditUserProfile_userName"
+                android:hint="@string/email"
+                android:drawableLeft="@drawable/ic_black_email"/>
+
+            <EditText
+                android:id="@+id/EditUserProfile_password"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/EditUserProfile_email"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:hint="password"
+                android:drawableLeft="@drawable/ic_black_lock"/>
+
+            <EditText
+                android:id="@+id/EditUserProfile_birthMonth"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_below="@id/EditUserProfile_password"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_cake"
+                android:hint="Birth Month"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/EditUserProfile_birthYear"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/EditUserProfile_email"
+                android:layout_below="@id/EditUserProfile_password"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_cake"
+                android:hint="Birth Year"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/EditUserProfile_address"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_below="@id/EditUserProfile_birthMonth"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_home"
+                android:hint="Address" />
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/EditUserProfile_address"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_marginTop="5dp"
+                android:hint="Home Phone"
+                android:id="@+id/EditUserProfile_homePhone"
+                android:drawableLeft="@drawable/ic_local_phone"/>
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/EditUserProfile_homePhone"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_marginTop="5dp"
+                android:hint="Cellphone"
+                android:drawableLeft="@drawable/ic_smartphone"
+                android:id="@+id/EditUserProfile_cellPhone"/>
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditUserProfile_grade"
+                android:layout_below="@id/EditUserProfile_cellPhone"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_marginTop="5dp"
+                android:hint="Grade"
+                android:drawableLeft="@drawable/ic_grade" />
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditUserProfile_teacherName"
+                android:layout_below="@id/EditUserProfile_grade"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_marginTop="5dp"
+                android:hint="Teacher Name"
+                android:drawableLeft="@drawable/ic_people" />
+
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/EditUserProfile_emergencyContactInfo"
+                android:layout_below="@id/EditUserProfile_teacherName"
+                android:layout_alignLeft="@id/EditUserProfile_email"
+                android:layout_marginTop="5dp"
+                android:hint="Emergency Contact"
+                android:drawableLeft="@drawable/ic_contacts"/>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

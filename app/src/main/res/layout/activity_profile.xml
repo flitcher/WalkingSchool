@@ -84,15 +84,115 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/ProfileActivity_email"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/ProfileActivity_cardView"
-        android:layout_marginTop="40dp"
-        android:text="@string/email"
-        android:textSize="15sp"
-        android:drawableLeft="@drawable/ic_black_email"/>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_below="@id/ProfileActivity_cardView"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/ProfileActivity_email"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/email"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_black_email"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:layout_below="@id/ProfileActivity_email"
+                android:layout_marginTop="5dp"
+                android:textSize="15sp"
+                android:text="Birthday: No information"
+                android:id="@+id/ProfileActivity_birthday"
+                android:drawableLeft="@drawable/ic_cake"/>
+
+            <TextView
+                android:id="@+id/ProfileAcitivty_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:layout_below="@id/ProfileActivity_birthday"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_home"
+                android:text="Address: No information"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ProfileAcitivty_address"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:textSize="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Home Phone: No information"
+                android:id="@+id/ProfileActivity_homePhone"
+                android:drawableLeft="@drawable/ic_local_phone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ProfileActivity_homePhone"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:layout_marginTop="5dp"
+                android:text="Cellphone: No information"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_smartphone"
+                android:id="@+id/ProfileActivity_cellPhone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ProfileActivity_grade"
+                android:layout_below="@id/ProfileActivity_cellPhone"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:layout_marginTop="5dp"
+                android:text="Grade: No information"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_grade" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ProfileActivity_teacherName"
+                android:layout_below="@id/ProfileActivity_grade"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:layout_marginTop="5dp"
+                android:text="Teacher Name: No information"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_people" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ProfileActivity_emergency_contactInfo"
+                android:layout_below="@id/ProfileActivity_teacherName"
+                android:layout_alignLeft="@id/ProfileActivity_email"
+                android:layout_marginTop="5dp"
+                android:text="Emergency Contact: No information"
+                android:textSize="15sp"
+                android:drawableLeft="@drawable/ic_contacts"/>
+        </RelativeLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_edit"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/ProfileActivity_editBtn"
+        android:clickable="true"/>
+
 
 </RelativeLayout>

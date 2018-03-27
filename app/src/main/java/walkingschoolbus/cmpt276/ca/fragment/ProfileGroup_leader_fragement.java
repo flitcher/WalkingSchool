@@ -67,6 +67,14 @@ public class ProfileGroup_leader_fragement extends Fragment {
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<User> caller = proxy.getUserById(userID);
         ProxyBuilder.callProxy(context, caller, returnedUser->resonseUser(returnedUser));
+        setBtnVisibility();
+    }
+
+    private void setBtnVisibility() {
+        if (!userID.equals(myUser.getId())){
+            FloatingActionButton createGroup = (FloatingActionButton) view.findViewById(R.id.LeaderFrag_createBtn);
+            createGroup.setVisibility(View.GONE);
+        }
     }
 
     private void resonseUser(User returnedUser) {

@@ -57,7 +57,6 @@ public class GroupActivity extends AppCompatActivity {
     private Long userID;
     private Token token;
     private WalkingGroups walkingGroups;
-    List<User> memberList;
     private User myUser;
     FloatingActionButton joinMonitorGroup;
     FloatingActionButton joinMeGroup;
@@ -69,11 +68,13 @@ public class GroupActivity extends AppCompatActivity {
     Animation showLayout;
     Animation showLayoutRemove;
     Animation hideLayoutRemove;
+    Animation showLayoutMessage;
+    Animation hideLayoutMessage;
     int requestCode;
     //in app message
-    Button broadcast;
-    Button groupMessage;
-    Button memberReport;
+    FloatingActionButton broadcast;
+    FloatingActionButton groupMessage;
+    FloatingActionButton memberReport;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +95,11 @@ public class GroupActivity extends AppCompatActivity {
         hideLayout = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout);
         showLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_layout_remove);
         hideLayoutRemove = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout_remove);
-        broadcast = (Button)findViewById(R.id.GroupActitvity_BoardcastMessage);
-        groupMessage = (Button) findViewById(R.id.GroupActitvity_groupMessage);
-        memberReport = (Button) findViewById(R.id.GroupActivity_memberReport);
+        showLayoutMessage = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.show_layout_message);
+        hideLayoutMessage = AnimationUtils.loadAnimation(GroupActivity.this, R.anim.hide_layout_message);
+        broadcast = (FloatingActionButton)findViewById(R.id.GroupActitvity_BoardcastMessage);
+        groupMessage = (FloatingActionButton) findViewById(R.id.GroupActitvity_groupMessage);
+        memberReport = (FloatingActionButton) findViewById(R.id.GroupActivity_memberReport);
         token = token.getInstance();
         myUser = myUser.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
@@ -109,30 +112,25 @@ public class GroupActivity extends AppCompatActivity {
         LinearLayout joinBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_joinGroupLayout);
         LinearLayout removeBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_RemoveBtnLayout);
         LinearLayout editBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_EditBtnLayout);
+        LinearLayout messageBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_messageBtnLayout);
         switch(requestCode){
             case 5000: //from all group or accessing from other user's profile
                 editBtnLayout.setVisibility(View.GONE);
                 joinBtnLayout.setVisibility(View.VISIBLE);
                 removeBtnLayout.setVisibility(View.GONE);
-                broadcast.setVisibility(View.GONE);
-                groupMessage.setVisibility(View.GONE);
-                memberReport.setVisibility(View.GONE);
+                messageBtnLayout.setVisibility(View.GONE);
                 break;
             case 6000: //user is a leader
                 editBtnLayout.setVisibility(View.VISIBLE);
                 joinBtnLayout.setVisibility(View.VISIBLE);
                 removeBtnLayout.setVisibility(View.VISIBLE);
-                broadcast.setVisibility(View.VISIBLE);
-                groupMessage.setVisibility(View.VISIBLE);
-                memberReport.setVisibility(View.GONE);
+                messageBtnLayout.setVisibility(View.VISIBLE);
                 break;
             case 7000: //user is a member
                 editBtnLayout.setVisibility(View.GONE);
                 joinBtnLayout.setVisibility(View.VISIBLE);
                 removeBtnLayout.setVisibility(View.VISIBLE);
-                broadcast.setVisibility(View.GONE);
-                groupMessage.setVisibility(View.VISIBLE);
-                memberReport.setVisibility(View.VISIBLE);
+                messageBtnLayout.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -289,6 +287,41 @@ public class GroupActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_GROUPLIST_REMOVE);
             }
         });
+
+        FloatingActionButton messageBtn = (FloatingActionButton) findViewById(R.id.GroupActivity_messageBtn);
+        LinearLayout broadcastLayout = (LinearLayout) findViewById(R.id.GroupActivity_BroadcastMessageLayout);
+        LinearLayout groupMessageLayout = (LinearLayout) findViewById(R.id.GroupActivity_groupMessageLayout);
+        LinearLayout memberReportLayout = (LinearLayout) findViewById(R.id.GroupActivity_memberReportLayout);
+        messageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (groupMessageLayout.getVisibility() == View.VISIBLE){
+                    groupMessageLayout.setVisibility(View.GONE);
+                    groupMessageLayout.startAnimation(hideLayoutMessage);
+                    if (broadcastLayout.getVisibility() == View.VISIBLE){
+                        broadcastLayout.setVisibility(View.GONE);
+                        broadcastLayout.startAnimation(hideLayoutMessage);
+                    }
+                    if (memberReportLayout.getVisibility() == View.VISIBLE){
+                        memberReportLayout.setVisibility(View.GONE);
+                        memberReportLayout.startAnimation(hideLayoutMessage);
+                    }
+                } else{
+                    groupMessageLayout.setVisibility(View.VISIBLE);
+                    groupMessageLayout.startAnimation(showLayoutMessage);
+                    switch(requestCode){
+                        case 6000:
+                            broadcastLayout.setVisibility(View.VISIBLE);
+                            broadcastLayout.startAnimation(showLayoutMessage);
+                            break;
+                        case 7000:
+                            memberReportLayout.setVisibility(View.VISIBLE);
+                            memberReportLayout.startAnimation(showLayoutMessage);
+                            break;
+                    }
+                }
+            }
+        });
         broadcast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,39 +386,6 @@ public class GroupActivity extends AppCompatActivity {
         for (User user : returnedUser){
             Log.w(TAG, "    User: "+user.toString());
         }
-    }
-
-    private void responseLeader(User returnedUser, View view){
-        User user = returnedUser;
-        TextView leader = (TextView) view.findViewById(R.id.MemberDialog_leader);
-        leader.setText(user.getName());
-    }
-
-    private class MyListadapter extends ArrayAdapter<User> {
-        public MyListadapter(){
-            super(GroupActivity.this, R.layout.memberlistlayout, memberList);
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            View groupView = convertView;
-            if (groupView == null){
-                groupView = getLayoutInflater().inflate(R.layout.memberlistlayout, parent, false);
-            }
-            final View mView = groupView;
-            User curUser = memberList.get(position);
-            if (curUser != null) {
-                Log.i(TAG, ""+curUser.toString());
-                Call<User> caller = proxy.getUserById(curUser.getId());
-                ProxyBuilder.callProxy(GroupActivity.this, caller, returnedUser->responseMember(returnedUser, mView));
-            }
-            return mView;
-        }
-    }
-    private void responseMember(User returnedUser, View view){
-        TextView name = (TextView) view.findViewById(R.id.MemberLayout_name);
-        name.setText(returnedUser.getName());
     }
 
     private void extract_intent() {
