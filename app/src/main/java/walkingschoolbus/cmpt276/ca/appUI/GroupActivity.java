@@ -48,6 +48,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 public class GroupActivity extends AppCompatActivity {
 
     private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-groupID";
+    private static final String REQUESTCODE = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-requestCode";
     private static final int REQUEST_CODE_GROUPLIST_REMOVE = 2000;
     private static final int REQUEST_CODE_GROUPLIST_ADD = 1000;
     private ApiInterface proxy;
@@ -57,7 +58,6 @@ public class GroupActivity extends AppCompatActivity {
     private Token token;
     private WalkingGroups walkingGroups;
     List<User> memberList;
-    ListView members;
     private User myUser;
     FloatingActionButton joinMonitorGroup;
     FloatingActionButton joinMeGroup;
@@ -69,6 +69,7 @@ public class GroupActivity extends AppCompatActivity {
     Animation showLayout;
     Animation showLayoutRemove;
     Animation hideLayoutRemove;
+    int requestCode;
     //in app message
     Button broadcast;
     Button groupMessage;
@@ -101,6 +102,39 @@ public class GroupActivity extends AppCompatActivity {
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<WalkingGroups> caller = proxy.getOneGroup(groupID);
         ProxyBuilder.callProxy(GroupActivity.this, caller, returnedGroup->response(returnedGroup));
+        setVisibility();
+    }
+
+    private void setVisibility() {
+        LinearLayout joinBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_joinGroupLayout);
+        LinearLayout removeBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_RemoveBtnLayout);
+        LinearLayout editBtnLayout = (LinearLayout) findViewById(R.id.GroupActivity_EditBtnLayout);
+        switch(requestCode){
+            case 5000: //from all group or accessing from other user's profile
+                editBtnLayout.setVisibility(View.GONE);
+                joinBtnLayout.setVisibility(View.VISIBLE);
+                removeBtnLayout.setVisibility(View.GONE);
+                broadcast.setVisibility(View.GONE);
+                groupMessage.setVisibility(View.GONE);
+                memberReport.setVisibility(View.GONE);
+                break;
+            case 6000: //user is a leader
+                editBtnLayout.setVisibility(View.VISIBLE);
+                joinBtnLayout.setVisibility(View.VISIBLE);
+                removeBtnLayout.setVisibility(View.VISIBLE);
+                broadcast.setVisibility(View.VISIBLE);
+                groupMessage.setVisibility(View.VISIBLE);
+                memberReport.setVisibility(View.GONE);
+                break;
+            case 7000: //user is a member
+                editBtnLayout.setVisibility(View.GONE);
+                joinBtnLayout.setVisibility(View.VISIBLE);
+                removeBtnLayout.setVisibility(View.VISIBLE);
+                broadcast.setVisibility(View.GONE);
+                groupMessage.setVisibility(View.VISIBLE);
+                memberReport.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private void response(WalkingGroups returnedWalkingGroups) {
@@ -357,11 +391,13 @@ public class GroupActivity extends AppCompatActivity {
     private void extract_intent() {
         Intent intent = getIntent();
         groupID = intent.getLongExtra(GROUPID, -1);
+        requestCode = intent.getIntExtra(REQUESTCODE, -1);
     }
 
-    public static Intent makeIntent(Context context, Long groupId){
+    public static Intent makeIntent(Context context, Long groupId, int requestCode){
         Intent intent = new Intent(context, GroupActivity.class);
         intent.putExtra(GROUPID, groupId);
+        intent.putExtra(REQUESTCODE, requestCode);
         return intent;
     }
 

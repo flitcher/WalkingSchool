@@ -106,7 +106,7 @@ public class ProfileGroup_leader_fragement extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 WalkingGroups itemSelected = leaderGroup.get(position);
                 Long groupId = itemSelected.getId();
-                Intent intent = GroupActivity.makeIntent(context, groupId);
+                Intent intent = GroupActivity.makeIntent(context, groupId, 6000);
                 startActivity(intent);
             }
         });

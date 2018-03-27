@@ -64,6 +64,7 @@
     <string name="message">Message</string>
     <string name="title_activity_message_home">MessageHomeActivity</string>
     <string name="title_activity_read_message">readMessageActivity</string>
-
+    <string name="adit_group_info">Input all of the latitude and longitude section.</string>
+    <string name="adit_group_info_2">Or it is not going to store latitude and longitude</string>
 
 </resources>

@@ -63,7 +63,7 @@ public class MainActivity_group_fragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 WalkingGroups itemSelected = allGroups.get(position);
                 Long groupId = itemSelected.getId();
-                Intent intent = GroupActivity.makeIntent(getContext(), groupId);
+                Intent intent = GroupActivity.makeIntent(getContext(), groupId, 5000);
                 startActivity(intent);
             }
         });

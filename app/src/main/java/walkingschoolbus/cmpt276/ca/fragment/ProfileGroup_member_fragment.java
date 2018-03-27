@@ -76,7 +76,7 @@ public class ProfileGroup_member_fragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 WalkingGroups itemSelected = memberGroup.get(position);
                 Long groupId = itemSelected.getId();
-                Intent intent = GroupActivity.makeIntent(context, groupId);
+                Intent intent = GroupActivity.makeIntent(context, groupId, 7000);
                 startActivity(intent);
             }
         });
