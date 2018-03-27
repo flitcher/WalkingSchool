@@ -46,6 +46,7 @@ public class ProfileGroup_leader_fragement extends Fragment {
     ListView groupList;
     ApiInterface proxy;
     Token token;
+    User myUser;
     List<WalkingGroups> leaderGroup;
 
     @Nullable
@@ -59,6 +60,7 @@ public class ProfileGroup_leader_fragement extends Fragment {
 
     private void initiate() {
         userID = ((ProfileGroupActivity) getActivity()).getUserID();
+        myUser = myUser.getInstance();
         Log.i(TAG, "userID = "+userID);
         context = getContext();
         token = token.getInstance();
@@ -106,7 +108,13 @@ public class ProfileGroup_leader_fragement extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 WalkingGroups itemSelected = leaderGroup.get(position);
                 Long groupId = itemSelected.getId();
-                Intent intent = GroupActivity.makeIntent(context, groupId, 6000);
+                Intent intent;
+                Long myUserID = myUser.getId();
+                if (myUserID.equals(userID)) {
+                    intent = GroupActivity.makeIntent(context, groupId, 6000);
+                } else{
+                    intent = GroupActivity.makeIntent(context, groupId, 5000);
+                }
                 startActivity(intent);
             }
         });

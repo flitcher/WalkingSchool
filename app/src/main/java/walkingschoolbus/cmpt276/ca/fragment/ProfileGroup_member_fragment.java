@@ -40,6 +40,7 @@ public class ProfileGroup_member_fragment extends Fragment {
     ApiInterface proxy;
     Token token;
     List<WalkingGroups> memberGroup;
+    User myUser;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ProfileGroup_member_fragment extends Fragment {
 
     private void initiate() {
         userID = ((ProfileGroupActivity) getActivity()).getUserID();
+        myUser = myUser.getInstance();
         Log.i(TAG, "userID = "+userID);
         context = getContext();
         token = token.getInstance();
@@ -76,7 +78,12 @@ public class ProfileGroup_member_fragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 WalkingGroups itemSelected = memberGroup.get(position);
                 Long groupId = itemSelected.getId();
-                Intent intent = GroupActivity.makeIntent(context, groupId, 7000);
+                Intent intent;
+                if (userID.equals(myUser.getId())) {
+                    intent = GroupActivity.makeIntent(context, groupId, 7000);
+                } else {
+                    intent = GroupActivity.makeIntent(context, groupId, 5000);
+                }
                 startActivity(intent);
             }
         });
