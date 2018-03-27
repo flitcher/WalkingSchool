@@ -54,7 +54,7 @@ public class readMessageActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = ReadingMessageActivity.makeIntent(readMessageActivity.this,position,READ);
+                Intent intent = ReadingMessageActivity.makeIntent(readMessageActivity.this,position,READ,userManager.getReadMessages());
                 startActivity(intent);
             }
         });
