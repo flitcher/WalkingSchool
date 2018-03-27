@@ -92,19 +92,22 @@ public class AditGroup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String groupDescriptionString = groupDescription.getText().toString();
-                Double startingLatDouble = Double.parseDouble(startingLat.getText().toString());
-                Double startingLongDouble = Double.parseDouble(startingLong.getText().toString());
-                Double destinationLatDouble = Double.parseDouble(destinationLat.getText().toString());
-                Double destinationLongDouble = Double.parseDouble(destinationLong.getText().toString());
-                double[] routeLatArray = new double[2];
-                routeLatArray[0] = startingLatDouble;
-                routeLatArray[1] = destinationLatDouble;
-                double[] routeLongArray = new double[2];
-                routeLongArray[0] = startingLongDouble;
-                routeLongArray[1] = destinationLongDouble;
                 walkingGroups.setGroupDescription(groupDescriptionString);
-                walkingGroups.setRouteLatArray(routeLatArray);
-                walkingGroups.setRouteLngArray(routeLongArray);
+                if (!startingLat.getText().toString().isEmpty() && !startingLong.getText().toString().isEmpty()
+                        && !destinationLat.getText().toString().isEmpty() && !destinationLong.getText().toString().isEmpty()) {
+                    Double startingLatDouble = Double.parseDouble(startingLat.getText().toString());
+                    Double startingLongDouble = Double.parseDouble(startingLong.getText().toString());
+                    Double destinationLatDouble = Double.parseDouble(destinationLat.getText().toString());
+                    Double destinationLongDouble = Double.parseDouble(destinationLong.getText().toString());
+                    double[] routeLatArray = new double[2];
+                    routeLatArray[0] = startingLatDouble;
+                    routeLatArray[1] = destinationLatDouble;
+                    double[] routeLongArray = new double[2];
+                    routeLongArray[0] = startingLongDouble;
+                    routeLongArray[1] = destinationLongDouble;
+                    walkingGroups.setRouteLatArray(routeLatArray);
+                    walkingGroups.setRouteLngArray(routeLongArray);
+                }
                 switch(requestType){
                     case REQUEST_CREATE:
                         walkingGroups.setLeader(myUser);

@@ -122,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                    mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                        @Override
                        public void onMarkerDragStart(Marker marker) {
-                           Intent intent = GroupActivity.makeIntent(MapsActivity.this, groups.getId());
+                           Intent intent = GroupActivity.makeIntent(MapsActivity.this, groups.getId(), 5000);
                            startActivity(intent);
                        }
 

@@ -108,30 +108,57 @@
         android:text="@string/Destination"
         android:textSize="15sp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/GroupActivity_joinGroup"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:clickable="true"
-        app:srcCompat="@drawable/ic_add" />
+        android:id="@+id/GroupActivity_joinGroupLayout">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/GroupActivity_EditBtn"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/GroupActivity_joinGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_add"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Join"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="18dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginRight="24dp"
-        android:layout_toLeftOf="@id/GroupActivity_joinGroup"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:src="@drawable/ic_edit" />
+        android:layout_toLeftOf="@id/GroupActivity_joinGroupLayout"
+        android:id="@+id/GroupActivity_EditBtnLayout">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/GroupActivity_EditBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_edit"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/GroupActivity_joinMeLayout"
@@ -171,7 +198,7 @@
         android:visibility="gone"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_above="@id/GroupActivity_joinGroup"
+        android:layout_above="@id/GroupActivity_joinGroupLayout"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
@@ -197,16 +224,29 @@
             android:backgroundTint="@color/colorPrimary"/>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/GroupActivity_RemoveBtn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/GroupActivity_EditBtn"
-        android:layout_marginRight="24dp"
+        android:orientation="vertical"
+        android:layout_toLeftOf="@+id/GroupActivity_EditBtnLayout"
+        android:layout_marginRight="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="18dp"
-        android:src="@drawable/ic_remove"
-        android:clickable="true"/>
+        android:layout_marginBottom="7dp"
+        android:id="@+id/GroupActivity_RemoveBtnLayout">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/GroupActivity_RemoveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove"
+            android:clickable="true"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/GroupActivity_removeMeLayout"
@@ -215,7 +255,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_above="@id/GroupActivity_removeMonitorLayout"
-        android:layout_alignRight="@id/GroupActivity_RemoveBtn"
+        android:layout_alignRight="@id/GroupActivity_RemoveBtnLayout"
         android:layout_marginBottom="10dp">
 
         <TextView
@@ -243,8 +283,8 @@
         android:visibility="gone"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_above="@id/GroupActivity_RemoveBtn"
-        android:layout_alignRight="@id/GroupActivity_RemoveBtn"
+        android:layout_above="@id/GroupActivity_RemoveBtnLayout"
+        android:layout_alignRight="@id/GroupActivity_RemoveBtnLayout"
         android:layout_marginBottom="10dp">
 
         <TextView
@@ -270,9 +310,9 @@
         android:id="@+id/GroupActitvity_BoardcastMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/GroupActivity_RemoveBtn"
-        android:layout_toLeftOf="@+id/GroupActivity_RemoveBtn"
-        android:layout_toStartOf="@+id/GroupActivity_RemoveBtn"
+        android:layout_alignBottom="@+id/GroupActivity_RemoveBtnLayout"
+        android:layout_alignLeft="@+id/GroupActitvity_groupMessage"
+        android:layout_alignStart="@+id/GroupActitvity_groupMessage"
         android:text="broadcast" />
 
     <Button
@@ -280,16 +320,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/GroupActitvity_BoardcastMessage"
-        android:layout_alignLeft="@+id/GroupActitvity_BoardcastMessage"
-        android:layout_alignStart="@+id/GroupActitvity_BoardcastMessage"
+        android:layout_alignLeft="@+id/GroupActivity_Destination"
+        android:layout_alignStart="@+id/GroupActivity_Destination"
         android:text="Group Mesage" />
 
     <Button
         android:id="@+id/GroupActivity_memberReport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/GroupActivity_joinGroup"
-        android:layout_alignRight="@+id/GroupActivity_joinGroup"
+        android:layout_alignEnd="@+id/GroupActivity_joinGroupLayout"
+        android:layout_alignRight="@+id/GroupActivity_joinGroupLayout"
         android:layout_below="@+id/GroupActivity_Destination"
         android:layout_marginTop="14dp"
         android:text="member report" />
