@@ -1,26 +1,27 @@
 package walkingschoolbus.cmpt276.ca.fragment;
 
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
-import retrofit2.Call;
-import walkingschoolbus.cmpt276.ca.appUI.ChildActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
-import walkingschoolbus.cmpt276.ca.appUI.LoginActivity;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
-import walkingschoolbus.cmpt276.ca.appUI.MessageHomeActivity;
-import walkingschoolbus.cmpt276.ca.appUI.ParentActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
+import walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity;
+import walkingschoolbus.cmpt276.ca.appUI.readMessageActivity;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
@@ -41,6 +42,9 @@ public class MainActivity_profile_fragment extends Fragment {
     private ApiInterface proxy;
     Token token;
     private static final String TAG = "Profile";
+    Context context;
+    Animation showLayout;
+    Animation hideLayout;
 
     @Nullable
     @Override
@@ -51,6 +55,7 @@ public class MainActivity_profile_fragment extends Fragment {
         token = token.getInstance();
         ServerManager.connectToServerWithToken(getContext());
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
+        context = getContext();
         setupBtn(view);
         return view;
     }
@@ -64,7 +69,7 @@ public class MainActivity_profile_fragment extends Fragment {
                 startActivity(intent);
             }
         });
-        Button logoutBtn = (Button) view.findViewById(R.id.ProfileFrag_logOut);
+        FloatingActionButton logoutBtn = (FloatingActionButton) view.findViewById(R.id.ProfileFrag_logOut);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,11 +77,45 @@ public class MainActivity_profile_fragment extends Fragment {
             }
         });
 
-        Button messageBtn = (Button) view.findViewById(R.id.ProfileFrag_Message);
-        messageBtn.setOnClickListener(new View.OnClickListener() {
+
+        showLayout = AnimationUtils.loadAnimation(context, R.anim.show_layout_message);
+        hideLayout = AnimationUtils.loadAnimation(context, R.anim.hide_layout_message);
+
+        FloatingActionButton messageInfoBtn = (FloatingActionButton) view.findViewById(R.id.ProfileFrag_MessageInfo);
+        LinearLayout readMessageLayout = (LinearLayout) view.findViewById(R.id.ProfileFrag_readMessageLayout);
+        LinearLayout unreadMessageLayout = (LinearLayout) view.findViewById(R.id.ProfileFrag_unreadMessageLayout);
+        messageInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = MessageHomeActivity.makeIntent(getContext());
+            public void onClick(View view) {
+                if (readMessageLayout.getVisibility() == View.VISIBLE &&
+                        unreadMessageLayout.getVisibility() == View.VISIBLE){
+                    readMessageLayout.setVisibility(View.GONE);
+                    readMessageLayout.startAnimation(hideLayout);
+                    unreadMessageLayout.setVisibility(View.GONE);
+                    unreadMessageLayout.startAnimation(hideLayout);
+                } else{
+                    readMessageLayout.setVisibility(View.VISIBLE);
+                    readMessageLayout.startAnimation(showLayout);
+                    unreadMessageLayout.setVisibility(View.VISIBLE);
+                    unreadMessageLayout.startAnimation(showLayout);
+                }
+            }
+        });
+
+        FloatingActionButton readMessageBtn = (FloatingActionButton) view.findViewById(R.id.ProfileFrag_readMessage);
+        readMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = readMessageActivity.makeIntent(context);
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton unreadMessageBtn = (FloatingActionButton) view.findViewById(R.id.ProfileFrag_unreadMessage);
+        unreadMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = UnreadMessageActivity.makeIntent(context);
                 startActivity(intent);
             }
         });

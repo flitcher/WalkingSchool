@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,6 +43,7 @@ import java.util.List;
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
+import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
@@ -58,17 +60,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Map map;
     ApiInterface proxy;
     Token token;
+    User myUser;
+    List<User> childList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        initialize();
+    }
+
+    private void initialize() {
+        myUser = myUser.getInstance();
+        childList = myUser.getMonitorsUsers();
         map = map.getInstance();
+        token = token.getInstance();
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         if (map.isLocationPermission()){
             initMap();
         }
         searchAdressText = (EditText) findViewById(R.id.MapsActivity_searchText);
         initSearch();
+        showChildLocation();
+    }
+
+    private void showChildLocation() {
+        if (childList != null) {
+            for (User child : childList) {
+                Call<User> caller = proxy.getUserById(child.getId());
+                ProxyBuilder.callProxy(MapsActivity.this, caller, returndChild -> responseChild(returndChild));
+            }
+        }
+    }
+
+    private void responseChild(User returndChild) {
+        walkingschoolbus.cmpt276.ca.dataObjects.Location childLocation = returndChild.getLastGpsLocation();
+        if (childLocation != null){
+            LatLng childLatLng = new LatLng(childLocation.getLat(), childLocation.getLng());
+            mMap.addMarker(new MarkerOptions()
+                    .title("Last Location of " + returndChild.getName())
+                    .position(childLatLng)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        }
     }
 
     /**
@@ -83,8 +116,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
         if (map.isLocationPermission()) {
 
             getCurrentDeviceLocation();
@@ -97,8 +128,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            token = token.getInstance();
-            proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
             Call<List<WalkingGroups>> caller = proxy.getGroups();
             ProxyBuilder.callProxy(MapsActivity.this, caller, returnedGroups->response(returnedGroups));
         }
