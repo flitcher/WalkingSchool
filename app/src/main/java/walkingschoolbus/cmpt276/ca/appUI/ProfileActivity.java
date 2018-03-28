@@ -160,24 +160,38 @@ public class ProfileActivity extends AppCompatActivity {
                 birthday = birthday+birthYear;
             }
             userBirthdayTxt.setText("Birthday: "+birthday);
+        } else{
+            userBirthdayTxt.setText("Birthday: No information");
         }
         if (user.getAddress() != null){
             userAddressTxt.setText("Address: " + user.getAddress());
+        } else{
+            userAddressTxt.setText("Address: No information");
         }
         if (user.getHomePhone() != null){
             userHomePhoneTxt.setText("Home Phone: " + user.getHomePhone());
+        } else{
+            userHomePhoneTxt.setText("Home Phone: No information");
         }
         if (user.getCellPhone() != null){
             userCellPhoneTxt.setText("Cellphone: " + user.getCellPhone());
+        } else{
+            userCellPhoneTxt.setText("Cellphone: No information");
         }
         if (user.getGrade() != null){
             userGradeTxt.setText("Grade: " + user.getGrade());
+        } else{
+            userGradeTxt.setText("Grade: No information");
         }
         if (user.getTeacherName() != null){
             userTeacherNameTxt.setText("Teacher: "+user.getTeacherName());
+        } else{
+            userTeacherNameTxt.setText("Teacher: No information");
         }
         if (user.getEmergencyContactInfo() != null){
             userEmergencyContactTxt.setText("Emergency Contact: "+user.getEmergencyContactInfo());
+        } else{
+            userEmergencyContactTxt.setText("Emergency Contact: No information");
         }
     }
 

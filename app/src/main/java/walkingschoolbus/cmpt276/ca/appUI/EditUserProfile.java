@@ -115,28 +115,44 @@ public class EditUserProfile extends AppCompatActivity {
                     if (!userBirthMonthString.isEmpty()){
                         int userBirthMonth = Integer.parseInt(userBirthMonthString);
                         user.setBirthMonth(userBirthMonth);
+                    } else{
+                        user.setBirthMonth(0);
                     }
                     if (!userBirthYearString.isEmpty()){
                         int userBirthYear = Integer.parseInt(userBirthYearString);
                         user.setBirthYear(userBirthYear);
+                    } else{
+                        user.setBirthYear(0);
                     }
                     if (!userAddress.isEmpty()){
                         user.setAddress(userAddress);
+                    } else{
+                        user.setAddress(null);
                     }
                     if (!userHomePhone.isEmpty()){
                         user.setHomePhone(userHomePhone);
+                    } else{
+                        user.setHomePhone(null);
                     }
                     if (!userCellPhone.isEmpty()){
                         user.setCellPhone(userCellPhone);
+                    } else{
+                        user.setCellPhone(null);
                     }
                     if (!userGrade.isEmpty()){
                         user.setGrade(userGrade);
+                    } else{
+                        user.setGrade(null);
                     }
                     if (!userTeacherName.isEmpty()){
                         user.setTeacherName(userTeacherName);
+                    } else{
+                        user.setTeacherName(null);
                     }
                     if (!userEmergencyContact.isEmpty()){
                         user.setEmergencyContactInfo(userEmergencyContact);
+                    } else{
+                        user.setEmergencyContactInfo(null);
                     }
                     Call<User> caller = proxy.editUser(user.getId(), user);
                     ProxyBuilder.callProxy(EditUserProfile.this, caller, returnedUser -> responseEdit(returnedUser));
