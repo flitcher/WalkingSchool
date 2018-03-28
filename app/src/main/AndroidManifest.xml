@@ -89,7 +89,8 @@
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.ChildMessage" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.GroupMessage" />
         <activity android:name="walkingschoolbus.cmpt276.ca.appUI.MemberReportActivity" />
-        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.EditUserProfile"></activity>
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.EditUserProfile" />
+        <activity android:name="walkingschoolbus.cmpt276.ca.appUI.OnWalkGPSLocation"></activity>
     </application>
 
 </manifest>

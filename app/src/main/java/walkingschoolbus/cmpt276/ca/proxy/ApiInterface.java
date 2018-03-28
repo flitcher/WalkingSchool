@@ -62,8 +62,6 @@ public interface ApiInterface {
     @DELETE("/users/{idA}/monitoredByUsers/{idB}")
     Call<Void> deleteMonitoredByUser(@Path("idA") Long userIdA, @Path("idB") Long userIdB);
 
-
-
     /**
      * MORE GOES HERE:
      * - Monitoring
