@@ -2,9 +2,12 @@ package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.lang.reflect.Proxy;
 
@@ -22,7 +25,19 @@ public class EditUserProfile extends AppCompatActivity {
     private long userId;
     private User user;
     ApiInterface proxy;
+    User myUser;
     Token token;
+    EditText userNameTxt = (EditText) findViewById(R.id.EditUserProfile_userName);
+    EditText userEmailTxt = (EditText) findViewById(R.id.EditUserProfile_email);
+    EditText userBirthMonthTxt = (EditText) findViewById(R.id.EditUserProfile_birthMonth);
+    EditText userBirthYearTxt = (EditText) findViewById(R.id.EditUserProfile_birthYear);
+    EditText userAddressTxt = (EditText) findViewById(R.id.EditUserProfile_address);
+    EditText userHomePhoneTxt = (EditText) findViewById(R.id.EditUserProfile_homePhone);
+    EditText userCellPhoneTxt = (EditText) findViewById(R.id.EditUserProfile_cellPhone);
+    EditText userGradeTxt = (EditText) findViewById(R.id.EditUserProfile_grade);
+    EditText userTeacherNameTxt = (EditText) findViewById(R.id.EditUserProfile_teacherName);
+    EditText userEmergencyContactTxt = (EditText) findViewById(R.id.EditUserProfile_emergencyContactInfo);
+    EditText userPasswordTxt = (EditText) findViewById(R.id.EditUserProfile_password);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +58,85 @@ public class EditUserProfile extends AppCompatActivity {
     private void response(User returnedUser) {
         user = returnedUser;
         setText();
+        setBtn();
+    }
+
+    private void setBtn() {
+        FloatingActionButton okBtn = (FloatingActionButton) findViewById(R.id.EditUserProfile_okBtn);
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userName = userNameTxt.getText().toString();
+                String userEmail = userEmailTxt.getText().toString().trim();
+                String userPassword = userPasswordTxt.getText().toString();
+                String userBirthMonthString = userBirthMonthTxt.getText().toString();
+                String userBirthYearString = userBirthYearTxt.getText().toString();
+                String userAddress = userAddressTxt.getText().toString();
+                String userHomePhone = userHomePhoneTxt.getText().toString();
+                String userCellPhone = userCellPhoneTxt.getText().toString();
+                String userGrade = userGradeTxt.getText().toString();
+                String userTeacherName = userTeacherNameTxt.getText().toString();
+                String userEmergencyContact = userEmergencyContactTxt.getText().toString();
+
+                if (!userPassword.isEmpty() && userPassword.length() <= 4){
+                    Toast.makeText(EditUserProfile.this, "Your password must have length bigger than 4",
+                            Toast.LENGTH_LONG);
+                } else if(userEmail.isEmpty()){
+                    Toast.makeText(EditUserProfile.this, "Your email should not be empty", Toast.LENGTH_LONG);
+                } else if(userName.isEmpty()){
+                    Toast.makeText(EditUserProfile.this, "Your username should not be empty",Toast.LENGTH_LONG);
+                } else if(!userBirthMonthString.isEmpty() && Integer.parseInt(userBirthMonthString) < 0){
+                    Toast.makeText(EditUserProfile.this, "Your Birth Month is smaller than 0", Toast.LENGTH_LONG);
+                } else if(!userBirthMonthString.isEmpty() && Integer.parseInt(userBirthMonthString) >  12){
+                    Toast.makeText(EditUserProfile.this, "Your Birth Month is bigger than 12", Toast.LENGTH_LONG);
+                } else{
+                    user.setName(userName);
+                    user.setEmail(userEmail);
+                    if (!userPassword.isEmpty()){
+                        user.setPassword(userPassword);
+                    }
+                    if (!userBirthMonthString.isEmpty()){
+                        int userBirthMonth = Integer.parseInt(userBirthMonthString);
+                        user.setBirthMonth(userBirthMonth);
+                    }
+                    if (!userBirthYearString.isEmpty()){
+                        int userBirthYear = Integer.parseInt(userBirthYearString);
+                        user.setBirthYear(userBirthYear);
+                    }
+                    if (!userAddress.isEmpty()){
+                        user.setAddress(userAddress);
+                    }
+                    if (!userHomePhone.isEmpty()){
+                        user.setHomePhone(userHomePhone);
+                    }
+                    if (!userCellPhone.isEmpty()){
+                        user.setCellPhone(userCellPhone);
+                    }
+                    if (!userGrade.isEmpty()){
+                        user.setGrade(userGrade);
+                    }
+                    if (!userTeacherName.isEmpty()){
+                        user.setTeacherName(userTeacherName);
+                    }
+                    if (!userEmergencyContact.isEmpty()){
+                        user.setEmergencyContactInfo(userEmergencyContact);
+                    }
+                    Call<User> caller = proxy.editUser(user.getId(), user);
+                    ProxyBuilder.callProxy(EditUserProfile.this, caller, returnedUser -> responseEdit(returnedUser));
+                }
+            }
+        });
+    }
+
+    private void responseEdit(User returnedUser) {
+        myUser = myUser.getInstance();
+        if (returnedUser.getId() == myUser.getId()){
+            myUser.setUser(returnedUser);
+        }
+        finish();
     }
 
     private void setText() {
-        EditText userNameTxt = (EditText) findViewById(R.id.EditUserProfile_userName);
-        EditText userEmailTxt = (EditText) findViewById(R.id.EditUserProfile_email);
-        EditText userBirthMonthTxt = (EditText) findViewById(R.id.EditUserProfile_birthMonth);
-        EditText userBirthYearTxt = (EditText) findViewById(R.id.EditUserProfile_birthYear);
-        EditText userAddressTxt = (EditText) findViewById(R.id.EditUserProfile_address);
-        EditText userHomePhoneTxt = (EditText) findViewById(R.id.EditUserProfile_homePhone);
-        EditText userCellPhoneTxt = (EditText) findViewById(R.id.EditUserProfile_cellPhone);
-        EditText userGradeTxt = (EditText) findViewById(R.id.EditUserProfile_grade);
-        EditText userTeacherNameTxt = (EditText) findViewById(R.id.EditUserProfile_teacherName);
-        EditText userEmergencyContactTxt = (EditText) findViewById(R.id.EditUserProfile_emergencyContactInfo);
         userNameTxt.setText(user.getName());
         userEmailTxt.setText(user.getEmail());
 

@@ -23,7 +23,7 @@
         android:id="@+id/EditUserProfile_info"
         android:layout_marginTop="5dp"
         android:text="Type information wanted to be changed:
-(Leave Blank for the information don't want to change)"/>
+(Leave the information don't want to change)"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -143,5 +143,16 @@
                 android:drawableLeft="@drawable/ic_contacts"/>
         </RelativeLayout>
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:id="@+id/EditUserProfile_okBtn"/>
 
 </RelativeLayout>
