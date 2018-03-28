@@ -271,8 +271,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/GroupActivity_RemoveBtn"
-        android:layout_toLeftOf="@+id/GroupActivity_RemoveBtn"
-        android:layout_toStartOf="@+id/GroupActivity_RemoveBtn"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/groupActivity_startBtn"
+        android:layout_toRightOf="@+id/groupActivity_startBtn"
         android:text="broadcast" />
 
     <Button
@@ -293,5 +295,19 @@
         android:layout_below="@+id/GroupActivity_Destination"
         android:layout_marginTop="14dp"
         android:text="member report" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/groupActivity_startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/GroupActitvity_BoardcastMessage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/GroupActivity_joinMeLayout"
+        android:layout_toRightOf="@+id/GroupActivity_joinMeLayout"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:src="@android:drawable/ic_lock_power_off"
+        app:backgroundTint="@android:color/holo_green_light" />
 
 </RelativeLayout>
