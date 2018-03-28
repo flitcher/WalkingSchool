@@ -141,7 +141,7 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="6dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/GroupActivity_joinGroupLayout"
         android:id="@+id/GroupActivity_EditBtnLayout">
 
@@ -176,11 +176,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Title"
             android:text="@string/joinMe"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -206,13 +206,13 @@
         android:layout_marginRight="24dp">
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/joinChild"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -229,7 +229,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_toLeftOf="@+id/GroupActivity_EditBtnLayout"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="9dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="7dp"
         android:id="@+id/GroupActivity_RemoveBtnLayout">
@@ -259,13 +259,13 @@
         android:layout_marginBottom="10dp">
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RemoveMe"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -288,13 +288,13 @@
         android:layout_marginBottom="10dp">
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/RemoveChild"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -306,32 +306,128 @@
             android:backgroundTint="@color/colorPrimary"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/GroupActitvity_BoardcastMessage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/GroupActivity_RemoveBtnLayout"
-        android:layout_alignLeft="@+id/GroupActitvity_groupMessage"
-        android:layout_alignStart="@+id/GroupActitvity_groupMessage"
-        android:text="broadcast" />
+        android:orientation="vertical"
+        android:layout_toLeftOf="@id/GroupActivity_RemoveBtnLayout"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="6dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/GroupActivity_messageBtnLayout">
 
-    <Button
-        android:id="@+id/GroupActitvity_groupMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/GroupActitvity_BoardcastMessage"
-        android:layout_alignLeft="@+id/GroupActivity_Destination"
-        android:layout_alignStart="@+id/GroupActivity_Destination"
-        android:text="Group Mesage" />
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_black_message"
+            android:id="@+id/GroupActivity_messageBtn"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Message"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/GroupActivity_memberReport"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/GroupActivity_joinGroupLayout"
-        android:layout_alignRight="@+id/GroupActivity_joinGroupLayout"
-        android:layout_below="@+id/GroupActivity_Destination"
-        android:layout_marginTop="14dp"
-        android:text="member report" />
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_alignRight="@id/GroupActivity_messageBtnLayout"
+        android:id="@+id/GroupActivity_groupMessageLayout"
+        android:layout_above="@id/GroupActivity_messageBtnLayout"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="9dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group Message"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:fabSize="mini"
+            android:clickable="true"
+            android:src="@drawable/ic_black_message"
+            android:id="@+id/GroupActitvity_groupMessage" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_alignRight="@id/GroupActivity_groupMessageLayout"
+        android:id="@+id/GroupActivity_BroadcastMessageLayout"
+        android:layout_above="@id/GroupActivity_groupMessageLayout"
+        android:layout_marginBottom="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Broadcast"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:clickable="true"
+            android:src="@drawable/ic_black_message"
+            android:id="@+id/GroupActitvity_BoardcastMessage" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_alignRight="@id/GroupActivity_groupMessageLayout"
+        android:id="@+id/GroupActivity_memberReportLayout"
+        android:layout_above="@id/GroupActivity_BroadcastMessageLayout"
+        android:layout_marginBottom="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member Report"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="10sp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:clickable="true"
+            android:src="@drawable/ic_black_message"
+            android:id="@+id/GroupActivity_memberReport" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/groupActivity_startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/GroupActitvity_BoardcastMessage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/GroupActivity_joinMeLayout"
+        android:layout_toRightOf="@+id/GroupActivity_joinMeLayout"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:src="@android:drawable/ic_lock_power_off"
+        app:backgroundTint="@android:color/holo_green_light" />
 
 </RelativeLayout>
