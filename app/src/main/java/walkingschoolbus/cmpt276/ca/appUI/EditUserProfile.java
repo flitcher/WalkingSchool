@@ -99,13 +99,13 @@ public class EditUserProfile extends AppCompatActivity {
                     Toast.makeText(EditUserProfile.this, "Your password must have length bigger than 4",
                             Toast.LENGTH_LONG);
                 } else if(userEmail.isEmpty()){
-                    Toast.makeText(EditUserProfile.this, "Your email should not be empty", Toast.LENGTH_LONG);
+                    Toast.makeText(EditUserProfile.this, "Your email should not be empty", Toast.LENGTH_LONG).show();
                 } else if(userName.isEmpty()){
-                    Toast.makeText(EditUserProfile.this, "Your username should not be empty",Toast.LENGTH_LONG);
+                    Toast.makeText(EditUserProfile.this, "Your username should not be empty",Toast.LENGTH_LONG).show();
                 } else if(!userBirthMonthString.isEmpty() && Integer.parseInt(userBirthMonthString) < 0){
-                    Toast.makeText(EditUserProfile.this, "Your Birth Month is smaller than 0", Toast.LENGTH_LONG);
+                    Toast.makeText(EditUserProfile.this, "Your Birth Month is smaller than 0", Toast.LENGTH_LONG).show();
                 } else if(!userBirthMonthString.isEmpty() && Integer.parseInt(userBirthMonthString) >  12){
-                    Toast.makeText(EditUserProfile.this, "Your Birth Month is bigger than 12", Toast.LENGTH_LONG);
+                    Toast.makeText(EditUserProfile.this, "Your Birth Month is bigger than 12", Toast.LENGTH_LONG).show();
                 } else{
                     user.setName(userName);
                     user.setEmail(userEmail);
