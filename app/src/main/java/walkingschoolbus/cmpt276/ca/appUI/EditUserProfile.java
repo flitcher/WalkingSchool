@@ -27,17 +27,19 @@ public class EditUserProfile extends AppCompatActivity {
     ApiInterface proxy;
     User myUser;
     Token token;
-    EditText userNameTxt = (EditText) findViewById(R.id.EditUserProfile_userName);
-    EditText userEmailTxt = (EditText) findViewById(R.id.EditUserProfile_email);
-    EditText userBirthMonthTxt = (EditText) findViewById(R.id.EditUserProfile_birthMonth);
-    EditText userBirthYearTxt = (EditText) findViewById(R.id.EditUserProfile_birthYear);
-    EditText userAddressTxt = (EditText) findViewById(R.id.EditUserProfile_address);
-    EditText userHomePhoneTxt = (EditText) findViewById(R.id.EditUserProfile_homePhone);
-    EditText userCellPhoneTxt = (EditText) findViewById(R.id.EditUserProfile_cellPhone);
-    EditText userGradeTxt = (EditText) findViewById(R.id.EditUserProfile_grade);
-    EditText userTeacherNameTxt = (EditText) findViewById(R.id.EditUserProfile_teacherName);
-    EditText userEmergencyContactTxt = (EditText) findViewById(R.id.EditUserProfile_emergencyContactInfo);
-    EditText userPasswordTxt = (EditText) findViewById(R.id.EditUserProfile_password);
+    EditText userNameTxt;
+    EditText userEmailTxt;
+    EditText userBirthMonthTxt;
+    EditText userBirthYearTxt;
+    EditText userAddressTxt;
+    EditText userHomePhoneTxt;
+    EditText userCellPhoneTxt;
+    EditText userGradeTxt;
+    EditText userTeacherNameTxt;
+    EditText userEmergencyContactTxt;
+    EditText userPasswordTxt;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,25 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     private void initiate() {
+        initiateEditText();
         token = token.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<User> caller = proxy.getUserById(userId);
         ProxyBuilder.callProxy(EditUserProfile.this, caller, returnedUser->response(returnedUser));
+    }
+
+    private void initiateEditText() {
+        userNameTxt = (EditText) findViewById(R.id.EditUserProfile_userName);
+        userEmailTxt = (EditText) findViewById(R.id.EditUserProfile_email);
+        userBirthMonthTxt = (EditText) findViewById(R.id.EditUserProfile_birthMonth);
+        userBirthYearTxt = (EditText) findViewById(R.id.EditUserProfile_birthYear);
+        userAddressTxt = (EditText) findViewById(R.id.EditUserProfile_address);
+        userHomePhoneTxt = (EditText) findViewById(R.id.EditUserProfile_homePhone);
+        userCellPhoneTxt = (EditText) findViewById(R.id.EditUserProfile_cellPhone);
+        userGradeTxt = (EditText) findViewById(R.id.EditUserProfile_grade);
+        userTeacherNameTxt = (EditText) findViewById(R.id.EditUserProfile_teacherName);
+        userEmergencyContactTxt = (EditText) findViewById(R.id.EditUserProfile_emergencyContactInfo);
+        userPasswordTxt = (EditText) findViewById(R.id.EditUserProfile_password);
     }
 
     private void response(User returnedUser) {
@@ -141,11 +158,11 @@ public class EditUserProfile extends AppCompatActivity {
         userEmailTxt.setText(user.getEmail());
 
         if (user.getBirthMonth() != 0){
-            userBirthMonthTxt.setText(user.getBirthMonth());
+            userBirthMonthTxt.setText(""+user.getBirthMonth());
         }
 
         if (user.getBirthYear() != 0){
-            userBirthYearTxt.setText(user.getBirthYear());
+            userBirthYearTxt.setText(""+user.getBirthYear());
         }
 
         if (user.getAddress() != null){

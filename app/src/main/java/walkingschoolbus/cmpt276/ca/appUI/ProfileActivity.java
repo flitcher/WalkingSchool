@@ -12,6 +12,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Proxy;
+import java.util.List;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
@@ -25,7 +26,9 @@ public class ProfileActivity extends AppCompatActivity {
     private Long userId;
     private User user;
     ApiInterface proxy;
+    User myUser;
     Token token;
+    FloatingActionButton editBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,6 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        FloatingActionButton editBtn = (FloatingActionButton) findViewById(R.id.ProfileActivity_editBtn);
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,16 +65,34 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initiate() {
+        editBtn = (FloatingActionButton) findViewById(R.id.ProfileActivity_editBtn);
+        myUser = myUser.getInstance();
         token = token.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         Call<User> caller = proxy.getUserById(userId);
-        ProxyBuilder.callProxy(ProfileActivity.this, caller, returnedUser->response(returnedUser));
+        ProxyBuilder.callProxy(ProfileActivity.this, caller, returnedUser -> response(returnedUser));
         setBtn();
     }
 
     private void response(User returnedUser) {
         user = returnedUser;
+        userSetBtnVisibility();
         setText();
+    }
+
+    private void userSetBtnVisibility() {
+        editBtn.setVisibility(View.GONE);
+        if (userId.equals(myUser.getId())) {
+            editBtn.setVisibility(View.VISIBLE);
+            return;
+        }
+        List<User> parentList = user.getMonitoredByUsers();
+        for (User parentUser: parentList){
+            if (parentUser.getId().equals(myUser.getId())){
+                editBtn.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
     }
 
     private void setText() {
