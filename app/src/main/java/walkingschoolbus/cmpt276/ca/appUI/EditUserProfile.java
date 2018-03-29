@@ -18,6 +18,9 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * allows for user to edit their info
+ */
 public class EditUserProfile extends AppCompatActivity {
 
     private static final String USERID = "package walkingschoolbus.cmpt276.ca.appUI-EditUserProfile-userID";

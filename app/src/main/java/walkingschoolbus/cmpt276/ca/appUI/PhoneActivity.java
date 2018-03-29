@@ -15,6 +15,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * collect user home phone and cell number
+ */
 public class PhoneActivity extends AppCompatActivity {
 
     public static final String TAG = "phoneactivity";

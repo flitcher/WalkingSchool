@@ -39,6 +39,9 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * activities and features corresponding to walking group
+ */
 public class GroupActivity extends AppCompatActivity {
 
     private static final String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupActivity-groupID";

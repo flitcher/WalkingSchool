@@ -20,6 +20,9 @@ import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_EMAIL;
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_PASSWORD;
 
+/**
+ * used for auto login and displaying imagse
+ */
 public class SplashScreen extends AppCompatActivity {
 
     private static final String TAG = "splashscreen";

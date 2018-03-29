@@ -26,6 +26,10 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
+/**
+ *  Activity for adding user
+ */
+
 public class AddActivity extends AppCompatActivity {
     private static String listType;
     private final String CHILDLIST = "childList";

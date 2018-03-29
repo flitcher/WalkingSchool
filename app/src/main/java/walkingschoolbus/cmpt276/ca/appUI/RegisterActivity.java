@@ -21,7 +21,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 
 import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
-
+/**
+ * register user and authentication
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private Button registerBtn;

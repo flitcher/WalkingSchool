@@ -15,6 +15,10 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * collect information on address, garde, teacher name, and emergency message
+ */
+
 public class ContactInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "contact" ;

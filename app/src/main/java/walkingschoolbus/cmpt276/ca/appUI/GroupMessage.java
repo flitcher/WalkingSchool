@@ -17,6 +17,9 @@ import java.util.List;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * Allows for group messaging
+ */
 public class GroupMessage extends AppCompatActivity {
 
     private static List<Message> groupMessage;

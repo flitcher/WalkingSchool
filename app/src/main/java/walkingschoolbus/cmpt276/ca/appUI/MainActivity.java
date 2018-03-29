@@ -37,7 +37,9 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 
-
+/**
+ * Dashboard for the user
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String USER_ID = "id";

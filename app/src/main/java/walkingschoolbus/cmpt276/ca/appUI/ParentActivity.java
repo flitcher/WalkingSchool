@@ -23,7 +23,7 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 
 /**
- * Created by Jonathan Chen on 2018/3/6.
+ * Display parent activities and features
  */
 
 public class ParentActivity extends AppCompatActivity {

@@ -49,6 +49,9 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * Displays google maps
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String TAG = "MapsActivity";

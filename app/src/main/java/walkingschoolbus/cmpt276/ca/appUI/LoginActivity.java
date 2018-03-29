@@ -30,6 +30,9 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
+/**
+ * user login and authentication
+ */
 public class LoginActivity extends AppCompatActivity {
 
 

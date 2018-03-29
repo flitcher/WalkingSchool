@@ -22,6 +22,9 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * delete a user
+ */
 public class DeleteActivity extends AppCompatActivity {
     private static User user;
     private static User userManager = User.getInstance();
