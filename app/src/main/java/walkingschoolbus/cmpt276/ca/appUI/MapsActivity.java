@@ -96,11 +96,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void responseChild(User returndChild) {
         walkingschoolbus.cmpt276.ca.dataObjects.Location childLocation = returndChild.getLastGpsLocation();
         if (childLocation != null){
-            LatLng childLatLng = new LatLng(childLocation.getLat(), childLocation.getLng());
-            mMap.addMarker(new MarkerOptions()
-                    .title("Last Location of " + returndChild.getName())
-                    .position(childLatLng)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            if (returndChild.getLastGpsLocation().getTimestamp() != null) {
+                LatLng childLatLng = new LatLng(childLocation.getLat(), childLocation.getLng());
+                mMap.addMarker(new MarkerOptions()
+                        .title("Last Location of " + returndChild.getName() +
+                                "/Time updated at: " + returndChild.getLastGpsLocation().getTimestamp())
+                        .position(childLatLng)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+            }
         }
     }
 

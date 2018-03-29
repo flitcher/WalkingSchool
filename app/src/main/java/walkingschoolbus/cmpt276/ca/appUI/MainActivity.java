@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(USER_ID, String.valueOf(myUser.getId()));
-        editor.apply();
+        editor.commit();
     }
 
     private void getLocationPermission() {
@@ -134,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.apply();
+        editor.commit();
         ServerManager.setDoLogin(false);
+        myUser.removeAllUserInfo();
         Intent intent = LoginActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 

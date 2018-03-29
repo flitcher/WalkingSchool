@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_INFO = "userInfo";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
-    public static final String USER_TOKEN ="token";
 
     CircularProgressButton loadingBtn;
     @Override

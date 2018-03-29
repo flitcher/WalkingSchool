@@ -26,6 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
@@ -115,16 +118,19 @@ public class MainActivity_profile_fragment extends Fragment {
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             String provider = locationManager.getBestProvider(criteria, true);
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "No permission to access GPS", Toast.LENGTH_SHORT).show();
                 return;
             }
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
+                Date currentTime = Calendar.getInstance().getTime();
+                myUser.getLastGpsLocation().setTimestamp(currentTime);
                 myUser.getLastGpsLocation().setLat(latitude);
                 myUser.getLastGpsLocation().setLng(longitude);
             } else{
-                Toast.makeText(context, "Your Location is not valid", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Your Location is not valid", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -140,7 +146,7 @@ public class MainActivity_profile_fragment extends Fragment {
     private void responseEdit(User user){
         Log.d(TAG, "gps location updated");
         Log.d(TAG, "Lat, Long = " + myUser.getLastGpsLocation().getLat() +
-                myUser.getLastGpsLocation().getLng());
+                myUser.getLastGpsLocation().getLng()+" Time: "+ myUser.getLastGpsLocation().getTimestamp());
     }
 
     private void setupBtn() {
