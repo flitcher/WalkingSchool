@@ -37,7 +37,9 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 
-
+/**
+ * Dashboard for the user
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String USER_ID = "id";
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putString(USER_ID, String.valueOf(myUser.getId()));
-        editor.apply();
+        editor.commit();
     }
 
     private void getLocationPermission() {
@@ -134,8 +136,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(USER_INFO, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        editor.apply();
+        editor.commit();
         ServerManager.setDoLogin(false);
+        myUser.removeAllUserInfo();
         Intent intent = LoginActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 

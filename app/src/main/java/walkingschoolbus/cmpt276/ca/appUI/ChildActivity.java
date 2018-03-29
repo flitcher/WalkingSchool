@@ -18,6 +18,9 @@ import java.util.List;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * Monitoring children and corresponding features
+ */
 public class ChildActivity extends AppCompatActivity {
 
     User userManager = User.getInstance();

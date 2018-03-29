@@ -14,6 +14,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * displays weather or not a message has been read
+ */
 public class ReadingMessageActivity extends AppCompatActivity {
     private static int position;
     private static String state;

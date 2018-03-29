@@ -420,7 +420,6 @@
         android:id="@+id/groupActivity_startBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/GroupActitvity_BoardcastMessage"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/GroupActivity_joinMeLayout"

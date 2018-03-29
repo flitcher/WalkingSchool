@@ -18,6 +18,9 @@ import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * Activity for editing group (typo on class name)
+ */
 public class AditGroup extends AppCompatActivity {
     public static final String GROUP_ID = "walkingschoolbus.cmpt276.ca.appUI-AditGroup-GroupID";
     private static final int REQUEST_EDIT = 8000;

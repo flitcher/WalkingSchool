@@ -16,6 +16,9 @@ import java.util.List;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * display monitoring group
+ */
 public class ListMonitoringGroup extends AppCompatActivity {
     User user;
     List<User> userList;

@@ -21,6 +21,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * Getting user's birthday
+ */
 public class BirthdayActivity extends AppCompatActivity {
 
     public static final String TAG = "birthdayActivity";

@@ -19,6 +19,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * send message activity
+ */
 public class SendingActivity extends AppCompatActivity {
 
     private Long groupID;

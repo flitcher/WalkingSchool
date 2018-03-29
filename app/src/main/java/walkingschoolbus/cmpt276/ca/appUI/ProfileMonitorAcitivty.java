@@ -16,6 +16,9 @@ import walkingschoolbus.cmpt276.ca.fragment.ProfileMonitor_parent_fragment;
 import walkingschoolbus.cmpt276.ca.fragment.SectionsPageAdapter;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * profile monitor
+ */
 public class ProfileMonitorAcitivty extends AppCompatActivity {
 
     private static String USERID = "package walkingschoolbus.cmpt276.ca.appUI-ProfileMonitorActivity-USERID";

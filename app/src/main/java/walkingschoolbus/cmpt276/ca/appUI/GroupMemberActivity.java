@@ -16,6 +16,9 @@ import walkingschoolbus.cmpt276.ca.fragment.ProfileGroup_member_fragment;
 import walkingschoolbus.cmpt276.ca.fragment.SectionsPageAdapter;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * display members of a walking group
+ */
 public class GroupMemberActivity extends AppCompatActivity {
 
     private static String GROUPID = "walkingschoolbus.cmpt276.ca.appUI-GroupMemberActivity-GroupID";

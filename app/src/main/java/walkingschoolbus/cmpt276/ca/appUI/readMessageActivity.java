@@ -23,6 +23,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * read messages and its activities and features
+ */
 public class readMessageActivity extends AppCompatActivity {
     User userManager = User.getInstance();
     List<Message> readMessage;

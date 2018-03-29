@@ -103,7 +103,6 @@ public class User {
         this.setReadMessages(newUser.getReadMessages());
         this.setUnreadMessages(newUser.getUnreadMessages());
         this.setLastGpsLocation(newUser.getLastGpsLocation());
-
     }
     //get section
     public User getUser(){
@@ -188,6 +187,30 @@ public class User {
             listOfMoniter[i]= "Name: " + this.getName() + "Email: " +this.getEmail();
         }
         return listOfMoniter;
+    }
+
+    public void removeAllUserInfo(){
+        this.setName(null);
+        this.setEmail(null);
+        this.setId(null);
+        this.setHref(null);
+        this.setPassword(null);
+        this.setMonitoredByUsers(null);
+        this.setMonitorsUsers(null);
+        this.setMemberOfGroups(null);
+        this.setLeadsGroups(null);
+
+        this.setBirthMonth(0);
+        this.setBirthYear(0);
+        this.setAddress(null);
+        this.setCellPhone(null);
+        this.setHomePhone(null);
+        this.setGrade(null);
+        this.setTeacherName(null);
+        this.setEmergencyContactInfo(null);
+        this.setReadMessages(null);
+        this.setUnreadMessages(null);
+        this.setLastGpsLocation(null);
     }
 
 

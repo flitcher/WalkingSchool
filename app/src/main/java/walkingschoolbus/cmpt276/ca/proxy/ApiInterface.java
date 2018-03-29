@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import walkingschoolbus.cmpt276.ca.dataObjects.Location;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
@@ -62,8 +63,11 @@ public interface ApiInterface {
     @DELETE("/users/{idA}/monitoredByUsers/{idB}")
     Call<Void> deleteMonitoredByUser(@Path("idA") Long userIdA, @Path("idB") Long userIdB);
 
+    @GET("/users/{id}/lastGpsLocation")
+    Call<Location> getUserLocation (@Path("id") Long userId);
 
-
+    @POST("/users/{id}/lastGpsLocation")
+    Call<Location> setUserLocation(@Path("id") Long userId, @Body Location body);
     /**
      * MORE GOES HERE:
      * - Monitoring
@@ -92,6 +96,7 @@ public interface ApiInterface {
 
     @DELETE("/groups/{idA}/memberUsers/{idB}")
     Call<Void> deleteGroupMember(@Path("idA") Long groupID, @Path("idB") Long UserID);
+
 
 
     //IN App message

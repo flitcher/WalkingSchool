@@ -15,6 +15,9 @@ import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * Messaging system for the child
+ */
 public class ChildMessage extends AppCompatActivity {
     private User myUser = User.getInstance();
     @Override

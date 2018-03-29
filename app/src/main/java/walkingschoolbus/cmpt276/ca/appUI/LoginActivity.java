@@ -30,6 +30,9 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 import static walkingschoolbus.cmpt276.ca.dataObjects.User.emailPattern;
 
+/**
+ * user login and authentication
+ */
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -48,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_INFO = "userInfo";
     public static final String USER_EMAIL = "email";
     public static final String USER_PASSWORD = "password";
-    public static final String USER_TOKEN ="token";
 
     CircularProgressButton loadingBtn;
     @Override

@@ -13,6 +13,9 @@ import walkingschoolbus.cmpt276.ca.fragment.ProfileGroup_member_fragment;
 import walkingschoolbus.cmpt276.ca.fragment.SectionsPageAdapter;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
+/**
+ * display group's profile such as members, start and end locations
+ */
 public class ProfileGroupActivity extends AppCompatActivity {
 
     private static String USERID = "package walkingschoolbus.cmpt276.ca.appUI-ProfileGroupActivity-USERID";
