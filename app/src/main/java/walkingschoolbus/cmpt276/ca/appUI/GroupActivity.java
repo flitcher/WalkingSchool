@@ -3,6 +3,9 @@ package walkingschoolbus.cmpt276.ca.appUI;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,6 +56,7 @@ public class GroupActivity extends AppCompatActivity {
     FloatingActionButton joinMeGroup;
     FloatingActionButton removeMonitorGroup;
     FloatingActionButton removeMeGroup;
+    FloatingActionButton startWalking;
     Animation hideButton;
     Animation showButton;
     Animation hideLayout;
@@ -62,10 +66,13 @@ public class GroupActivity extends AppCompatActivity {
     Animation showLayoutMessage;
     Animation hideLayoutMessage;
     int requestCode;
+    private Handler handler = new Handler();
+
     //in app message
     FloatingActionButton broadcast;
     FloatingActionButton groupMessage;
     FloatingActionButton memberReport;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +80,20 @@ public class GroupActivity extends AppCompatActivity {
 
         extract_intent();
         initialize();
+        setStartWalkingBtn();
+    }
+
+
+
+    private void setStartWalkingBtn() {
+        startWalking = (FloatingActionButton) findViewById(R.id.groupActivity_startBtn);
+        startWalking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = OnWalkGPSLocation.makeIntent(GroupActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initialize(){
@@ -334,6 +355,8 @@ public class GroupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
 
@@ -384,6 +407,8 @@ public class GroupActivity extends AppCompatActivity {
         groupID = intent.getLongExtra(GROUPID, -1);
         requestCode = intent.getIntExtra(REQUESTCODE, -1);
     }
+
+
 
     public static Intent makeIntent(Context context, Long groupId, int requestCode){
         Intent intent = new Intent(context, GroupActivity.class);
