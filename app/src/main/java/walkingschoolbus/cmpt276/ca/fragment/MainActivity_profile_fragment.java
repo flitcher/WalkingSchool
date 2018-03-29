@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
@@ -117,10 +118,14 @@ public class MainActivity_profile_fragment extends Fragment {
                 return;
             }
             Location location = locationManager.getLastKnownLocation(provider);
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            myUser.getLastGpsLocation().setLat(latitude);
-            myUser.getLastGpsLocation().setLng(longitude);
+            if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                myUser.getLastGpsLocation().setLat(latitude);
+                myUser.getLastGpsLocation().setLng(longitude);
+            } else{
+                Toast.makeText(context, "Your Location is not valid", Toast.LENGTH_LONG).show();
+            }
         }
     }
     private void editUser(){
