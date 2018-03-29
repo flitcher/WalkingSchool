@@ -88,19 +88,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (childList != null) {
             for (User child : childList) {
                 Call<User> caller = proxy.getUserById(child.getId());
-                ProxyBuilder.callProxy(MapsActivity.this, caller, returndChild -> responseChild(returndChild));
+                ProxyBuilder.callProxy(MapsActivity.this, caller, returnedChild -> responseChild(returnedChild));
             }
         }
     }
 
-    private void responseChild(User returndChild) {
-        walkingschoolbus.cmpt276.ca.dataObjects.Location childLocation = returndChild.getLastGpsLocation();
-        if (childLocation != null){
-            if (returndChild.getLastGpsLocation().getTimestamp() != null) {
-                LatLng childLatLng = new LatLng(childLocation.getLat(), childLocation.getLng());
+    private void responseChild(User returnedChild) {
+        Call <walkingschoolbus.cmpt276.ca.dataObjects.Location> caller = proxy.getUserLocation(returnedChild.getId());
+        ProxyBuilder.callProxy(MapsActivity.this, caller, returnedLocation->responseLocation(returnedLocation, returnedChild));
+
+    }
+
+    private void responseLocation(walkingschoolbus.cmpt276.ca.dataObjects.Location returnedLocation, User returnedChild) {
+        if (returnedLocation != null){
+            if (returnedLocation.getTimestamp() != null) {
+                LatLng childLatLng = new LatLng(returnedLocation.getLat(), returnedLocation.getLng());
                 mMap.addMarker(new MarkerOptions()
-                        .title("Last Location of " + returndChild.getName() +
-                                "/Time updated at: " + returndChild.getLastGpsLocation().getTimestamp())
+                        .title("Last Location of " + returnedChild.getName() )
+                        .snippet("/Time updated at: " + returnedLocation.getTimestamp())
                         .position(childLatLng)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
             }

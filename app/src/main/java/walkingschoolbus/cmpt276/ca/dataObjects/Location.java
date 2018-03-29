@@ -9,7 +9,7 @@ import java.util.Date;
 public class Location {
     private double lat;
     private double lng;
-    private Date timestamp;
+    private String timestamp;
 
 
     public double getLat() {
@@ -20,7 +20,7 @@ public class Location {
         return lng;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
@@ -32,7 +32,7 @@ public class Location {
         this.lng = lng;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

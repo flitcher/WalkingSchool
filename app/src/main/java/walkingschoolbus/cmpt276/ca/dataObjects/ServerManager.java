@@ -239,4 +239,5 @@ public class ServerManager {
         Call<List<User>> callerForGroupMember = proxy.getGroupMembers(groupID);
         ProxyBuilder.callProxy(currentContext,callerForGroupMember,callback);
     }
+
 }

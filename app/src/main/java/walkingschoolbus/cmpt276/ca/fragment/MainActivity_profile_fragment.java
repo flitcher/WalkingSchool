@@ -26,9 +26,16 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
+import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
@@ -37,7 +44,9 @@ import walkingschoolbus.cmpt276.ca.appUI.readMessageActivity;
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
+import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
+import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
@@ -56,6 +65,8 @@ public class MainActivity_profile_fragment extends Fragment {
     Map map;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    ApiInterface proxy;
+    Token token;
     private static final String SWITCHINFO = "walkingschoolbus.cmpt276.ca.fragment-ProfileFrag-switchInfo";
 
 
@@ -72,6 +83,8 @@ public class MainActivity_profile_fragment extends Fragment {
         context = getContext();
         setupBtn();
         setupSwitch();
+        token = token.getInstance();
+        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         return view;
     }
 
@@ -125,8 +138,10 @@ public class MainActivity_profile_fragment extends Fragment {
             if (location != null) {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
-                Date currentTime = Calendar.getInstance().getTime();
-                myUser.getLastGpsLocation().setTimestamp(currentTime);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                Date curr = new Date();
+                String timestamp = sdf.format(curr);
+                myUser.getLastGpsLocation().setTimestamp(timestamp);
                 myUser.getLastGpsLocation().setLat(latitude);
                 myUser.getLastGpsLocation().setLng(longitude);
             } else{
@@ -139,14 +154,14 @@ public class MainActivity_profile_fragment extends Fragment {
         //edit user by setting its gps coordinate
         //send it to the server
         getDeviceLocation();
-        ProxyBuilder.SimpleCallback<User> callback = returnedUser-> responseEdit(returnedUser);
-        ServerManager.editUserProfile(myUser,callback);
+        Call<walkingschoolbus.cmpt276.ca.dataObjects.Location> caller = proxy.setUserLocation(myUser.getId(), myUser.getLastGpsLocation());
+        ProxyBuilder.callProxy(context, caller, returnedLocation -> responseEdit(returnedLocation));
     }
 
-    private void responseEdit(User user){
+    private void responseEdit(walkingschoolbus.cmpt276.ca.dataObjects.Location location){
         Log.d(TAG, "gps location updated");
-        Log.d(TAG, "Lat, Long = " + myUser.getLastGpsLocation().getLat() +
-                myUser.getLastGpsLocation().getLng()+" Time: "+ myUser.getLastGpsLocation().getTimestamp());
+        Log.d(TAG, "Lat, Long = " + location.getLat() +
+                location.getLng()+" Time: "+ location.getTimestamp());
     }
 
     private void setupBtn() {
