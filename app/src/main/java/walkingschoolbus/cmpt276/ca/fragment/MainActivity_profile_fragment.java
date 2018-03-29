@@ -1,10 +1,18 @@
 package walkingschoolbus.cmpt276.ca.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,24 +21,21 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-
-import java.util.List;
+import android.widget.Switch;
 
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
 import walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity;
 import walkingschoolbus.cmpt276.ca.appUI.readMessageActivity;
+import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
-import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
-import walkingschoolbus.cmpt276.ca.proxy.ApiInterface;
 import walkingschoolbus.cmpt276.ca.proxy.ProxyBuilder;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
-
-import static android.content.Context.MODE_PRIVATE;
 import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
 
 /**
@@ -38,29 +43,102 @@ import static walkingschoolbus.cmpt276.ca.appUI.LoginActivity.USER_INFO;
  */
 
 public class MainActivity_profile_fragment extends Fragment {
+    View view;
     User myUser;
-    private ApiInterface proxy;
-    Token token;
     private static final String TAG = "Profile";
     Context context;
     Animation showLayout;
     Animation hideLayout;
+    Map map;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    private static final String SWITCHINFO = "walkingschoolbus.cmpt276.ca.fragment-ProfileFrag-switchInfo";
+
+
+    private Handler handler = new Handler();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mainactivity_profile_fragment, container, false);
+        view = inflater.inflate(R.layout.mainactivity_profile_fragment, container, false);
 
         myUser = myUser.getInstance();
-        token = token.getInstance();
+        map = map.getInstance();
         ServerManager.connectToServerWithToken(getContext());
-        proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
         context = getContext();
-        setupBtn(view);
+        setupBtn();
+        setupSwitch();
         return view;
     }
 
-    private void setupBtn(View view) {
+    private void setupSwitch() {
+        sharedPreferences = context.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        Switch walkingWithGroupSwitch = (Switch) view.findViewById(R.id.ProfileFrag_walkingWithGroupSwitch);
+        if(sharedPreferences.getBoolean(SWITCHINFO, false)){
+            walkingWithGroupSwitch.setChecked(true);
+            handler.post(updateLastGPSCoordinate);
+        }
+        walkingWithGroupSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    editor.putBoolean(SWITCHINFO, true);
+                    handler.post(updateLastGPSCoordinate);
+                } else {
+                    editor.putBoolean(SWITCHINFO, false);
+                    handler.removeCallbacks(updateLastGPSCoordinate);
+                }
+                editor.commit();
+            }
+        });
+    }
+
+    private Runnable updateLastGPSCoordinate = new Runnable() {
+        @Override
+        public void run() {
+
+            editUser();
+            Log.d(TAG, "location updating");
+
+            //run every 30s
+            handler.postDelayed(updateLastGPSCoordinate, 30000);
+        }
+    };
+
+
+    private void getDeviceLocation() {
+        if (map.isLocationPermission()) {
+            Log.d(TAG, "location being updated?");
+            Criteria criteria = new Criteria();
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            String provider = locationManager.getBestProvider(criteria, true);
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(provider);
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            myUser.getLastGpsLocation().setLat(latitude);
+            myUser.getLastGpsLocation().setLng(longitude);
+        }
+    }
+    private void editUser(){
+        //udpate GPS coordiante
+        //edit user by setting its gps coordinate
+        //send it to the server
+        getDeviceLocation();
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser-> responseEdit(returnedUser);
+        ServerManager.editUserProfile(myUser,callback);
+    }
+
+    private void responseEdit(User user){
+        Log.d(TAG, "gps location updated");
+        Log.d(TAG, "Lat, Long = " + myUser.getLastGpsLocation().getLat() +
+                myUser.getLastGpsLocation().getLng());
+    }
+
+    private void setupBtn() {
         Button userProfileBtn = (Button) view.findViewById(R.id.ProfileFrag_profile);
         userProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,13 +225,6 @@ public class MainActivity_profile_fragment extends Fragment {
         ServerManager.callToParent(myUser.getId(),text,callback);
     }
 
-    //return
-    private void response(List<User> returnedUsers) {
-        Log.w(TAG, "All Users:");
-        for (User user : returnedUsers) {
-            Log.w(TAG, "    User: " + user.toString());
-        }
-    }
     private void responseCallGroup(Message message){
         Log.i("User","send successful!");
     }
