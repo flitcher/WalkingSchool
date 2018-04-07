@@ -11,7 +11,7 @@
             android:id="@+id/rewardsImage"
             android:layout_width="80dp"
             android:layout_height="80dp" />
-        
+
         <TextView
             android:id="@+id/reward"
             android:layout_width="wrap_content"
@@ -27,9 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/reward"
-            android:layout_toEndOf="@id/rewardsImage"
-            android:layout_toRightOf="@id/rewardsImage"
+            android:layout_toEndOf="@+id/rewardsImage"
+            android:layout_toRightOf="@+id/rewardsImage"
             android:paddingLeft="5dp"
-            android:textColor="#333"/>
+            android:textColor="#333" />
     </RelativeLayout>
 </LinearLayout>

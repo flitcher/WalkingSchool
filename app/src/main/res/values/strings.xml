@@ -66,5 +66,7 @@
     <string name="title_activity_read_message">readMessageActivity</string>
     <string name="adit_group_info">Input all of the latitude and longitude section.</string>
     <string name="adit_group_info_2">Or it is not going to store latitude and longitude</string>
+    <string name="address_no_information">Address: No information</string>
+    <string name="home_phone_no_information">Home Phone: No information</string>
 
 </resources>
