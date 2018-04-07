@@ -5,4 +5,13 @@ package walkingschoolbus.cmpt276.ca.dataObjects;
  */
 
 public class Gamification {
+    float totalDistanceTravelled;
+
+    public float getTotalDistanceTravelled() {
+        return totalDistanceTravelled;
+    }
+
+    public void setTotalDistanceTravelled(float distanceTravelled) {
+        this.totalDistanceTravelled = this.totalDistanceTravelled + distanceTravelled;
+    }
 }
