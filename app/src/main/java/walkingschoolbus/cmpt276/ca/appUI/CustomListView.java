@@ -46,7 +46,7 @@ public class CustomListView extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) r.getTag();
         }
         viewHolder.rewardImg.setImageResource(imageId[position]);
-        viewHolder.descriptionOfReward.setText(weeksWalked[position] + " consecutive weeks walked");
+        viewHolder.descriptionOfReward.setText(weeksWalked[position]);
 
         return r;
     }
