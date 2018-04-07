@@ -99,7 +99,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateDistance(float distance) {
         if (gamification != null) {
             gamification.setTotalDistanceTravelled(distance);
-            Log.i(TAG, "total distance traveled: " + gamification.getTotalDistanceTravelled());
+            float totalDistance = gamification.getTotalDistanceTravelled();
+            Log.i(TAG, "total distance traveled: " + totalDistance);
+            int points = (int) totalDistance/1000;
+            myUser.setTotalPointsEarned(points);
+            Log.i(TAG, "total points: " + points);
             String gamificationJson = gson.toJson(gamification);
             myUser.setCustomJson(gamificationJson);
             ProxyBuilder.SimpleCallback<User> callback = returnedUser->responseEdit(returnedUser);
