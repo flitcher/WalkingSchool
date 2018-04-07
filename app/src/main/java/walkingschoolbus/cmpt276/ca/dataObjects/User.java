@@ -29,6 +29,9 @@ public class User {
     private Location lastGpsLocation;
     private List<Message> unreadMessages = new ArrayList<>();
     private List<Message> readMessages = new ArrayList<>();
+    int currentPoints;
+    int totalPointsEarned;
+    String customJson;
     private String href;
 
     //singleton
@@ -139,8 +142,7 @@ public class User {
     public String getHref() {
         return href;
     }
-    public int
-    getBirthMonth(){return birthMonth;}
+    public int getBirthMonth(){return birthMonth;}
     public int getBirthYear(){return birthYear;}
     public String getAddress(){return address;}
     public String getCellPhone(){return cellPhone;}
@@ -211,6 +213,30 @@ public class User {
         this.setReadMessages(null);
         this.setUnreadMessages(null);
         this.setLastGpsLocation(null);
+    }
+
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public void setCurrentPoints(int currentPoints) {
+        this.currentPoints = currentPoints;
+    }
+
+    public int getTotalPointsEarned() {
+        return totalPointsEarned;
+    }
+
+    public void setTotalPointsEarned(int totalPointsEarned) {
+        this.totalPointsEarned = totalPointsEarned;
+    }
+
+    public String getCustomJson() {
+        return customJson;
+    }
+
+    public void setCustomJson(String customJson) {
+        this.customJson = customJson;
     }
 
 

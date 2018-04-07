@@ -21,6 +21,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import walkingschoolbus.cmpt276.ca.dataObjects.Gamification;
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
@@ -61,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer = new Timer();
     Location lastLocation;
     Location newLocation;
+    Gamification gamification;
+    Gson gson;
 
 
     @Override
@@ -84,10 +89,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void trackDistance() {
+        getGamification();
         lastLocation = getCurrentLocation();
         if (lastLocation == null) {
             Log.i(TAG, "lastLocation is null");
         }
+    }
+
+    private void updateDistance(float distance) {
+        if (gamification != null) {
+            gamification.setTotalDistanceTravelled(distance);
+            Log.i(TAG, "total distance traveled: " + gamification.getTotalDistanceTravelled());
+            String gamificationJson = gson.toJson(gamification);
+            myUser.setCustomJson(gamificationJson);
+            ProxyBuilder.SimpleCallback<User> callback = returnedUser->responseEdit(returnedUser);
+            ServerManager.editUserProfile(myUser, callback);
+        } else{
+            Log.i(TAG, "Gamification == null");
+        }
+    }
+
+    private void responseEdit(User returnedUser) {
+        Log.i(TAG, "distance traveled edited");
+    }
+
+    private void getGamification() {
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser->responseUser(returnedUser);
+        ServerManager.getUserByID(myUser.getId(), callback);
+    }
+
+    private void responseUser(User returnedUser) {
+        String gamificationJson = returnedUser.getCustomJson();
+        gson = new Gson();
+        if (gamificationJson != null){
+            gamification = gson.fromJson(gamificationJson, Gamification.class);
+        }
+        if (gamification == null){
+            gamification = new Gamification();
+            gamification.setTotalDistanceTravelled(0);
+        }
+        setHandler();
+    }
+
+    private void setHandler() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -98,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "distance traveled: " + distance);
                     lastLocation = newLocation;
                     newLocation = null;
+                    updateDistance(distance);
                 } else{
                     Log.i(TAG, "newLocation is null");
                 }
