@@ -29,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     User myUser;
     Token token;
     FloatingActionButton editBtn;
+    FloatingActionButton rewardsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +63,19 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        rewardsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = RewardsActivity.makeIntent(ProfileActivity.this);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void initiate() {
         editBtn = (FloatingActionButton) findViewById(R.id.ProfileActivity_editBtn);
+        rewardsBtn = (FloatingActionButton) findViewById(R.id.rewardsBtn);
         myUser = myUser.getInstance();
         token = token.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());

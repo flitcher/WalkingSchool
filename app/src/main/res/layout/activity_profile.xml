@@ -123,7 +123,7 @@
                 android:layout_below="@id/ProfileActivity_birthday"
                 android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/ic_home"
-                android:text="Address: No information"
+                android:text="@string/address_no_information"
                 android:textSize="15sp" />
 
             <TextView
@@ -133,7 +133,7 @@
                 android:layout_alignLeft="@id/ProfileActivity_email"
                 android:textSize="15dp"
                 android:layout_marginTop="10dp"
-                android:text="Home Phone: No information"
+                android:text="@string/home_phone_no_information"
                 android:id="@+id/ProfileActivity_homePhone"
                 android:drawableLeft="@drawable/ic_local_phone"/>
 
@@ -184,15 +184,26 @@
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/rewardsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_edit"
+        android:layout_above="@+id/ProfileActivity_editBtn"
+        android:layout_alignLeft="@+id/ProfileActivity_editBtn"
+        android:layout_alignStart="@+id/ProfileActivity_editBtn"
+        android:layout_marginBottom="11dp"
+        android:clickable="true"
+        android:src="@drawable/ic_rewardsicon" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/ProfileActivity_editBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
-        android:id="@+id/ProfileActivity_editBtn"
-        android:clickable="true"/>
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:src="@drawable/ic_edit" />
 
 
 </RelativeLayout>
