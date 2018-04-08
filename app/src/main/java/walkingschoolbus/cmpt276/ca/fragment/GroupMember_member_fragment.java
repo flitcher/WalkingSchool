@@ -41,8 +41,6 @@ public class GroupMember_member_fragment extends Fragment {
     ApiInterface proxy;
     Token token;
     List<User> memberList;
-    List<User> sortedMemberList;
-
 
     @Nullable
     @Override
@@ -106,8 +104,6 @@ public class GroupMember_member_fragment extends Fragment {
 
         TextView email = (TextView) view.findViewById(R.id.Item_Email);
         email.setText(returnedUser.getEmail());
-
-
 
         TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
         distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
