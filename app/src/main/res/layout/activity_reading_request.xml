@@ -88,6 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginTop="8dp"
         android:text="Approve"
         app:layout_constraintBottom_toBottomOf="parent"

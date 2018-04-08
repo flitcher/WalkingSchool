@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/ProfileFrag_profile"
         android:layout_alignStart="@+id/ProfileFrag_profile"
-        android:layout_below="@+id/ProfileFrag_profile"
+        android:layout_below="@+id/ProfileFrag_leaderboard"
         android:clickable="true"
         android:text="Panic" />
 
