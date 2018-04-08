@@ -29,6 +29,8 @@ public class User {
     private Location lastGpsLocation;
     private List<Message> unreadMessages = new ArrayList<>();
     private List<Message> readMessages = new ArrayList<>();
+    private List<Permission> pendingPermissionRequests  = new ArrayList<>();
+    private List<Permission> allPerssionRequest = new ArrayList<>();
     private String href;
 
     //singleton
@@ -80,6 +82,8 @@ public class User {
     public void setReadMessages(List<Message> messages){this.readMessages = messages;}
     public void setUnreadMessages(List<Message> messages){this.unreadMessages = messages;}
     public void setLastGpsLocation(Location location){this.lastGpsLocation = location;}
+    public void setPendingPermissionRequests(List<Permission> pendingPermissionRequests){this.pendingPermissionRequests = pendingPermissionRequests;}
+    public void setAllPerssionRequest(List<Permission> allPermissionRequests){this.allPerssionRequest = allPermissionRequests; }
 
     public void setUser(User newUser){
         this.setName(newUser.getName());
@@ -103,6 +107,8 @@ public class User {
         this.setReadMessages(newUser.getReadMessages());
         this.setUnreadMessages(newUser.getUnreadMessages());
         this.setLastGpsLocation(newUser.getLastGpsLocation());
+
+        this.setPendingPermissionRequests(newUser.getPendingPermissionRequests());
     }
     //get section
     public User getUser(){
@@ -151,7 +157,8 @@ public class User {
     public List<Message> getUnreadMessages(){return unreadMessages;}
     public List<Message> getReadMessages(){return readMessages; }
     public Location getLastGpsLocation(){return lastGpsLocation;}
-
+    public List<Permission>getPendingPermissionRequests(){return pendingPermissionRequests;}
+    public List<Permission>getAllPerssionRequest(){return allPerssionRequest;}
 
     public User getOneMonitorUserByIndex(int index){
         List<User> newList = this.getMonitorsUsers();

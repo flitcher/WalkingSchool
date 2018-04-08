@@ -12,6 +12,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import walkingschoolbus.cmpt276.ca.dataObjects.Location;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
+import walkingschoolbus.cmpt276.ca.dataObjects.Permission;
+import walkingschoolbus.cmpt276.ca.dataObjects.PermissionStatus;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.dataObjects.WalkingGroups;
 
@@ -149,5 +151,39 @@ public interface ApiInterface {
     Call<User> markMessageByUser(@Path("userId") Long UserID,@Path("messageId") Long MessageID,@Body Boolean readState);
 
 
+    //Permission
 
+    @GET ("/permissions")
+    Call<List<Permission>> getAllPermission();
+
+   // Only return permission requests for user 5:
+    @GET ("/permissions?")
+    Call<List<Permission>> getPermissionRequestsForUser(@Query("userId") Long UserID);
+
+    //Only return permission requests for user 5 which are pending for him/her to approve/deny:
+    @GET ("/permissions?statusForUser=PENDING")
+    Call<List<Permission>> getPendingPermissionRequestsForUser(@Query("userId") Long UserID);
+
+    //Only return permission requests which relate to group 42
+    @GET ("/permissions?")
+    Call<List<Permission>> getPermissionRequestsForGroup(@Query("groupId") Long GroupID);
+
+    //Only return permission requests which have been denied:
+    @GET ("/permissions?status=DENIED")
+    Call<List<Permission>> getDeniedPermissionRequests();
+
+
+    //Returning only those permission requests which match all the query string options:
+    @GET ("/permissions?")
+    Call<List<Permission>> getRelatedPermissionResquests(@Query("status") PermissionStatus status,
+                                                         @Query("groupId") Long groupId,
+                                                         @Query("userId") Long userId);
+
+    @GET ("/permissions/{id}")
+    Call<Permission> getPermissionRequestsById(@Path("id") Long PermissionId);
+
+
+    //{Id} is the ID number of the permission request to change.
+    @POST ("/permissions/{Id}")
+    Call<Permission> answerPermissionRequest(@Path("Id") Long permissionId,@Body String answer);
 }

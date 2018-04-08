@@ -160,10 +160,12 @@ public class ProxyBuilder {
         private String apiKey;
         private String token;
 
+
         public AddHeaderInterceptor(String apiKey, String token) {
             this.apiKey = apiKey;
             this.token = token;
         }
+
 
         @Override
         public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -173,11 +175,13 @@ public class ProxyBuilder {
             // Add API header
             if (apiKey != null) {
                 builder.header("apiKey", apiKey);
+
             }
             // Add Token
             if (token != null) {
                 builder.header("Authorization", token);
             }
+            builder.header("permissions-enabled","true");
             Request modifiedRequest = builder.build();
 
             return chain.proceed(modifiedRequest);
