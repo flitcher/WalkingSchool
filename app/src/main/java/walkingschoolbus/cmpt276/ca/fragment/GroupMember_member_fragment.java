@@ -114,6 +114,7 @@ public class GroupMember_member_fragment extends Fragment {
 
         TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
         distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
+
         TextView id = (TextView) view.findViewById(R.id.Item_ID);
         id.setText("" + returnedUser.getId());
 

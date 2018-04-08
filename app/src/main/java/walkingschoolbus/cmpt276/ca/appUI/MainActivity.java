@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     Location newLocation;
     Gamification gamification;
     Gson gson;
+    Handler handler;
 
 
     @Override
@@ -136,24 +137,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setHandler() {
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                newLocation = getCurrentLocation();
-                if (newLocation != null){
-                    float distance = lastLocation.distanceTo(newLocation);
-                    Log.i(TAG, "distance traveled: " + distance);
-                    lastLocation = newLocation;
-                    newLocation = null;
-                    updateDistance(distance);
-                } else{
-                    Log.i(TAG, "newLocation is null");
-                }
-                handler.postDelayed(this, 10000);
-            }
-        });
+        handler = new Handler();
+        handler.post(distanceTravelled);
     }
+
+    private Runnable distanceTravelled = new Runnable() {
+        @Override
+        public void run() {
+            newLocation = getCurrentLocation();
+            if (newLocation != null){
+                float distance = lastLocation.distanceTo(newLocation);
+                Log.i(TAG, "distance traveled: " + distance);
+                lastLocation = newLocation;
+                newLocation = null;
+                updateDistance(distance);
+            } else{
+                Log.i(TAG, "newLocation is null");
+            }
+            handler.postDelayed(distanceTravelled, 10000);
+        }
+    };
 
     private Location getCurrentLocation() {
         if (map.isLocationPermission()){
@@ -247,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = LoginActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 
+        handler.removeCallbacks(distanceTravelled);
         timer.cancel();
         timer.purge();
         finish();
