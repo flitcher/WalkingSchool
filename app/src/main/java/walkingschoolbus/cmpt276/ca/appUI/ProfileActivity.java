@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
     Token token;
     FloatingActionButton editBtn;
     FloatingActionButton rewardsBtn;
+    Integer[] milestoneStickers = {R.drawable.walk5,R.drawable.walk10,R.drawable.walk15,R.drawable.walk20,
+            R.drawable.walk50,R.drawable.walk75,R.drawable.walk100,R.drawable.walk125,R.drawable.walk150,R.drawable.walk200,R.drawable.walk500};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setText() {
+        ImageView userImage = (ImageView) findViewById(R.id.ProfileAcitivty_image);
         TextView userNameTxt = (TextView) findViewById(R.id.ProfileActivity_name);
         TextView userIDTxt = (TextView) findViewById(R.id.ProfileAcitivty_userID);
         TextView userEmailTxt = (TextView) findViewById(R.id.ProfileActivity_email);
@@ -234,7 +238,50 @@ public class ProfileActivity extends AppCompatActivity {
         } else{
             userEmergencyContactTxt.setText("Emergency Contact: No information");
         }
+        int stickerPosition = checkImage(user);
+        if (stickerPosition != -1) {
+            userImage.setImageResource(milestoneStickers[stickerPosition]);
+        }
     }
+
+    public static int checkImage(User mUser){
+        int points = mUser.getTotalPointsEarned();
+        if (points >= 5){
+            if (points >= 10){
+                if (points >= 15){
+                    if (points >= 20){
+                        if (points >= 50){
+                            if (points >= 75){
+                                if (points >= 100){
+                                    if (points >= 125){
+                                        if (points >= 150){
+                                            if (points >= 200){
+                                                if (points >= 500){
+                                                    return 10;
+                                                }
+                                                return 9;
+                                            }
+                                            return 8;
+                                        }
+                                        return 7;
+                                    }
+                                    return 6;
+                                }
+                                return 5;
+                            }
+                            return 4;
+                        }
+                        return 3;
+                    }
+                    return 2;
+                }
+                return 1;
+            }
+            return 0;
+        }
+        return -1;
+    }
+
 
     private void extract_intent() {
         Intent intent = getIntent();

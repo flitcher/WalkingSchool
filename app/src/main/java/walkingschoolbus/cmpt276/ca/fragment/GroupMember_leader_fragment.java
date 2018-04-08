@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,11 +34,12 @@ public class GroupMember_leader_fragment extends Fragment {
     View view;
     Context context;
     private static String TAG = "groupMemberLeaderFrag";
-    ListView groupList;
     ApiInterface proxy;
     Token token;
     User leader;
     long leaderID;
+    Integer[] milestoneStickers = {R.drawable.walk5,R.drawable.walk10,R.drawable.walk15,R.drawable.walk20,
+            R.drawable.walk50,R.drawable.walk75,R.drawable.walk100,R.drawable.walk125,R.drawable.walk150,R.drawable.walk200,R.drawable.walk500};
 
     @Nullable
     @Override
@@ -65,6 +67,7 @@ public class GroupMember_leader_fragment extends Fragment {
     }
 
     private void responseUser(User returnedUser) {
+        ImageView imageView = (ImageView) view.findViewById(R.id.GroupMember_Leader_Image);
         TextView leaderNameText = (TextView) view.findViewById(R.id.GroupMember_Leader_Name);
         TextView leaderEmailText = (TextView) view.findViewById(R.id.GroupMember_Leader_Email);
         TextView leaderIDText =  (TextView) view.findViewById(R.id.GroupMember_Leader_ID);
@@ -73,7 +76,10 @@ public class GroupMember_leader_fragment extends Fragment {
         leaderEmailText.setText(returnedUser.getEmail());
         leaderID = returnedUser.getId();
         leaderIDText.setText(""+leaderID);
-
+        int stickerPosition = ProfileActivity.checkImage(returnedUser);
+        if (stickerPosition != -1) {
+            imageView.setImageResource(milestoneStickers[stickerPosition]);
+        }
         setClick();
     }
 
