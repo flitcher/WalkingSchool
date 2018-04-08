@@ -110,8 +110,6 @@ public class GroupMember_member_fragment extends Fragment {
         TextView email = (TextView) view.findViewById(R.id.Item_Email);
         email.setText(returnedUser.getEmail());
 
-
-
         TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
         distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
 

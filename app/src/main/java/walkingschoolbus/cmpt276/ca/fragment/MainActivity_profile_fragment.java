@@ -37,6 +37,7 @@ import java.util.TimeZone;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
+import walkingschoolbus.cmpt276.ca.appUI.LeaderboardActivity;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
 import walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity;
@@ -165,6 +166,16 @@ public class MainActivity_profile_fragment extends Fragment {
     }
 
     private void setupBtn() {
+        Button leaderboardBtn = (Button) view.findViewById(R.id.ProfileFrag_leaderboard);
+        leaderboardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = LeaderboardActivity.makeIntent(context);
+                startActivity(intent);
+            }
+        });
+
+
         Button userProfileBtn = (Button) view.findViewById(R.id.ProfileFrag_profile);
         userProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,4 +265,6 @@ public class MainActivity_profile_fragment extends Fragment {
     private void responseCallGroup(Message message){
         Log.i("User","send successful!");
     }
+
+
 }

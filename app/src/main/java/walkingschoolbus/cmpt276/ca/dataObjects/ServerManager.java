@@ -44,7 +44,6 @@ public class ServerManager {
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
 
-
     //register section
     public static void createNewUser(User user)
     {
@@ -69,6 +68,8 @@ public class ServerManager {
         proxy = ProxyBuilder.getProxy(APIKEY,userManager.getToken());
     }
 
+
+
     //User section
     //login
     public static boolean doLogin(){
@@ -78,6 +79,11 @@ public class ServerManager {
     public static void Login(ProxyBuilder.SimpleCallback<Void> callback){
         Call<Void> caller = proxy.login(userManager.getUser());
         ProxyBuilder.callProxy(currentContext,caller,callback);
+    }
+
+    public static void getAllUsers(ProxyBuilder.SimpleCallback<List<User>> callback) {
+        Call<List<User>> callerForAllUsers = proxy.getUsers();
+        ProxyBuilder.callProxy(currentContext,callerForAllUsers,callback);
     }
 
     public static void getUserByEmail(ProxyBuilder.SimpleCallback<User> callback){
