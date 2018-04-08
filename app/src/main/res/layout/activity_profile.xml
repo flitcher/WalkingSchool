@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="#FFEB3B">
+        android:id="@+id/ProfileAcitivty_color">
 
         <TextView
             android:id="@+id/ProfileActivity_name"

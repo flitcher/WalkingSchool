@@ -2,11 +2,13 @@ package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -86,14 +88,43 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void response(User returnedUser) {
         user = returnedUser;
+        int colour = user.getTotalPointsEarned();
+        colour = colour/25;
+        RelativeLayout colorLayout = (RelativeLayout) findViewById(R.id.ProfileAcitivty_color);
+        switch(colour){
+            case 0:
+                colorLayout.setBackgroundColor(Color.parseColor("#F44336"));
+                break;
+            case 1:
+                colorLayout.setBackgroundColor(Color.parseColor("#FF9800"));
+                break;
+            case 2:
+                colorLayout.setBackgroundColor(Color.parseColor("#FFEB3B"));
+                break;
+            case 3:
+                colorLayout.setBackgroundColor(Color.parseColor("#4CAF50"));
+                break;
+            case 4:
+                colorLayout.setBackgroundColor(Color.parseColor("#00BCD4"));
+                break;
+            case 5:
+                colorLayout.setBackgroundColor(Color.parseColor("#2196F3"));
+                break;
+            default:
+                colorLayout.setBackgroundColor(Color.parseColor("#E040FB"));
+                break;
+
+        }
         userSetBtnVisibility();
         setText();
     }
 
     private void userSetBtnVisibility() {
         editBtn.setVisibility(View.GONE);
+        rewardsBtn.setVisibility(View.GONE);
         if (userId.equals(myUser.getId())) {
             editBtn.setVisibility(View.VISIBLE);
+            rewardsBtn.setVisibility(View.VISIBLE);
             return;
         }
         List<User> parentList = user.getMonitoredByUsers();
