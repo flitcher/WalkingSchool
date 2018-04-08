@@ -32,17 +32,20 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import retrofit2.Call;
 import walkingschoolbus.cmpt276.ca.appUI.ChildMessage;
 import walkingschoolbus.cmpt276.ca.appUI.MainActivity;
+import walkingschoolbus.cmpt276.ca.appUI.PermissionRequest;
 import walkingschoolbus.cmpt276.ca.appUI.ProfileActivity;
 import walkingschoolbus.cmpt276.ca.appUI.UnreadMessageActivity;
 import walkingschoolbus.cmpt276.ca.appUI.readMessageActivity;
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
+import walkingschoolbus.cmpt276.ca.dataObjects.Permission;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
 import walkingschoolbus.cmpt276.ca.dataObjects.Token;
 import walkingschoolbus.cmpt276.ca.dataObjects.User;
@@ -239,6 +242,15 @@ public class MainActivity_profile_fragment extends Fragment {
                 return true;
             }
         });
+
+        Button permissionRequest = (Button) view.findViewById(R.id.ProfileFrag_Request);
+        permissionRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProxyBuilder.SimpleCallback<List<Permission>> callback = returnedPermissionList->responsePermissionList(returnedPermissionList);
+                ServerManager.getAllPermissionRequestsForUser(myUser.getId(),callback);
+            }
+        });
     }
 
     private void quickEmergencyMessage(){
@@ -253,5 +265,11 @@ public class MainActivity_profile_fragment extends Fragment {
 
     private void responseCallGroup(Message message){
         Log.i("User","send successful!");
+    }
+
+    private void responsePermissionList(List<Permission> permissions){
+        myUser.setAllPerssionRequest(permissions);
+        Intent intent = PermissionRequest.makeIntent(getContext());
+        startActivity(intent);
     }
 }
