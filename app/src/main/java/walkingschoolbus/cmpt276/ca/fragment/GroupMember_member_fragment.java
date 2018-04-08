@@ -90,6 +90,8 @@ public class GroupMember_member_fragment extends Fragment {
             }
             final View mView = itemView;
             User currentUser = memberList.get(position);
+            TextView id = (TextView) mView.findViewById(R.id.Item_ID);
+            id.setText(position + 1 + "");
             if (currentUser != null) {
                 Call<User> caller = proxy.getUserById(currentUser.getId());
                 ProxyBuilder.callProxy(context, caller, returnedUser->responseUserInfo(returnedUser, mView));
@@ -105,8 +107,7 @@ public class GroupMember_member_fragment extends Fragment {
         TextView email = (TextView) view.findViewById(R.id.Item_Email);
         email.setText(returnedUser.getEmail());
 
-        TextView id = (TextView) view.findViewById(R.id.Item_ID);
-        id.setText("" + returnedUser.getId());
+
 
         TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
         distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
@@ -131,7 +132,7 @@ public class GroupMember_member_fragment extends Fragment {
             }
         };
         Collections.sort(users, userComparator);
-        Log.d("HUE", "" + users.get(0).getEmail());
+//        Log.d("HUE", "" + users.get(0).getEmail());
     }
 
     @Override

@@ -39,11 +39,11 @@
         android:id="@+id/Item_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/Item_Name"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_toRightOf="@+id/imageView"
+        android:layout_above="@+id/distanceWalked"
+        android:layout_alignLeft="@+id/distanceWalked"
+        android:layout_alignStart="@+id/distanceWalked"
         android:text="Unknown"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/distanceWalked"
@@ -67,4 +67,16 @@
         android:layout_toLeftOf="@+id/distanceWalked"
         android:layout_toStartOf="@+id/distanceWalked"
         app:srcCompat="@drawable/ic_walk" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/distanceWalked"
+        android:layout_marginLeft="7dp"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/Item_ID"
+        android:layout_toRightOf="@+id/Item_ID"
+        android:text="place"
+        android:textSize="12sp" />
 </RelativeLayout>
