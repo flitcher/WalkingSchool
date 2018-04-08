@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import walkingschoolbus.cmpt276.ca.dataObjects.Achievement;
+import walkingschoolbus.cmpt276.ca.dataObjects.User;
 import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
 
 /**
@@ -17,7 +18,8 @@ import walkingschoolbus.cmpt276.ca.walkingschoolbus.R;
  */
 public class RewardsActivity extends AppCompatActivity {
 
-    int distanceWalked = 175;
+    int distanceWalked = 0;
+    User userManager = User.getInstance();
 
     ListView rewardsListView;
 //    String[] milestoneCompleted = {"3", "6", "8", "12","16", "24","32", "52"};
@@ -43,6 +45,7 @@ public class RewardsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards);
 
+        setTotalDistanceWalked();
         setRewardsList();
         createRewardsList();
         rewardsListView = (ListView) findViewById(R.id.RewardsActivity_listView);
@@ -50,6 +53,10 @@ public class RewardsActivity extends AppCompatActivity {
         CustomListView customListView = new CustomListView(this, milestoneCompleted, achievedStickers);
         rewardsListView.setAdapter(customListView);
 
+    }
+
+    private void setTotalDistanceWalked() {
+        distanceWalked = userManager.getTotalPointsEarned();
     }
 
     private void setRewardsList() {
