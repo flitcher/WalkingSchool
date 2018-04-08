@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -14,8 +18,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,6 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import walkingschoolbus.cmpt276.ca.dataObjects.Gamification;
 import walkingschoolbus.cmpt276.ca.dataObjects.Map;
 import walkingschoolbus.cmpt276.ca.dataObjects.Message;
 import walkingschoolbus.cmpt276.ca.dataObjects.ServerManager;
@@ -52,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
     private User myUser = User.getInstance();
     private Map map;
     private Timer timer = new Timer();
+    Location lastLocation;
+    Location newLocation;
+    Gamification gamification;
+    Gson gson;
+    Handler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +87,97 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.MainActivity_tabs);
         tabLayout.setupWithViewPager(viewPager);
         getLocationPermission();
+    }
 
+    private void trackDistance() {
+        getGamification();
+        lastLocation = getCurrentLocation();
+        if (lastLocation == null) {
+            Log.i(TAG, "lastLocation is null");
+        }
+    }
+
+    private void updateDistance(float distance) {
+        if (gamification != null) {
+            gamification.setTotalDistanceTravelled(distance);
+            float totalDistance = gamification.getTotalDistanceTravelled();
+            Log.i(TAG, "total distance traveled: " + totalDistance);
+            int points = (int) totalDistance/1000;
+            myUser.setTotalPointsEarned(points);
+            Log.i(TAG, "total points: " + points);
+            String gamificationJson = gson.toJson(gamification);
+            myUser.setCustomJson(gamificationJson);
+            ProxyBuilder.SimpleCallback<User> callback = returnedUser->responseEdit(returnedUser);
+            ServerManager.editUserProfile(myUser, callback);
+        } else{
+            Log.i(TAG, "Gamification == null");
+        }
+    }
+
+    private void responseEdit(User returnedUser) {
+        Log.i(TAG, "distance traveled edited");
+    }
+
+    private void getGamification() {
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser->responseUser(returnedUser);
+        ServerManager.getUserByID(myUser.getId(), callback);
+    }
+
+    private void responseUser(User returnedUser) {
+        String gamificationJson = returnedUser.getCustomJson();
+        gson = new Gson();
+        if (gamificationJson != null){
+            gamification = gson.fromJson(gamificationJson, Gamification.class);
+        }
+        if (gamification == null){
+            gamification = new Gamification();
+            gamification.setTotalDistanceTravelled(0);
+        }
+        setHandler();
+    }
+
+    private void setHandler() {
+        handler = new Handler();
+        handler.post(distanceTravelled);
+    }
+
+    private Runnable distanceTravelled = new Runnable() {
+        @Override
+        public void run() {
+            newLocation = getCurrentLocation();
+            if (newLocation != null){
+                float distance = lastLocation.distanceTo(newLocation);
+                Log.i(TAG, "distance traveled: " + distance);
+                lastLocation = newLocation;
+                newLocation = null;
+                updateDistance(distance);
+            } else{
+                Log.i(TAG, "newLocation is null");
+            }
+            handler.postDelayed(distanceTravelled, 10000);
+        }
+    };
+
+    private Location getCurrentLocation() {
+        if (map.isLocationPermission()){
+            Log.d(TAG, "get current location");
+            Criteria criteria = new Criteria();
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            String provider = locationManager.getBestProvider(criteria, true);
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(MainActivity.this, "No permission to access GPS", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                return location;
+            } else{
+                Toast.makeText(MainActivity.this, "Your Location is not valid", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+        Toast.makeText(MainActivity.this, "No permission to access GPS", Toast.LENGTH_LONG).show();
+        return null;
     }
 
     private void setUpViewPager(ViewPager viewPager){
@@ -106,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 map.setLocationPermission(true);
+                trackDistance();
             } else {
                 ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
             }
@@ -129,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     map.setLocationPermission(true);
+                    trackDistance();
                 }
         }
     }
@@ -142,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = LoginActivity.makeIntent(MainActivity.this);
         startActivity(intent);
 
+        handler.removeCallbacks(distanceTravelled);
         timer.cancel();
         timer.purge();
         finish();

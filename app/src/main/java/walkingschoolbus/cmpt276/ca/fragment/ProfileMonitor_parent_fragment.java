@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class ProfileMonitor_parent_fragment extends Fragment {
     Token token;
     Long userID;
     User myUser;
+    Integer[] milestoneStickers = {R.drawable.walk5,R.drawable.walk10,R.drawable.walk15,R.drawable.walk20,
+            R.drawable.walk50,R.drawable.walk75,R.drawable.walk100,R.drawable.walk125,R.drawable.walk150,R.drawable.walk200,R.drawable.walk500};
 
     @Nullable
     @Override
@@ -141,6 +144,12 @@ public class ProfileMonitor_parent_fragment extends Fragment {
 
         TextView id = (TextView) view.findViewById(R.id.Item_ID);
         id.setText("" + returnedUser.getId());
+
+        int stickerPosition = ProfileActivity.checkImage(returnedUser);
+        if (stickerPosition != -1) {
+            ImageView imageView = (ImageView) view.findViewById(R.id.Item_Image);
+            imageView.setImageResource(milestoneStickers[stickerPosition]);
+        }
     }
 
     private void setDeleteLongClickView(){

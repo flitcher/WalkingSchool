@@ -2,11 +2,14 @@ package walkingschoolbus.cmpt276.ca.appUI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -29,6 +32,9 @@ public class ProfileActivity extends AppCompatActivity {
     User myUser;
     Token token;
     FloatingActionButton editBtn;
+    FloatingActionButton rewardsBtn;
+    Integer[] milestoneStickers = {R.drawable.walk5,R.drawable.walk10,R.drawable.walk15,R.drawable.walk20,
+            R.drawable.walk50,R.drawable.walk75,R.drawable.walk100,R.drawable.walk125,R.drawable.walk150,R.drawable.walk200,R.drawable.walk500};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +68,19 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        rewardsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = RewardsActivity.makeIntent(ProfileActivity.this);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void initiate() {
         editBtn = (FloatingActionButton) findViewById(R.id.ProfileActivity_editBtn);
+        rewardsBtn = (FloatingActionButton) findViewById(R.id.rewardsBtn);
         myUser = myUser.getInstance();
         token = token.getInstance();
         proxy = ProxyBuilder.getProxy(getString(R.string.apiKey), token.getToken());
@@ -76,14 +91,43 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void response(User returnedUser) {
         user = returnedUser;
+        int colour = user.getTotalPointsEarned();
+        colour = colour/25;
+        RelativeLayout colorLayout = (RelativeLayout) findViewById(R.id.ProfileAcitivty_color);
+        switch(colour){
+            case 0:
+                colorLayout.setBackgroundColor(Color.parseColor("#F44336"));
+                break;
+            case 1:
+                colorLayout.setBackgroundColor(Color.parseColor("#FF9800"));
+                break;
+            case 2:
+                colorLayout.setBackgroundColor(Color.parseColor("#FFEB3B"));
+                break;
+            case 3:
+                colorLayout.setBackgroundColor(Color.parseColor("#4CAF50"));
+                break;
+            case 4:
+                colorLayout.setBackgroundColor(Color.parseColor("#00BCD4"));
+                break;
+            case 5:
+                colorLayout.setBackgroundColor(Color.parseColor("#2196F3"));
+                break;
+            default:
+                colorLayout.setBackgroundColor(Color.parseColor("#E040FB"));
+                break;
+
+        }
         userSetBtnVisibility();
         setText();
     }
 
     private void userSetBtnVisibility() {
         editBtn.setVisibility(View.GONE);
+        rewardsBtn.setVisibility(View.GONE);
         if (userId.equals(myUser.getId())) {
             editBtn.setVisibility(View.VISIBLE);
+            rewardsBtn.setVisibility(View.VISIBLE);
             return;
         }
         List<User> parentList = user.getMonitoredByUsers();
@@ -96,6 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setText() {
+        ImageView userImage = (ImageView) findViewById(R.id.ProfileAcitivty_image);
         TextView userNameTxt = (TextView) findViewById(R.id.ProfileActivity_name);
         TextView userIDTxt = (TextView) findViewById(R.id.ProfileAcitivty_userID);
         TextView userEmailTxt = (TextView) findViewById(R.id.ProfileActivity_email);
@@ -193,7 +238,50 @@ public class ProfileActivity extends AppCompatActivity {
         } else{
             userEmergencyContactTxt.setText("Emergency Contact: No information");
         }
+        int stickerPosition = checkImage(user);
+        if (stickerPosition != -1) {
+            userImage.setImageResource(milestoneStickers[stickerPosition]);
+        }
     }
+
+    public static int checkImage(User mUser){
+        int points = mUser.getTotalPointsEarned();
+        if (points >= 5){
+            if (points >= 10){
+                if (points >= 15){
+                    if (points >= 20){
+                        if (points >= 50){
+                            if (points >= 75){
+                                if (points >= 100){
+                                    if (points >= 125){
+                                        if (points >= 150){
+                                            if (points >= 200){
+                                                if (points >= 500){
+                                                    return 10;
+                                                }
+                                                return 9;
+                                            }
+                                            return 8;
+                                        }
+                                        return 7;
+                                    }
+                                    return 6;
+                                }
+                                return 5;
+                            }
+                            return 4;
+                        }
+                        return 3;
+                    }
+                    return 2;
+                }
+                return 1;
+            }
+            return 0;
+        }
+        return -1;
+    }
+
 
     private void extract_intent() {
         Intent intent = getIntent();

@@ -22,4 +22,18 @@
         android:layout_below="@+id/GroupMemberFrag_textView"
         android:scrollbars="vertical" />
 
+    <Button
+        android:id="@+id/GroupMemberFrag_leaderboardBtn"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="37dp"
+        android:text="leaderboard"
+        android:textSize="12sp" />
+
 </RelativeLayout>

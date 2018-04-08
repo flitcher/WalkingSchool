@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,6 +42,9 @@ public class GroupMember_member_fragment extends Fragment {
     ApiInterface proxy;
     Token token;
     List<User> memberList;
+    Integer[] milestoneStickers = {R.drawable.walk5,R.drawable.walk10,R.drawable.walk15,R.drawable.walk20,
+            R.drawable.walk50,R.drawable.walk75,R.drawable.walk100,R.drawable.walk125,R.drawable.walk150,R.drawable.walk200,R.drawable.walk500};
+    List<User> sortedMemberList;
 
 
     @Nullable
@@ -63,6 +69,7 @@ public class GroupMember_member_fragment extends Fragment {
     private void responseUser(List<User> returnedUser) {
         memberList = returnedUser;
         if (memberList != null) {
+            sortUserByDistanceWalked(memberList);
             showList();
         }
     }
@@ -86,6 +93,8 @@ public class GroupMember_member_fragment extends Fragment {
             }
             final View mView = itemView;
             User currentUser = memberList.get(position);
+            TextView id = (TextView) mView.findViewById(R.id.Item_ID);
+            id.setText(position + 1 + "");
             if (currentUser != null) {
                 Call<User> caller = proxy.getUserById(currentUser.getId());
                 ProxyBuilder.callProxy(context, caller, returnedUser->responseUserInfo(returnedUser, mView));
@@ -101,8 +110,17 @@ public class GroupMember_member_fragment extends Fragment {
         TextView email = (TextView) view.findViewById(R.id.Item_Email);
         email.setText(returnedUser.getEmail());
 
+        TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
+        distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
+
         TextView id = (TextView) view.findViewById(R.id.Item_ID);
         id.setText("" + returnedUser.getId());
+
+        int stickerPosition = ProfileActivity.checkImage(returnedUser);
+        if (stickerPosition != -1) {
+            ImageView imageView = (ImageView) view.findViewById(R.id.Item_Image);
+            imageView.setImageResource(milestoneStickers[stickerPosition]);
+        }
     }
 
     private void clickUser() {
@@ -114,6 +132,17 @@ public class GroupMember_member_fragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void sortUserByDistanceWalked(List<User> users) {
+        Comparator<User> userComparator = new Comparator<User>() {
+            @Override
+            public int compare(User user, User user2) {
+                return user2.getTotalPointsEarned() - user.getTotalPointsEarned();
+            }
+        };
+        Collections.sort(users, userComparator);
+//        Log.d("HUE", "" + users.get(0).getEmail());
     }
 
     @Override
