@@ -83,20 +83,6 @@ public class GroupActivity extends AppCompatActivity {
 
         extract_intent();
         initialize();
-        setStartWalkingBtn();
-    }
-
-
-
-    private void setStartWalkingBtn() {
-        startWalking = (FloatingActionButton) findViewById(R.id.groupActivity_startBtn);
-        startWalking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = OnWalkGPSLocation.makeIntent(GroupActivity.this);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initialize(){

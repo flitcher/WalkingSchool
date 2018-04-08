@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,6 +41,7 @@ public class GroupMember_member_fragment extends Fragment {
     ApiInterface proxy;
     Token token;
     List<User> memberList;
+    List<User> sortedMemberList;
 
 
     @Nullable
@@ -63,6 +66,7 @@ public class GroupMember_member_fragment extends Fragment {
     private void responseUser(List<User> returnedUser) {
         memberList = returnedUser;
         if (memberList != null) {
+            sortUserByDistanceWalked(memberList);
             showList();
         }
     }
@@ -103,6 +107,9 @@ public class GroupMember_member_fragment extends Fragment {
 
         TextView id = (TextView) view.findViewById(R.id.Item_ID);
         id.setText("" + returnedUser.getId());
+
+        TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
+        distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
     }
 
     private void clickUser() {
@@ -114,6 +121,17 @@ public class GroupMember_member_fragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void sortUserByDistanceWalked(List<User> users) {
+        Comparator<User> userComparator = new Comparator<User>() {
+            @Override
+            public int compare(User user, User user2) {
+                return user2.getTotalPointsEarned() - user.getTotalPointsEarned();
+            }
+        };
+        Collections.sort(users, userComparator);
+        Log.d("HUE", "" + users.get(0).getEmail());
     }
 
     @Override
