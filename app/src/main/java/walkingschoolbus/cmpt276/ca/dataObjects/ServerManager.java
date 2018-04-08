@@ -246,4 +246,25 @@ public class ServerManager {
         ProxyBuilder.callProxy(currentContext,callerForGroupMember,callback);
     }
 
+    //permission request section
+
+    public static void getAllPermissionRequestsForUser(Long UserID,ProxyBuilder.SimpleCallback<List<Permission>> callback){
+        Call<List<Permission>> callerForAllRequests = proxy.getPermissionRequestsForUser(UserID);
+        ProxyBuilder.callProxy(currentContext,callerForAllRequests,callback);
+    }
+
+    public static void getRelatedPermissionResquests(PermissionStatus status, Long GroupId, Long UserId,ProxyBuilder.SimpleCallback<List<Permission>> callback){
+        Call<List<Permission>> callerForRelatedRequests = proxy.getRelatedPermissionResquests(status,GroupId,UserId);
+        ProxyBuilder.callProxy(currentContext,callerForRelatedRequests,callback);
+    }
+    public static void getPermissionRequestsById(Long PermissionID,ProxyBuilder.SimpleCallback<Permission> callback){
+        Call<Permission> callerForRequest = proxy.getPermissionRequestsById(PermissionID);
+        ProxyBuilder.callProxy(currentContext,callerForRequest,callback);
+    }
+    public static void anwserPermissionRequest(Long permissionId,PermissionStatus ans,ProxyBuilder.SimpleCallback<Permission> callback){
+        Call<Permission> callerForAnwserRequest = proxy.answerPermissionRequest(permissionId,""+ans);
+        ProxyBuilder.callProxy(currentContext,callerForAnwserRequest,callback);
+    }
+
+
 }
