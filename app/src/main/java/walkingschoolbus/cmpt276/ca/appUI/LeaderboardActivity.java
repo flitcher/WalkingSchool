@@ -35,6 +35,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     List<User> userList = new ArrayList<>();
     ApiInterface proxy;
     Token token;
+    Integer[] milestoneStickers = {R.drawable.walk5,R.drawable.walk10,R.drawable.walk15,R.drawable.walk20,
+            R.drawable.walk50,R.drawable.walk75,R.drawable.walk100,R.drawable.walk125,R.drawable.walk150,R.drawable.walk200,R.drawable.walk500};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +115,13 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         TextView distanceWalked = (TextView) view.findViewById(R.id.distanceWalked);
         distanceWalked.setText("" + returnedUser.getTotalPointsEarned());
+
+        int stickerPosition = ProfileActivity.checkImage(returnedUser);
+        if (stickerPosition != -1) {
+            ImageView imageView = (ImageView) view.findViewById(R.id.Item_Image);
+            imageView.setImageResource(milestoneStickers[stickerPosition]);
+        }
+
     }
 
 }
